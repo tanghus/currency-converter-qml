@@ -10,17 +10,17 @@ TARGET = net.tanghus.currencyconverter
 
 CONFIG += sailfishapp
 
-SOURCES += src/currencyconverter.cpp
+SOURCES += \
+    src/net.tanghus.currencyconverter.sailfish.cpp
 
 OTHER_FILES += \
     qml/cover/CoverPage.qml \
-    rpm/net.tanghus.currencyconverter.spec \
-    rpm/net.tanghus.currencyconverter.yaml \
-    qml/net.tanghus.currencyconverter.qml \
-    net.tanghus.currencyconverter.desktop \
     qml/pages/Settings.qml \
     qml/pages/FrontPage.qml \
     qml/pages/CurrencyModel.qml \
     qml/pages/CurrencyItem.qml \
-    qml/js/provider.js
+    qml/js/provider.js \
+    net.tanghus.currencyconverter.sailfish.desktop \
+    rpm/net.tanghus.currencyconverter.sailfish.yaml \
+    qml/net.tanghus.currencyconverter.sailfish.qml
 

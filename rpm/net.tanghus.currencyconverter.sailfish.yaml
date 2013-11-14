@@ -18,6 +18,9 @@ PkgConfigBR:
 Requires:
 - sailfishsilica-qt5
 Files:
+- /usr/share/applications
+- /usr/share/net.tanghus.currencyconverter
+- /usr/bin
 - '%{_datadir}/net.tanghus.currencyconverter'
 - '%{_datadir}/icons/hicolor/90x90/apps'
 - '%{_datadir}/applications'
