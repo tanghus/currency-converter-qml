@@ -8,5 +8,5 @@ MenuItem {
     property string symbol: '';
     property variant countries: [];
 
-    text: this.name; // + '(' + (code || symbol) + ')';
+    text: name + ' (' + (symbol || code) + ')';
 }

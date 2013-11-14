@@ -76,20 +76,12 @@ Page {
             PageHeader {
                 title: 'Currency Converter'
             }
-            Component {
-                id: currencyModelComponent
-                ContextMenu {
-                    Repeater {
-                         model: CurrencyModel.children
-                    }
-                }
-            }
             ComboBox {
                 id: fromCombo
                 label: 'From'
                 menu: ContextMenu {
                     Repeater {
-                         model: CurrencyModel
+                         model: CurrencyModel { id: currencyModel }
                     }
                 }
             }

@@ -38,7 +38,7 @@ VisualItemModel {
     CurrencyItem {code:'ANG'; numericCode:'532'; name:'Netherlands Antillian Guilder'; countries: ['NETHERLANDS ANTILLES']}
     CurrencyItem {code:'LBP'; numericCode:'422'; name:'Lebanese Pound'; countries: ['LEBANON']}
     CurrencyItem {code:'KES'; numericCode:'404'; name:'Kenyan Shilling'; countries: ['KENYA']}
-    CurrencyItem {code:'GBP'; numericCode:'826'; name:'Pound Sterling'; symbol: "£  "; countries: ['UNITED KINGDOM']}
+    CurrencyItem {code:'GBP'; numericCode:'826'; name:'Pound Sterling'; symbol: "£"; countries: ['UNITED KINGDOM']}
     CurrencyItem {code:'SEK'; numericCode:'752'; name:'Swedish Krona'; countries: ['SWEDEN']}
     CurrencyItem {code:'AFN'; numericCode:'971'; name:'Afghani'; countries: ['AFGHANISTAN']}
     CurrencyItem {code:'KZT'; numericCode:'398'; name:'Tenge'; countries: ['KAZAKHSTAN']}
@@ -68,7 +68,7 @@ VisualItemModel {
     CurrencyItem {code:'MWK'; numericCode:'454'; name:'Kwacha'; countries: ['MALAWI']}
     CurrencyItem {code:'BDT'; numericCode:'050'; name:'Taka'; countries: ['BANGLADESH']}
     CurrencyItem {code:'KWD'; numericCode:'414'; name:'Kuwaiti Dinar'; countries: ['KUWAIT']}
-    CurrencyItem {code:'EUR'; numericCode:'978'; name:'Euro'; symbol: "€  "; countries: ['ANDORRA', 'AUSTRIA', 'BELGIUM', 'FINLAND', 'FRANCE', 'FRENCH GUIANA', 'FRENCH SOUTHERN TERRITORIES', 'GERMANY', 'GREECE', 'GUADELOUPE', 'IRELAND', 'ITALY', 'LUXEMBOURG', 'MARTINIQUE', 'MAYOTTE', 'MONACO', 'MONTENEGRO', 'NETHERLANDS', 'PORTUGAL', 'R.UNION', 'SAINT PIERRE AND MIQUELON', 'SAN MARINO', 'SLOVENIA', 'SPAIN']}
+    CurrencyItem {code:'EUR'; numericCode:'978'; name:'Euro'; symbol: "€"; countries: ['ANDORRA', 'AUSTRIA', 'BELGIUM', 'FINLAND', 'FRANCE', 'FRENCH GUIANA', 'FRENCH SOUTHERN TERRITORIES', 'GERMANY', 'GREECE', 'GUADELOUPE', 'IRELAND', 'ITALY', 'LUXEMBOURG', 'MARTINIQUE', 'MAYOTTE', 'MONACO', 'MONTENEGRO', 'NETHERLANDS', 'PORTUGAL', 'R.UNION', 'SAINT PIERRE AND MIQUELON', 'SAN MARINO', 'SLOVENIA', 'SPAIN']}
     CurrencyItem {code:'MXN'; numericCode:'484'; name:'Mexican Peso'; countries: ['MEXICO']}
     CurrencyItem {code:'CHF'; numericCode:'756'; name:'Swiss Franc'; countries: ['LIECHTENSTEIN']}
     CurrencyItem {code:'XAG'; numericCode:'961'; name:'Silver'; countries: []}
@@ -78,7 +78,7 @@ VisualItemModel {
     CurrencyItem {code:'KPW'; numericCode:'408'; name:'North Korean Won'; countries: ['KOREA']}
     CurrencyItem {code:'SGD'; numericCode:'702'; name:'Singapore Dollar'; countries: ['SINGAPORE']}
     CurrencyItem {code:'TWD'; numericCode:'901'; name:'New Taiwan Dollar'; countries: ['TAIWAN']}
-    CurrencyItem {code:'USD'; numericCode:'840'; name:'US Dollar'; symbol: " $ "; countries: ['AMERICAN SAMOA', 'BRITISH INDIAN OCEAN TERRITORY', 'ECUADOR', 'GUAM', 'MARSHALL ISLANDS', 'MICRONESIA', 'NORTHERN MARIANA ISLANDS', 'PALAU', 'PUERTO RICO', 'TIMOR-LESTE', 'TURKS AND CAICOS ISLANDS', 'UNITED STATES MINOR OUTLYING ISLANDS', 'VIRGIN ISLANDS (BRITISH)', 'VIRGIN ISLANDS (U.S.)']}
+    CurrencyItem {code:'USD'; numericCode:'840'; name:'US Dollar'; symbol: "$"; countries: ['AMERICAN SAMOA', 'BRITISH INDIAN OCEAN TERRITORY', 'ECUADOR', 'GUAM', 'MARSHALL ISLANDS', 'MICRONESIA', 'NORTHERN MARIANA ISLANDS', 'PALAU', 'PUERTO RICO', 'TIMOR-LESTE', 'TURKS AND CAICOS ISLANDS', 'UNITED STATES MINOR OUTLYING ISLANDS', 'VIRGIN ISLANDS (BRITISH)', 'VIRGIN ISLANDS (U.S.)']}
     CurrencyItem {code:'BGN'; numericCode:'975'; name:'Bulgarian Lev'; countries: ['BULGARIA']}
     CurrencyItem {code:'MAD'; numericCode:'504'; name:'Moroccan Dirham'; countries: ['MOROCCO', 'WESTERN SAHARA']}
     CurrencyItem {code:'SAR'; numericCode:'682'; name:'Saudi Riyal'; countries: ['SAUDI ARABIA']}

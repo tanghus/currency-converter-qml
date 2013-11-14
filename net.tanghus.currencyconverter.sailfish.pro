@@ -6,7 +6,7 @@
 #         - desktop icon filename must be changed
 #         - desktop filename must be changed
 #         - icon definition filename in desktop file must be changed
-TARGET = net.tanghus.currencyconverter
+TARGET = net.tanghus.currencyconverter.sailfish
 
 CONFIG += sailfishapp
 
