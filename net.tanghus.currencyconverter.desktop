@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Name=Currency Converter
+Icon=/usr/share/icons/hicolor/90x90/apps/net.tanghus.currencyconverter.png
+Exec=net.tanghus.currencyconverter
