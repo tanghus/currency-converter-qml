@@ -1,4 +1,5 @@
 /*
+  Copyright (C) 2013 Thomas Tanghus
   Copyright (C) 2013 Jolla Ltd.
   Contact: Thomas Perl <thomas.perl@jollamobile.com>
   All rights reserved.
@@ -34,6 +35,14 @@ import Sailfish.Silica 1.0
 Page {
     id: page
 
+    Connections {
+        target: amountText;
+        onTextChanged: {
+            multiplier = parseInt(amountText.text);
+            getQuote();
+        }
+    }
+
     // To enable PullDownMenu, place our content in a SilicaFlickable
     SilicaFlickable {
         anchors.fill: parent
@@ -46,25 +55,12 @@ Page {
             }
             MenuItem {
                 text: 'Update'
-                onClicked: myWorker.sendMessage({'quote': 'USDEUR'})
+                onClicked: getQuote();
             }
         }
 
         // Tell SilicaFlickable the height of its content.
         contentHeight: column.height
-
-        WorkerScript {
-            id: myWorker
-            source: Qt.resolvedUrl('../js/provider.js')
-
-            onMessage: {
-                if(messageObject.quote) {
-                    resultText.text = messageObject.quote;
-                } else {
-                    console.log(messageObject.error);
-                }
-            }
-        }
 
         // Place our content in a Column.  The PageHeader is always placed at the top
         // of the page, followed by our content.
@@ -81,16 +77,84 @@ Page {
                 label: 'From'
                 menu: ContextMenu {
                     Repeater {
-                         model: CurrencyModel { id: currencyModel }
+                         model: CurrencyModel { id: currencyModelFrom }
+                    }
+                    onActivated: {
+                        fromCombo.currentIndex = index;
+                        var from = fromCombo.currentItem;
+                        fromCode = from.code;
+                        symbolFromText.text = from.getSymbol();
+                        getQuote();
+                        console.log(index, fromCode);
                     }
                 }
             }
-            Label {
-                id: resultText
-                color: Theme.highlightColor
-                font.family: Theme.fontFamilyHeading
-            }        }
+            ComboBox {
+                id: toCombo
+                label: 'To'
+                menu: ContextMenu {
+                    Repeater {
+                         model: CurrencyModel { id: currencyModelTo }
+                    }
+                    onActivated: {
+                        toCombo.currentIndex = index;
+                        var to = toCombo.currentItem;
+                        toCode = to.code;
+                        symbolToText.text = to.getSymbol();
+                        getQuote();
+                        console.log(index, toCode);
+                    }
+                }
+            }
+            Row {
+                TextField {
+                    id: amountText;
+                    text: multiplier;
+                    horizontalAlignment: TextInput.AlignRight;
+                    inputMethodHints: Qt.ImhNoPredictiveText;
+                    validator: DoubleValidator {
+                        decimals: 4;
+                        notation: DoubleValidator.StandardNotation;
+                    }
+                }
+                Label {
+                    id: symbolFromText;
+                    verticalAlignment: Text.AlignBottom;
+                }
+                Label {
+                    text: ' = ';
+                    horizontalAlignment: Text.AlignHCenter;
+                    verticalAlignment: Text.AlignBottom;
+                }
+                TextField {
+                    id: resultText;
+                    readOnly: true;
+                    horizontalAlignment: TextInput.AlignRight
+                }
+                Label {
+                    id: symbolToText;
+                    verticalAlignment: Text.AlignBottom;
+                }
+            }
+        }
     }
+
+    Connections {
+        target: app;
+        onNewResult: {
+            resultText.text = value;
+        }
+        onStartUp: {
+            var from = fromCombo.currentItem;
+            fromCode = from.code;
+            symbolFromText.text = from.getSymbol();
+
+            var to = toCombo.currentItem;
+            toCode = to.code;
+            symbolToText.text = to.getSymbol();
+        }
+    }
+
 }
 
 

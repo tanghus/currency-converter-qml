@@ -33,7 +33,7 @@ import Sailfish.Silica 1.0
 
 
 Page {
-    id: page
+    id: settings;
     SilicaListView {
         id: listView
         model: 20

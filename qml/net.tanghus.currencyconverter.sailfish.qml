@@ -1,4 +1,5 @@
 /*
+  Copyright (C) 2013 Thomas Tanghus
   Copyright (C) 2013 Jolla Ltd.
   Contact: Thomas Perl <thomas.perl@jollamobile.com>
   All rights reserved.
@@ -32,10 +33,78 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "pages"
 
-ApplicationWindow
-{
-    initialPage: FrontPage { }
+ApplicationWindow {
+
+    id: app;
+
+    property string fromCode: 'USD';
+    property string toCode: 'EUR';
+
+    // The amount to multiply the quote with
+    property int multiplier: 1;
+
+    // Refresh interval in seconds
+    property int refreshInterval: 3600;
+
+    property bool isBusy: false;
+
+    signal newResult(string value);
+    signal startUp();
+
+    initialPage: Component {
+        id: frontPage;
+        FrontPage {}
+    }
+
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
+
+    Component.onCompleted: {
+        console.log('Ready');
+        startUp();
+        getQuote();
+    }
+
+    Timer {
+        id: timer;
+        interval: refreshInterval * 1000;
+        running: true;
+        repeat: true;
+        onTriggered: getQuote();
+    }
+
+    BusyIndicator {
+        id: busyIndicator;
+        anchors.centerIn: parent;
+        size: BusyIndicatorSize.Large;
+    }
+
+    WorkerScript {
+        id: myWorker
+        source: Qt.resolvedUrl('js/provider.js')
+
+        onMessage: {
+            if(messageObject.quote) {
+                newResult(String(messageObject.quote * multiplier));
+            } else {
+                console.log(messageObject.error);
+            }
+            setBusy(false);
+        }
+    }
+
+    function getQuote() {
+        if(isBusy) {
+            return;
+        }
+
+        setBusy(true);
+        myWorker.sendMessage({'quote': fromCode + toCode});
+    }
+
+    function setBusy(state) {
+        isBusy = state;
+        busyIndicator.running = state;
+    }
 }
 
 
