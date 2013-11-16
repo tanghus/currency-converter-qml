@@ -32,36 +32,42 @@ import Sailfish.Silica 1.0
 
 VisualItemModel {
     id: currencyModel
-    CurrencyItem {code:'BAM'; numericCode:'977'; name:'Convertible Marks'; countries: ['BOSNIA AND HERZEGOVINA']}
+    CurrencyItem {code:'AFN'; numericCode:'971'; name:'Afghani'; countries: ['AFGHANISTAN']}
+    CurrencyItem {code:'DZD'; numericCode:'012'; name:'Algerian Dinar'; countries: ['ALGERIA']}
+    CurrencyItem {code:'AMD'; numericCode:'051'; name:'Armenian Dram'; countries: ['ARMENIA']}
+    CurrencyItem {code:'AWG'; numericCode:'533'; name:'Aruban Guilder'; countries: ['ARUBA']}
+    CurrencyItem {code:'AZN'; numericCode:'944'; name:'Azerbaijanian Manat'; countries: ['AZERBAIJAN']}
     CurrencyItem {code:'BHD'; numericCode:'048'; name:'Bahraini Dinar'; countries: ['BAHRAIN']}
-    CurrencyItem {code:'BIF'; numericCode:'108'; name:'Burundi Franc'; countries: ['BURUNDI']}
+    CurrencyItem {code:'BND'; numericCode:'096'; name:'Brunei Dollar'; countries: ['BRUNEI DARUSSALAM']}
     CurrencyItem {code:'BMD'; numericCode:'060'; name:'Bermudian Dollar'; countries: ['BERMUDA']}
     CurrencyItem {code:'BYR'; numericCode:'974'; name:'Belarussian Ruble'; countries: ['BELARUS']}
     CurrencyItem {code:'BZD'; numericCode:'084'; name:'Belize Dollar'; countries: ['BELIZE']}
+    CurrencyItem {code:'BIF'; numericCode:'108'; name:'Burundi Franc'; countries: ['BURUNDI']}
+    CurrencyItem {code:'BRL'; numericCode:'986'; name:'Brazilian Real'; countries: ['BRAZIL']}
+    CurrencyItem {code:'CAD'; numericCode:'124'; name:'Canadian Dollar'; countries: ['CANADA']}
+    CurrencyItem {code:'CVE'; numericCode:'132'; name:'Cape Verde Escudo'; countries: ['CAPE VERDE']}
+    CurrencyItem {code:'KMF'; numericCode:'174'; name:'Comoro Franc'; countries: ['COMOROS']}
+    CurrencyItem {code:'BAM'; numericCode:'977'; name:'Convertible Marks'; countries: ['BOSNIA AND HERZEGOVINA']}
     CurrencyItem {code:'CRC'; numericCode:'188'; name:'Costa Rican Colon'; countries: ['COSTA RICA']}
     CurrencyItem {code:'COP'; numericCode:'170'; name:'Colombian Peso'; countries: ['COSTA RICA']}
-    CurrencyItem {code:'DZD'; numericCode:'012'; name:'Algerian Dinar'; countries: ['ALGERIA']}
-    CurrencyItem {code:'ERN'; numericCode:'232'; name:'Nakfa'; countries: ['ERITREA']}
+    CurrencyItem {code:'DKK'; numericCode:'208'; name:'Danish Krone'; countries: ['DENMARK', 'FAROE ISLANDS', 'GREENLAND']}
     CurrencyItem {code:'ETB'; numericCode:'230'; name:'Ethiopian Birr'; countries: ['ETHIOPIA']}
+    CurrencyItem {code:'PYG'; numericCode:'600'; name:'Guarani'; countries: ['PARAGUAY']}
+    CurrencyItem {code:'ERN'; numericCode:'232'; name:'Nakfa'; countries: ['ERITREA']}
     CurrencyItem {code:'LAK'; numericCode:'418'; name:'Kip'; countries: ['LAO PEOPLES DEMOCRATIC REPUBLIC']}
-    CurrencyItem {code:'MOP'; numericCode:'446'; name:'Pataca'; countries: ['MACAO']}
+    CurrencyItem {code:'MMK'; numericCode:'104'; name:'Kyat'; countries: ['MYANMAR']}
+    CurrencyItem {code:'LRD'; numericCode:'430'; name:'Liberian Dollar'; countries: ['LIBERIA']}
     CurrencyItem {code:'MUR'; numericCode:'480'; name:'Mauritius Rupee'; countries: ['MAURITIUS']}
     CurrencyItem {code:'NGN'; numericCode:'566'; name:'Naira'; countries: ['NIGERIA']}
-    CurrencyItem {code:'LRD'; numericCode:'430'; name:'Liberian Dollar'; countries: ['LIBERIA']}
-    CurrencyItem {code:'MMK'; numericCode:'104'; name:'Kyat'; countries: ['MYANMAR']}
-    CurrencyItem {code:'KGS'; numericCode:'417'; name:'Som'; countries: ['KYRGYZSTAN']}
-    CurrencyItem {code:'PYG'; numericCode:'600'; name:'Guarani'; countries: ['PARAGUAY']}
+    CurrencyItem {code:'MOP'; numericCode:'446'; name:'Pataca'; countries: ['MACAO']}
     CurrencyItem {code:'IDR'; numericCode:'360'; name:'Rupiah'; countries: ['INDONESIA']}
+    CurrencyItem {code:'KGS'; numericCode:'417'; name:'Som'; countries: ['KYRGYZSTAN']}
     CurrencyItem {code:'GTQ'; numericCode:'320'; name:'Quetzal'; countries: ['GUATEMALA']}
-    CurrencyItem {code:'CAD'; numericCode:'124'; name:'Canadian Dollar'; countries: ['CANADA']}
-    CurrencyItem {code:'AWG'; numericCode:'533'; name:'Aruban Guilder'; countries: ['ARUBA']}
     CurrencyItem {code:'TTD'; numericCode:'780'; name:'Trinidad and Tobago Dollar'; countries: ['TRINIDAD AND TOBAGO']}
     CurrencyItem {code:'PKR'; numericCode:'586'; name:'Pakistan Rupee'; countries: ['PAKISTAN']}
     CurrencyItem {code:'UZS'; numericCode:'860'; name:'Uzbekistan Sum'; countries: ['UZBEKISTAN']}
     CurrencyItem {code:'XCD'; numericCode:'951'; name:'East Caribbean Dollar'; countries: ['ANGUILLA', 'ANTIGUA AND BARBUDA', 'DOMINICA', 'GRENADA', 'MONTSERRAT', 'SAINT KITTS AND NEVIS', 'SAINT LUCIA', 'SAINT VINCENT AND THE GRENADINES']}
     CurrencyItem {code:'VUV'; numericCode:'548'; name:'Vatu'; countries: ['VANUATU']}
-    CurrencyItem {code:'KMF'; numericCode:'174'; name:'Comoro Franc'; countries: ['COMOROS']}
-    CurrencyItem {code:'AZN'; numericCode:'944'; name:'Azerbaijanian Manat'; countries: ['AZERBAIJAN']}
     CurrencyItem {code:'XPD'; numericCode:'964'; name:'Palladium'; countries: []}
     CurrencyItem {code:'MNT'; numericCode:'496'; name:'Tugrik'; countries: ['MONGOLIA']}
     CurrencyItem {code:'ANG'; numericCode:'532'; name:'Netherlands Antillian Guilder'; countries: ['NETHERLANDS ANTILLES']}
@@ -69,13 +75,10 @@ VisualItemModel {
     CurrencyItem {code:'KES'; numericCode:'404'; name:'Kenyan Shilling'; countries: ['KENYA']}
     CurrencyItem {code:'GBP'; numericCode:'826'; name:'Pound Sterling'; symbol: "£"; countries: ['UNITED KINGDOM']}
     CurrencyItem {code:'SEK'; numericCode:'752'; name:'Swedish Krona'; countries: ['SWEDEN']}
-    CurrencyItem {code:'AFN'; numericCode:'971'; name:'Afghani'; countries: ['AFGHANISTAN']}
     CurrencyItem {code:'KZT'; numericCode:'398'; name:'Tenge'; countries: ['KAZAKHSTAN']}
     CurrencyItem {code:'ZMK'; numericCode:'894'; name:'Kwacha'; countries: ['ZAMBIA']}
     CurrencyItem {code:'SKK'; numericCode:'703'; name:'Slovak Koruna'; countries: ['SLOVAKIA']}
-    CurrencyItem {code:'DKK'; numericCode:'208'; name:'Danish Krone'; countries: ['DENMARK', 'FAROE ISLANDS', 'GREENLAND']}
     CurrencyItem {code:'TMM'; numericCode:'795'; name:'Manat'; countries: ['TURKMENISTAN']}
-    CurrencyItem {code:'AMD'; numericCode:'051'; name:'Armenian Dram'; countries: ['ARMENIA']}
     CurrencyItem {code:'SCR'; numericCode:'690'; name:'Seychelles Rupee'; countries: ['SEYCHELLES']}
     CurrencyItem {code:'FJD'; numericCode:'242'; name:'Fiji Dollar'; countries: ['FIJI']}
     CurrencyItem {code:'SHP'; numericCode:'654'; name:'Saint Helena Pound'; countries: ['SAINT HELENA']}
@@ -84,12 +87,10 @@ VisualItemModel {
     CurrencyItem {code:'UGX'; numericCode:'800'; name:'Uganda Shilling'; countries: ['UGANDA']}
     CurrencyItem {code:'OMR'; numericCode:'512'; name:'Rial Omani'; countries: ['OMAN']}
     CurrencyItem {code:'DJF'; numericCode:'262'; name:'Djibouti Franc'; countries: ['DJIBOUTI']}
-    CurrencyItem {code:'BND'; numericCode:'096'; name:'Brunei Dollar'; countries: ['BRUNEI DARUSSALAM']}
     CurrencyItem {code:'TND'; numericCode:'788'; name:'Tunisian Dinar'; countries: ['TUNISIA']}
     CurrencyItem {code:'SBD'; numericCode:'090'; name:'Solomon Islands Dollar'; countries: ['SOLOMON ISLANDS']}
     CurrencyItem {code:'GHS'; numericCode:'936'; name:'Ghana Cedi'; countries: ['GHANA']}
     CurrencyItem {code:'GNF'; numericCode:'324'; name:'Guinea Franc'; countries: ['GUINEA']}
-    CurrencyItem {code:'CVE'; numericCode:'132'; name:'Cape Verde Escudo'; countries: ['CAPE VERDE']}
     CurrencyItem {code:'ARS'; numericCode:'032'; name:'Argentine Peso'; countries: ['ARGENTINA']}
     CurrencyItem {code:'CLP'; numericCode:'152'; name:'Chilean Peso'; countries: ['CHILE']}
     CurrencyItem {code:'GMD'; numericCode:'270'; name:'Dalasi'; countries: ['GAMBIA']}
@@ -154,7 +155,6 @@ VisualItemModel {
     CurrencyItem {code:'HNL'; numericCode:'340'; name:'Lempira'; countries: ['HONDURAS']}
     CurrencyItem {code:'HKD'; numericCode:'344'; name:'Hong Kong Dollar'; countries: ['HONG KONG']}
     CurrencyItem {code:'NZD'; numericCode:'554'; name:'New Zealand Dollar'; countries: ['COOK ISLANDS', 'NEW ZEALAND', 'NIUE', 'PITCAIRN', 'TOKELAU']}
-    CurrencyItem {code:'BRL'; numericCode:'986'; name:'Brazilian Real'; countries: ['BRAZIL']}
     CurrencyItem {code:'RSD'; numericCode:'941'; name:'Serbian Dinar'; countries: ['SERBIA']}
     CurrencyItem {code:'EEK'; numericCode:'233'; name:'Kroon'; countries: ['ESTONIA']}
     CurrencyItem {code:'SOS'; numericCode:'706'; name:'Somali Shilling'; countries: ['SOMALIA']}

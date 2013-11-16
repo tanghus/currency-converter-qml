@@ -1,6 +1,5 @@
 /*
-  Copyright (C) 2013 Jolla Ltd.
-  Contact: Thomas Perl <thomas.perl@jollamobile.com>
+  Copyright (C) 2013 Thomas Tanghus <thomas@tanghus.net>
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -33,19 +32,15 @@
 #endif
 
 #include <sailfishapp.h>
+#include "qmlsettings.h"
 
-
-int main(int argc, char *argv[])
-{
-    // SailfishApp::main() will display "qml/template.qml", if you need more
-    // control over initialization, you can use:
-    //
-    //   - SailfishApp::application(int, char *[]) to get the QGuiApplication *
-    //   - SailfishApp::createView() to get a new QQuickView * instance
-    //   - SailfishApp::pathTo(QString) to get a QUrl to a resource file
-    //
-    // To display the view, call "show()" (will show fullscreen on device).
-
-    return SailfishApp::main(argc, argv);
+int main(int argc, char *argv[]) {
+    QGuiApplication *app = SailfishApp::application(argc, argv);
+    QQuickView *view = SailfishApp::createView();
+    QmlSettings *settings = new QmlSettings();
+    view->rootContext()->setContextProperty("settings", settings);
+    view->setSource(SailfishApp::pathTo("qml/net.tanghus.currencyconverter.sailfish.qml"));
+    view->showFullScreen();
+    return app->exec();
 }
 

@@ -31,6 +31,8 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+//import org.nemomobile.configuration 1.0
+import "cover"
 import "pages"
 
 ApplicationWindow {
@@ -51,15 +53,27 @@ ApplicationWindow {
     signal newResult(string value);
     signal startUp();
 
+    property string sharedValue: "whatever you want to share to cover"
+
     initialPage: Component {
         id: frontPage;
         FrontPage {}
     }
 
-    cover: Qt.resolvedUrl("cover/CoverPage.qml")
+    cover: Component {
+        CoverPage {
+            sharedValue: app.sharedValue
+        }
+    }
+    //cover: Qt.resolvedUrl("cover/CoverPage.qml")
 
     Component.onCompleted: {
         console.log('Ready');
+        refreshInterval = settings.value('refreshInterval', 3600);
+        fromCode = settings.value('currencyCodeFrom', 'USD');
+        toCode = settings.value('currencyCodeTo', 'EUR');
+        multiplier = settings.value('amount', 1);
+        sharedValue = "Muahaha";
         startUp();
         getQuote();
     }

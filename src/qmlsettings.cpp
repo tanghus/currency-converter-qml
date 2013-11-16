@@ -1,7 +1,5 @@
 /*
-  Copyright (C) 2013 Thomas Tanghus
-  Copyright (C) 2013 Jolla Ltd.
-  Contact: Thomas Perl <thomas.perl@jollamobile.com>
+  Copyright (C) 2013 Thomas Tanghus <thomas@tanghus.net>
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -29,38 +27,21 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
+#include "qmlsettings.h"
 
-CoverBackground {
-
-    property string sharedValue: "Initial Value"
-
-    Column {
-        Label {
-            id: title;
-            text: sharedValue;
-        }
-        Label {
-            id: from
-            text: "Currencies"
-        }
-        Label {
-            id: to
-            text: "Currencies"
-        }
-    }
-    CoverActionList {
-        id: coverAction
-
-        CoverAction {
-            iconSource: "image://theme/icon-cover-next"
-        }
-
-        CoverAction {
-            iconSource: "image://theme/icon-cover-pause"
-        }
-    }
+QmlSettings::QmlSettings(QObject *parent) :
+    QObject(parent) {
+    _settings = new QSettings("Tanghus", "net.tanghus.currencyconverter.sailfish");
 }
 
+QVariant QmlSettings::value(const QString &key, const QVariant & defaultValue) {
+   QVariant value = _settings->value(key);
+   if(value.isNull()) {
+       value = defaultValue;
+   }
+   return value;
+}
 
+void QmlSettings::setValue(const QString &key, const QVariant &value) {
+   _settings->setValue(key, value);
+}

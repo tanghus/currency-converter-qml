@@ -120,6 +120,8 @@ Page {
                 Label {
                     id: symbolFromText;
                     verticalAlignment: Text.AlignBottom;
+                    // FIXME: Maybe this can be done with anchors
+                    lineHeight: amountText.height
                 }
                 Label {
                     text: ' = ';

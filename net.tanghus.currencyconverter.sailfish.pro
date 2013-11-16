@@ -11,7 +11,9 @@ TARGET = net.tanghus.currencyconverter.sailfish
 CONFIG += sailfishapp
 
 SOURCES += \
-    src/net.tanghus.currencyconverter.sailfish.cpp
+    src/net.tanghus.currencyconverter.sailfish.cpp \
+    src/qmlsettings.cpp
+    src/qmlsettings.cpp
 
 OTHER_FILES += \
     qml/cover/CoverPage.qml \
@@ -23,4 +25,7 @@ OTHER_FILES += \
     net.tanghus.currencyconverter.sailfish.desktop \
     rpm/net.tanghus.currencyconverter.sailfish.yaml \
     qml/net.tanghus.currencyconverter.sailfish.qml
+
+HEADERS += \
+    src/qmlsettings.h
 

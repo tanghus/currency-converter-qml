@@ -1,7 +1,5 @@
 /*
-  Copyright (C) 2013 Thomas Tanghus
-  Copyright (C) 2013 Jolla Ltd.
-  Contact: Thomas Perl <thomas.perl@jollamobile.com>
+  Copyright (C) 2013 Thomas Tanghus <thomas@tanghus.net>
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -29,38 +27,25 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
+#ifndef QMLSETTINGS_H
+#define QMLSETTINGS_H
 
-CoverBackground {
+#include <QObject>
+#include <QSettings>
 
-    property string sharedValue: "Initial Value"
+class QmlSettings : public QObject {
+    Q_OBJECT
+public:
+    explicit QmlSettings(QObject *parent = 0);
 
-    Column {
-        Label {
-            id: title;
-            text: sharedValue;
-        }
-        Label {
-            id: from
-            text: "Currencies"
-        }
-        Label {
-            id: to
-            text: "Currencies"
-        }
-    }
-    CoverActionList {
-        id: coverAction
+signals:
 
-        CoverAction {
-            iconSource: "image://theme/icon-cover-next"
-        }
+public slots:
+    QVariant value(const QString &key, const QVariant & defaultValue = QVariant());
+    void setValue(const QString &key, const QVariant &value);
 
-        CoverAction {
-            iconSource: "image://theme/icon-cover-pause"
-        }
-    }
-}
+private:
+    QSettings *_settings;
+};
 
-
+#endif // QMLSETTINGS_H
