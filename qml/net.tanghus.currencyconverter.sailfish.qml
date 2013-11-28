@@ -42,18 +42,23 @@ ApplicationWindow {
     property string fromCode: 'USD';
     property string toCode: 'EUR';
 
+    // Usually the same as above, but can be e.g. £ or $
+    property string fromSymbol: '$';
+    property string toSymbol: '€';
+
     // The amount to multiply the quote with
     property int multiplier: 1;
 
     // Refresh interval in seconds
     property int refreshInterval: 3600;
 
+    // The last result before multiplication
+    property string quote: '1';
+
+    // The multiplied result
+    property string result: '';
+
     property bool isBusy: false;
-
-    signal newResult(string value);
-    signal startUp();
-
-    property string sharedValue: "whatever you want to share to cover"
 
     initialPage: Component {
         id: frontPage;
@@ -61,11 +66,8 @@ ApplicationWindow {
     }
 
     cover: Component {
-        CoverPage {
-            sharedValue: app.sharedValue
-        }
+        CoverPage {}
     }
-    //cover: Qt.resolvedUrl("cover/CoverPage.qml")
 
     Component.onCompleted: {
         console.log('Ready');
@@ -73,8 +75,8 @@ ApplicationWindow {
         fromCode = settings.value('currencyCodeFrom', 'USD');
         toCode = settings.value('currencyCodeTo', 'EUR');
         multiplier = settings.value('amount', 1);
-        sharedValue = "Muahaha";
-        startUp();
+        quote = settings.value('quote', '1');
+        //startUp();
         getQuote();
     }
 
@@ -98,7 +100,7 @@ ApplicationWindow {
 
         onMessage: {
             if(messageObject.quote) {
-                newResult(String(messageObject.quote * multiplier));
+                result = String(messageObject.quote * multiplier);
             } else {
                 console.log(messageObject.error);
             }
@@ -112,6 +114,10 @@ ApplicationWindow {
         }
 
         setBusy(true);
+
+        if(timer.running) {
+            timer.restart();
+        }
         myWorker.sendMessage({'quote': fromCode + toCode});
     }
 

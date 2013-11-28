@@ -24,7 +24,8 @@ OTHER_FILES += \
     qml/js/provider.js \
     net.tanghus.currencyconverter.sailfish.desktop \
     rpm/net.tanghus.currencyconverter.sailfish.yaml \
-    qml/net.tanghus.currencyconverter.sailfish.qml
+    qml/net.tanghus.currencyconverter.sailfish.qml \
+    qml/pages/CurrencyMenuModel.qml
 
 HEADERS += \
     src/qmlsettings.h

@@ -1,7 +1,5 @@
 /*
   Copyright (C) 2013 Thomas Tanghus
-  Copyright (C) 2013 Jolla Ltd.
-  Contact: Thomas Perl <thomas.perl@jollamobile.com>
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -32,42 +30,10 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-CoverBackground {
+VisualDataModel {
+    id: currencyMenuModel
+    model: currencyModel
+    delegate: {
 
-    Column {
-        Label {
-            id: title;
-            text: 'Currency Converter';
-        }
-        Row {
-            Label {
-                text: multiplier;
-            }
-            Label {
-                text: fromSymbol;
-            }
-        }
-        Label {
-            text: ' = ';
-            horizontalAlignment: Text.AlignHCenter;
-            verticalAlignment: Text.AlignBottom;
-        }
-        Row {
-            Label {
-                text: result;
-            }
-            Label {
-                text: toSymbol;
-            }
-        }
-    }
-    CoverActionList {
-        id: coverActionSync;
-
-        CoverAction {
-            iconSource: "image://theme/icon-cover-sync";
-        }
     }
 }
-
-

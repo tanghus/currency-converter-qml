@@ -33,7 +33,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
-    id: page
+    id: frontPage;
 
     Connections {
         target: amountText;
@@ -67,8 +67,8 @@ Page {
         Column {
             id: column
 
-            width: page.width
-            spacing: Theme.paddingLarge
+            width: frontPage.width;
+            spacing: Theme.paddingLarge;
             PageHeader {
                 title: 'Currency Converter'
             }
@@ -80,10 +80,11 @@ Page {
                          model: CurrencyModel { id: currencyModelFrom }
                     }
                     onActivated: {
+                        // The currentItem isn't set at this time for some reason?
                         fromCombo.currentIndex = index;
                         var from = fromCombo.currentItem;
                         fromCode = from.code;
-                        symbolFromText.text = from.getSymbol();
+                        fromSymbol = from.getSymbol();
                         getQuote();
                         console.log(index, fromCode);
                     }
@@ -97,10 +98,12 @@ Page {
                          model: CurrencyModel { id: currencyModelTo }
                     }
                     onActivated: {
+                        // The currentItem isn't set at this time for some reason?
                         toCombo.currentIndex = index;
                         var to = toCombo.currentItem;
                         toCode = to.code;
-                        symbolToText.text = to.getSymbol();
+                        toSymbol = to.getSymbol();
+                        console.log('toSymbol', toSymbol);
                         getQuote();
                         console.log(index, toCode);
                     }
@@ -111,17 +114,14 @@ Page {
                     id: amountText;
                     text: multiplier;
                     horizontalAlignment: TextInput.AlignRight;
-                    inputMethodHints: Qt.ImhNoPredictiveText;
+                    inputMethodHints: Qt.ImhFormattedNumbersOnly;
                     validator: DoubleValidator {
                         decimals: 4;
                         notation: DoubleValidator.StandardNotation;
                     }
                 }
                 Label {
-                    id: symbolFromText;
-                    verticalAlignment: Text.AlignBottom;
-                    // FIXME: Maybe this can be done with anchors
-                    lineHeight: amountText.height
+                    text: fromSymbol;
                 }
                 Label {
                     text: ' = ';
@@ -129,12 +129,12 @@ Page {
                     verticalAlignment: Text.AlignBottom;
                 }
                 TextField {
-                    id: resultText;
+                    text: result;
                     readOnly: true;
                     horizontalAlignment: TextInput.AlignRight
                 }
                 Label {
-                    id: symbolToText;
+                    text: toSymbol;
                     verticalAlignment: Text.AlignBottom;
                 }
             }
@@ -143,8 +143,9 @@ Page {
 
     Connections {
         target: app;
-        onNewResult: {
-            resultText.text = value;
+        /*onNewResult: {
+            //resultText.text = value;
+            result = value;
         }
         onStartUp: {
             var from = fromCombo.currentItem;
@@ -153,8 +154,8 @@ Page {
 
             var to = toCombo.currentItem;
             toCode = to.code;
-            symbolToText.text = to.getSymbol();
-        }
+            //symbolToText.text = to.getSymbol();
+        }*/
     }
 
 }

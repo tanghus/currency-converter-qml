@@ -61,7 +61,6 @@ VisualItemModel {
     CurrencyItem {code:'NGN'; numericCode:'566'; name:'Naira'; countries: ['NIGERIA']}
     CurrencyItem {code:'MOP'; numericCode:'446'; name:'Pataca'; countries: ['MACAO']}
     CurrencyItem {code:'IDR'; numericCode:'360'; name:'Rupiah'; countries: ['INDONESIA']}
-    CurrencyItem {code:'KGS'; numericCode:'417'; name:'Som'; countries: ['KYRGYZSTAN']}
     CurrencyItem {code:'GTQ'; numericCode:'320'; name:'Quetzal'; countries: ['GUATEMALA']}
     CurrencyItem {code:'TTD'; numericCode:'780'; name:'Trinidad and Tobago Dollar'; countries: ['TRINIDAD AND TOBAGO']}
     CurrencyItem {code:'PKR'; numericCode:'586'; name:'Pakistan Rupee'; countries: ['PAKISTAN']}
@@ -74,10 +73,8 @@ VisualItemModel {
     CurrencyItem {code:'LBP'; numericCode:'422'; name:'Lebanese Pound'; countries: ['LEBANON']}
     CurrencyItem {code:'KES'; numericCode:'404'; name:'Kenyan Shilling'; countries: ['KENYA']}
     CurrencyItem {code:'GBP'; numericCode:'826'; name:'Pound Sterling'; symbol: "£"; countries: ['UNITED KINGDOM']}
-    CurrencyItem {code:'SEK'; numericCode:'752'; name:'Swedish Krona'; countries: ['SWEDEN']}
     CurrencyItem {code:'KZT'; numericCode:'398'; name:'Tenge'; countries: ['KAZAKHSTAN']}
     CurrencyItem {code:'ZMK'; numericCode:'894'; name:'Kwacha'; countries: ['ZAMBIA']}
-    CurrencyItem {code:'SKK'; numericCode:'703'; name:'Slovak Koruna'; countries: ['SLOVAKIA']}
     CurrencyItem {code:'TMM'; numericCode:'795'; name:'Manat'; countries: ['TURKMENISTAN']}
     CurrencyItem {code:'SCR'; numericCode:'690'; name:'Seychelles Rupee'; countries: ['SEYCHELLES']}
     CurrencyItem {code:'FJD'; numericCode:'242'; name:'Fiji Dollar'; countries: ['FIJI']}
@@ -100,18 +97,13 @@ VisualItemModel {
     CurrencyItem {code:'KWD'; numericCode:'414'; name:'Kuwaiti Dinar'; countries: ['KUWAIT']}
     CurrencyItem {code:'EUR'; numericCode:'978'; name:'Euro'; symbol: "€"; countries: ['ANDORRA', 'AUSTRIA', 'BELGIUM', 'FINLAND', 'FRANCE', 'FRENCH GUIANA', 'FRENCH SOUTHERN TERRITORIES', 'GERMANY', 'GREECE', 'GUADELOUPE', 'IRELAND', 'ITALY', 'LUXEMBOURG', 'MARTINIQUE', 'MAYOTTE', 'MONACO', 'MONTENEGRO', 'NETHERLANDS', 'PORTUGAL', 'R.UNION', 'SAINT PIERRE AND MIQUELON', 'SAN MARINO', 'SLOVENIA', 'SPAIN']}
     CurrencyItem {code:'MXN'; numericCode:'484'; name:'Mexican Peso'; countries: ['MEXICO']}
-    CurrencyItem {code:'CHF'; numericCode:'756'; name:'Swiss Franc'; countries: ['LIECHTENSTEIN']}
-    CurrencyItem {code:'XAG'; numericCode:'961'; name:'Silver'; countries: []}
-    CurrencyItem {code:'SRD'; numericCode:'968'; name:'Surinam Dollar'; countries: ['SURINAME']}
     CurrencyItem {code:'DOP'; numericCode:'214'; name:'Dominican Peso'; countries: ['DOMINICAN REPUBLIC']}
     CurrencyItem {code:'PEN'; numericCode:'604'; name:'Nuevo Sol'; countries: ['PERU']}
     CurrencyItem {code:'KPW'; numericCode:'408'; name:'North Korean Won'; countries: ['KOREA']}
-    CurrencyItem {code:'SGD'; numericCode:'702'; name:'Singapore Dollar'; countries: ['SINGAPORE']}
     CurrencyItem {code:'TWD'; numericCode:'901'; name:'New Taiwan Dollar'; countries: ['TAIWAN']}
     CurrencyItem {code:'USD'; numericCode:'840'; name:'US Dollar'; symbol: "$"; countries: ['AMERICAN SAMOA', 'BRITISH INDIAN OCEAN TERRITORY', 'ECUADOR', 'GUAM', 'MARSHALL ISLANDS', 'MICRONESIA', 'NORTHERN MARIANA ISLANDS', 'PALAU', 'PUERTO RICO', 'TIMOR-LESTE', 'TURKS AND CAICOS ISLANDS', 'UNITED STATES MINOR OUTLYING ISLANDS', 'VIRGIN ISLANDS (BRITISH)', 'VIRGIN ISLANDS (U.S.)']}
     CurrencyItem {code:'BGN'; numericCode:'975'; name:'Bulgarian Lev'; countries: ['BULGARIA']}
     CurrencyItem {code:'MAD'; numericCode:'504'; name:'Moroccan Dirham'; countries: ['MOROCCO', 'WESTERN SAHARA']}
-    CurrencyItem {code:'SAR'; numericCode:'682'; name:'Saudi Riyal'; countries: ['SAUDI ARABIA']}
     CurrencyItem {code:'AUD'; numericCode:'036'; name:'Australian Dollar'; countries: ['AUSTRALIA', 'CHRISTMAS ISLAND', 'COCOS (KEELING) ISLANDS', 'HEARD ISLAND AND MCDONALD ISLANDS', 'KIRIBATI', 'NAURU', 'NORFOLK ISLAND', 'TUVALU']}
     CurrencyItem {code:'KYD'; numericCode:'136'; name:'Cayman Islands Dollar'; countries: ['CAYMAN ISLANDS']}
     CurrencyItem {code:'KRW'; numericCode:'410'; name:'Won'; countries: ['KOREA']}
@@ -127,7 +119,6 @@ VisualItemModel {
     CurrencyItem {code:'EGP'; numericCode:'818'; name:'Egyptian Pound'; countries: ['EGYPT']}
     CurrencyItem {code:'THB'; numericCode:'764'; name:'Baht'; countries: ['THAILAND']}
     CurrencyItem {code:'MKD'; numericCode:'807'; name:'Denar'; countries: ['MACEDONIA']}
-    CurrencyItem {code:'SDG'; numericCode:'938'; name:'Sudanese Pound'; countries: ['SUDAN']}
     CurrencyItem {code:'AED'; numericCode:'784'; name:'UAE Dirham'; countries: ['UNITED ARAB EMIRATES']}
     CurrencyItem {code:'JOD'; numericCode:'400'; name:'Jordanian Dinar'; countries: ['JORDAN']}
     CurrencyItem {code:'JPY'; numericCode:'392'; name:'Yen'; countries: ['JAPAN']}
@@ -139,7 +130,6 @@ VisualItemModel {
     CurrencyItem {code:'XFO'; numericCode:'Nil'; name:'Gold-Franc'; countries: []}
     CurrencyItem {code:'BBD'; numericCode:'052'; name:'Barbados Dollar'; countries: ['BARBADOS']}
     CurrencyItem {code:'PGK'; numericCode:'598'; name:'Kina'; countries: ['PAPUA NEW GUINEA']}
-    CurrencyItem {code:'LKR'; numericCode:'144'; name:'Sri Lanka Rupee'; countries: ['SRI LANKA']}
     CurrencyItem {code:'RON'; numericCode:'946'; name:'New Leu'; countries: ['ROMANIA']}
     CurrencyItem {code:'PLN'; numericCode:'985'; name:'Zloty'; countries: ['POLAND']}
     CurrencyItem {code:'IQD'; numericCode:'368'; name:'Iraqi Dinar'; countries: ['IRAQ']}
@@ -155,7 +145,6 @@ VisualItemModel {
     CurrencyItem {code:'HNL'; numericCode:'340'; name:'Lempira'; countries: ['HONDURAS']}
     CurrencyItem {code:'HKD'; numericCode:'344'; name:'Hong Kong Dollar'; countries: ['HONG KONG']}
     CurrencyItem {code:'NZD'; numericCode:'554'; name:'New Zealand Dollar'; countries: ['COOK ISLANDS', 'NEW ZEALAND', 'NIUE', 'PITCAIRN', 'TOKELAU']}
-    CurrencyItem {code:'RSD'; numericCode:'941'; name:'Serbian Dinar'; countries: ['SERBIA']}
     CurrencyItem {code:'EEK'; numericCode:'233'; name:'Kroon'; countries: ['ESTONIA']}
     CurrencyItem {code:'SOS'; numericCode:'706'; name:'Somali Shilling'; countries: ['SOMALIA']}
     CurrencyItem {code:'MZN'; numericCode:'943'; name:'Metical'; countries: ['MOZAMBIQUE']}
@@ -176,7 +165,6 @@ VisualItemModel {
     CurrencyItem {code:'KHR'; numericCode:'116'; name:'Riel'; countries: ['CAMBODIA']}
     CurrencyItem {code:'SLL'; numericCode:'694'; name:'Leone'; countries: ['SIERRA LEONE']}
     CurrencyItem {code:'STD'; numericCode:'678'; name:'Dobra'; countries: ['SAO TOME AND PRINCIPE']}
-    CurrencyItem {code:'SYP'; numericCode:'760'; name:'Syrian Pound'; countries: ['SYRIAN ARAB REPUBLIC']}
     CurrencyItem {code:'SZL'; numericCode:'748'; name:'Lilangeni'; countries: ['SWAZILAND']}
     CurrencyItem {code:'TZS'; numericCode:'834'; name:'Tanzanian Shilling'; countries: ['TANZANIA']}
     CurrencyItem {code:'LTL'; numericCode:'440'; name:'Lithuanian Litas'; countries: ['LITHUANIA']}
@@ -185,5 +173,17 @@ VisualItemModel {
     CurrencyItem {code:'XDR'; numericCode:'960'; name:'SDR'; countries: ['INTERNATIONAL MONETARY FUND (I.M.F)']}
     CurrencyItem {code:'XPF'; numericCode:'953'; name:'CFP Franc'; countries: ['FRENCH POLYNESIA', 'NEW CALEDONIA', 'WALLIS AND FUTUNA']}
     CurrencyItem {code:'XPT'; numericCode:'962'; name:'Platinum'; countries: []}
+    CurrencyItem {code:'RSD'; numericCode:'941'; name:'Serbian Dinar'; countries: ['SERBIA']}
+    CurrencyItem {code:'SAR'; numericCode:'682'; name:'Saudi Riyal'; countries: ['SAUDI ARABIA']}
+    CurrencyItem {code:'XAG'; numericCode:'961'; name:'Silver'; countries: []}
+    CurrencyItem {code:'SGD'; numericCode:'702'; name:'Singapore Dollar'; countries: ['SINGAPORE']}
+    CurrencyItem {code:'SKK'; numericCode:'703'; name:'Slovak Koruna'; countries: ['SLOVAKIA']}
+    CurrencyItem {code:'KGS'; numericCode:'417'; name:'Som'; countries: ['KYRGYZSTAN']}
+    CurrencyItem {code:'LKR'; numericCode:'144'; name:'Sri Lanka Rupee'; countries: ['SRI LANKA']}
+    CurrencyItem {code:'SDG'; numericCode:'938'; name:'Sudanese Pound'; countries: ['SUDAN']}
+    CurrencyItem {code:'SRD'; numericCode:'968'; name:'Surinam Dollar'; countries: ['SURINAME']}
+    CurrencyItem {code:'SEK'; numericCode:'752'; name:'Swedish Krona'; countries: ['SWEDEN']}
+    CurrencyItem {code:'CHF'; numericCode:'756'; name:'Swiss Franc'; countries: ['LIECHTENSTEIN']}
+    CurrencyItem {code:'SYP'; numericCode:'760'; name:'Syrian Pound'; countries: ['SYRIAN ARAB REPUBLIC']}
     CurrencyItem {code:'YER'; numericCode:'886'; name:'Yemeni Rial'; countries: ['YEMEN']}
 }

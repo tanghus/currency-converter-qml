@@ -18,6 +18,9 @@ PkgConfigBR:
 Requires:
 - sailfishsilica-qt5
 Files:
+- /usr/share/applications
+- /usr/share/net.tanghus.currencyconverter.sailfish
+- /usr/bin
 - '%{_bindir}'
 - '%{_datadir}/%{name}'
 - '%{_datadir}/%{name}/qml'
