@@ -30,47 +30,22 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-Dialog {
+Page {
 
-    property bool s_update: (refreshInterval > 0);
+    Label {
+        anchors.centerIn: parent
+        width: parent.width
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        horizontalAlignment: Text.AlignHCenter
+        text: "Simple Currency Converter app.<br/>" +
+              "by Thomas Tanghus<br/><br/>" +
+              "Data from <a href=\"http://finance.yahoo.com/currency-converter\">Yahoo Finance</a><br/><br/>" +
+              "See more at <a href='https://github.com/tanghus/currency_converter_qml'>the project page</a>.<br/><br/>" +
+              "Issues and feature request at the <a href='https://github.com/tanghus/currency_converter_qml/issues'>issue tracker</a>.<br/><br/>" +
+              "Ask 'tanghus' at the <a href='http://webchat.freenode.net/?channels=sailfishos'>#sailfishos</a> channel on Freenode IRC for support"
 
-    Column {
-        spacing: 10;
-        anchors.fill: parent;
-        anchors.leftMargin: Theme.paddingLarge;
-        anchors.rightMargin: Theme.paddingLarge;
-        DialogHeader {
-        }
-        TextSwitch {
-            text: "Update";
-            description: "Update exchange rate regularly";
-            checked: refreshInterval > 0;
-            onCheckedChanged: {
-                //enable interval input
-                s_update = interval.visible = checked;
-            }
-        }
-        Row {
-            visible: refreshInterval > 0;
-            id: interval;
-            Label {
-                text: 'Update interval (minutes)';
-            }
-            TextField {
-                id: intervalValue;
-                text: refreshInterval;
-                horizontalAlignment: TextInput.AlignRight;
-                inputMethodHints: Qt.ImhFormattedNumbersOnly;
-                validator: IntValidator {
-                    bottom: 0;
-                }
-            }
-        }
-    }
-    onDone: {
-        if(result == DialogResult.Accepted) {
-            refreshInterval = s_update ? parseInt(intervalValue.text) : 0;
-            settings.setValue('refreshInterval', refreshInterval);
+        onLinkActivated: {
+            Qt.openUrlExternally(link)
         }
     }
 }

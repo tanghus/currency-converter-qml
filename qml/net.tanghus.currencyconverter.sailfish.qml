@@ -60,9 +60,7 @@ ApplicationWindow {
 
     property bool isBusy: false;
 
-    onResultChanged: {
-        console.log('result changed', result);
-    }
+    signal startUp();
 
     initialPage: Component {
         id: frontPage;

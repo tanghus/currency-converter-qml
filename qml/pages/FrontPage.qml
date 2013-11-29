@@ -50,8 +50,20 @@ Page {
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
             MenuItem {
+                text: 'About'
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl('About.qml'));
+                }
+            }
+            MenuItem {
+                text: 'Open website'
+                onClicked: Qt.openUrlExternally('http://finance.yahoo.com/currency-converter');
+            }
+            MenuItem {
                 text: 'Settings'
-                onClicked: pageStack.push(Qt.resolvedUrl('Settings.qml'))
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl('Settings.qml'));
+                }
             }
             MenuItem {
                 text: 'Switch currencies'
@@ -80,6 +92,8 @@ Page {
 
             width: frontPage.width;
             spacing: Theme.paddingLarge;
+            anchors.leftMargin: Theme.paddingLarge
+            anchors.rightMargin: Theme.paddingLarge
             PageHeader {
                 title: 'Currency Converter'
             }
@@ -104,10 +118,21 @@ Page {
                 }
             }
 
-            Row {
+            Item {
+                anchors.top: toCombo.bottom;
+                Label {
+                    anchors.leftMargin: Theme.paddingLarge;
+                    anchors.top: parent.top;
+                    anchors.left: parent.left;
+                    id: fromSymbolLabel;
+                    text: fromSymbol;
+                }
                 TextField {
+                    anchors.left: fromSymbolLabel.right;
                     id: amountText;
                     text: multiplier;
+                    //anchors.rightMargin: fromSymbolLabel.right;
+                    width: Math.round(frontPage.width/3.5)
                     horizontalAlignment: TextInput.AlignRight;
                     inputMethodHints: Qt.ImhFormattedNumbersOnly;
                     validator: DoubleValidator {
@@ -116,20 +141,9 @@ Page {
                     }
                 }
                 Label {
-                    text: fromSymbol;
-                }
-                Label {
-                    text: ' = ';
+                    anchors.left: amountText.right;
+                    text: ' =    ' + toSymbol + ' ' + result;
                     horizontalAlignment: Text.AlignHCenter;
-                    verticalAlignment: Text.AlignBottom;
-                }
-                TextField {
-                    text: result;
-                    readOnly: true;
-                    horizontalAlignment: TextInput.AlignRight
-                }
-                Label {
-                    text: toSymbol;
                     verticalAlignment: Text.AlignBottom;
                 }
             }
@@ -138,18 +152,9 @@ Page {
 
     Connections {
         target: app;
-        /*onNewResult: {
-            //resultText.text = value;
-            result = value;
-        }
+        /* Saving this as it's useful for debugging
         onStartUp: {
-            var from = fromCombo.currentItem;
-            fromCode = from.code;
-            symbolFromText.text = from.getSymbol();
 
-            var to = toCombo.currentItem;
-            toCode = to.code;
-            //symbolToText.text = to.getSymbol();
         }*/
     }
 

@@ -35,30 +35,31 @@ import Sailfish.Silica 1.0
 CoverBackground {
 
     Column {
+        anchors.fill: parent;
+        anchors.leftMargin: Theme.paddingLarge
+        anchors.rightMargin: Theme.paddingLarge
         Label {
-            id: title;
-            text: 'Currency Converter';
+            text: "Currencies"
+            //font.family: Theme.fontFamilyHeading;
+            //font.pixelSize: Theme.fontSizeSmall;
+            truncationMode: TruncationMode.Fade;
+            horizontalAlignment: Text.AlignHCenter;
         }
-        Row {
-            Label {
-                text: multiplier;
-            }
-            Label {
-                text: fromSymbol;
-            }
+        Label {
+            text: fromSymbol + multiplier;
+            horizontalAlignment: Text.AlignHCenter;
+            verticalAlignment: Text.AlignBottom;
+            width: parent.width;
         }
         Label {
             text: ' = ';
             horizontalAlignment: Text.AlignHCenter;
-            verticalAlignment: Text.AlignBottom;
+            width: parent.width;
         }
-        Row {
-            Label {
-                text: result;
-            }
-            Label {
-                text: toSymbol;
-            }
+        Label {
+            text: toSymbol + result;
+            horizontalAlignment: Text.AlignHCenter;
+            width: parent.width;
         }
     }
     CoverActionList {
@@ -66,6 +67,7 @@ CoverBackground {
 
         CoverAction {
             iconSource: "image://theme/icon-cover-sync";
+            onTriggered: getQuote();
         }
     }
 }
