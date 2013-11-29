@@ -30,10 +30,55 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-VisualDataModel {
-    id: currencyMenuModel
-    model: currencyModel
-    delegate: {
+ComboBox {
+    id: currencyCombo;
 
+    signal activated(Item currency);
+
+    property string currentCurrency;
+
+    onCurrentCurrencyChanged: {
+        console.log('Setting currency', currentCurrency, typeof currentCurrency, currentCurrency.length);
+        if(typeof currentCurrency !== 'string' || currentCurrency.length !== 3) {
+            console.log('Trying to set invalid currency', currentCurrency);
+            return;
+        }
+
+        // Use the children directly from the model as the menu isn't populated yet
+        var currencies = currencyModel.children;
+
+        for(var i = 0; i < currencies.length; i++ ) {
+            if(currencies[i].code === currentCurrency) {
+                currentIndex = i;
+                return;
+            }
+        }
+    }
+
+    onCurrentIndexChanged: {
+        console.log('currentIndex changed', currentIndex);
+        var currency = currencyModel.children[currentIndex];
+        currencyCombo.activated(currency);
+        _updating = true;
+        currentCurrency = currency.code;
+        _updating = false;
+    }
+
+    menu: ContextMenu {
+        id: contextMenu;
+        Repeater {
+             model: currencyModel
+        }
+        onActivated: {
+            var currency = contextMenu.children[index];
+            currencyCombo.activated(currency);
+            _updating = true;
+            currentCurrency = currency.code;
+            _updating = false;
+        }
+    }
+
+    CurrencyModel {
+        id: currencyModel
     }
 }

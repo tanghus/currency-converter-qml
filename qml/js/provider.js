@@ -29,6 +29,8 @@ Copyright (c) 2013 Thomas Tanghus
 WorkerScript.onMessage = function(message) {
     var url = 'http://download.finance.yahoo.com/d/quotes.csv?s={quote}=X&f=l1&e=.csv'.replace('{quote}', message.quote);
 
+    console.log('Requested currencies', message.quote);
+
     var xhr = new XMLHttpRequest()
 
     xhr.onreadystatechange = function() {

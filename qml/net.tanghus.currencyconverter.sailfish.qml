@@ -60,6 +60,10 @@ ApplicationWindow {
 
     property bool isBusy: false;
 
+    onResultChanged: {
+        console.log('result changed', result);
+    }
+
     initialPage: Component {
         id: frontPage;
         FrontPage {}

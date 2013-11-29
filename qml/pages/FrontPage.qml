@@ -54,6 +54,17 @@ Page {
                 onClicked: pageStack.push(Qt.resolvedUrl('Settings.qml'))
             }
             MenuItem {
+                text: 'Switch currencies'
+                onClicked: {
+                    setBusy(true);
+                    var from = fromCombo.currentIndex;
+                    fromCombo.currentIndex = toCombo.currentIndex;
+                    toCombo.currentIndex = from;
+                    setBusy(false);
+                    getQuote();
+                }
+            }
+            MenuItem {
                 text: 'Update'
                 onClicked: getQuote();
             }
@@ -72,43 +83,27 @@ Page {
             PageHeader {
                 title: 'Currency Converter'
             }
-            ComboBox {
-                id: fromCombo
-                label: 'From'
-                menu: ContextMenu {
-                    Repeater {
-                         model: CurrencyModel { id: currencyModelFrom }
-                    }
-                    onActivated: {
-                        // The currentItem isn't set at this time for some reason?
-                        fromCombo.currentIndex = index;
-                        var from = fromCombo.currentItem;
-                        fromCode = from.code;
-                        fromSymbol = from.getSymbol();
-                        getQuote();
-                        console.log(index, fromCode);
-                    }
+            CurrencyCombo {
+                id: fromCombo;
+                label: 'From';
+                currentCurrency: fromCode;
+                onActivated: {
+                    fromCode = currency.code;
+                    fromSymbol = currency.getSymbol();
+                    getQuote();
                 }
             }
-            ComboBox {
-                id: toCombo
-                label: 'To'
-                menu: ContextMenu {
-                    Repeater {
-                         model: CurrencyModel { id: currencyModelTo }
-                    }
-                    onActivated: {
-                        // The currentItem isn't set at this time for some reason?
-                        toCombo.currentIndex = index;
-                        var to = toCombo.currentItem;
-                        toCode = to.code;
-                        toSymbol = to.getSymbol();
-                        console.log('toSymbol', toSymbol);
-                        getQuote();
-                        console.log(index, toCode);
-                    }
+            CurrencyCombo {
+                id: toCombo;
+                label: 'To';
+                currentCurrency: toCode;
+                onActivated: {
+                    toCode = currency.code;
+                    toSymbol = currency.getSymbol();
+                    getQuote();
                 }
             }
+
             Row {
                 TextField {
                     id: amountText;
