@@ -9,6 +9,7 @@ Convert currencies using data from Yahoo! Financial.
  - Selected currencies and amount is saved between sessions.
  - Refresh selected convertion when no activity for a user defined period of time, or by request.
  - Selected exchange rates is shown real-time on the home screen cover.
+ - Swap currently selected currencies.
 
 **Planned** features (in time for first release):
  - Well, pretty much done, I think.
