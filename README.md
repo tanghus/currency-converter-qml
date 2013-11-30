@@ -1,7 +1,7 @@
 Currency Converter for SailfishOS
 =================================
 
-Convert currencies using data from Yahoo! Financial.
+Convert currencies using data from Yahoo! Finance.
 
 **Current** features:
  - Select to and/or from the dropdown list and the converted amount will be updated.
