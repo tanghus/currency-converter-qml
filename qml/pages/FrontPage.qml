@@ -35,11 +35,22 @@ import Sailfish.Silica 1.0
 Page {
     id: frontPage;
 
+    Timer {
+        id: inputTimer;
+        interval: 300;
+        running: false;
+        repeat: false;
+        onTriggered: {
+            multiplier = parseInt(amountText.text);
+            getQuote();
+        }
+    }
+
     Connections {
         target: amountText;
         onTextChanged: {
-            multiplier = parseInt(amountText.text);
-            getQuote();
+            // Try not to refresh on every change.
+            inputTimer.restart();
         }
     }
 
