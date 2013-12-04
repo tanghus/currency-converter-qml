@@ -131,6 +131,7 @@ Page {
 
             Item {
                 anchors.top: toCombo.bottom;
+                anchors.topMargin: Theme.paddingLarge;
                 Label {
                     anchors.leftMargin: Theme.paddingLarge;
                     anchors.top: parent.top;
