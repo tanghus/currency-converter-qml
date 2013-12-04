@@ -39,7 +39,7 @@ Page {
         horizontalAlignment: Text.AlignHCenter
         text: "Simple Currency Converter app.<br/>" +
               "by Thomas Tanghus<br/><br/>" +
-              "Data from <a href=\"http://finance.yahoo.com/currency-converter\">Yahoo Finance</a><br/><br/>" +
+              "Data from <a href=\"http://finance.yahoo.com/currency-converter\">Yahoo! Finance</a><br/><br/>" +
               "See more at <a href='https://github.com/tanghus/currency_converter_qml'>the project page</a>.<br/><br/>" +
               "Issues and feature request at the <a href='https://github.com/tanghus/currency_converter_qml/issues'>issue tracker</a>.<br/><br/>" +
               "Ask 'tanghus' at the <a href='http://webchat.freenode.net/?channels=sailfishos'>#sailfishos</a> channel on Freenode IRC for support"
