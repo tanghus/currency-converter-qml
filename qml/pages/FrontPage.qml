@@ -63,7 +63,7 @@ Page {
             MenuItem {
                 text: 'About'
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl('About.qml'));
+                    pageStack.push(Qt.resolvedUrl('AboutPage.qml'));
                 }
             }
             MenuItem {
@@ -73,7 +73,7 @@ Page {
             MenuItem {
                 text: 'Settings'
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl('Settings.qml'));
+                    pageStack.push(Qt.resolvedUrl('SettingsPage.qml'));
                 }
             }
             MenuItem {
