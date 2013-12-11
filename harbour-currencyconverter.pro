@@ -45,7 +45,9 @@ OTHER_FILES += \
     qml/harbour-currencyconverter.qml \
     qml/js/provider.js \
     harbour-currencyconverter.desktop \
-    rpm/harbour-currencyconverter.yaml
+    rpm/harbour-currencyconverter.yaml \
+    harbour-currencyconverter.desktop \
+    qml/harbour-currencyconverter.qml
 
 HEADERS += \
     src/qmlsettings.h

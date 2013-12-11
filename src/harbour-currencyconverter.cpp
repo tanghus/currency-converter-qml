@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     QQuickView *view = SailfishApp::createView();
     QmlSettings *settings = new QmlSettings();
     view->rootContext()->setContextProperty("settings", settings);
-    view->setSource(SailfishApp::pathTo("qml/net.tanghus.currencyconverter.sailfish.qml"));
+    view->setSource(SailfishApp::pathTo("qml/harbour-currencyconverter.qml"));
     view->showFullScreen();
     return app->exec();
 }
