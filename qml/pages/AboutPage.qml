@@ -33,11 +33,13 @@ import Sailfish.Silica 1.0
 Page {
 
     Label {
-        anchors.centerIn: parent
-        width: parent.width
-        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        horizontalAlignment: Text.AlignHCenter
-        text: "Simple Currency Converter app.<br/>" +
+        anchors.centerIn: parent;
+        width: parent.width;
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere;
+        horizontalAlignment: Text.AlignHCenter;
+        textFormat: Text.RichText;
+        text: "<style>a:link { color: " + Theme.highlightColor + "; }</style>" +
+              "Simple Currency Converter app.<br/>" +
               "by Thomas Tanghus<br/><br/>" +
               "Data from <a href=\"http://finance.yahoo.com/currency-converter\">Yahoo! Finance</a><br/><br/>" +
               "See more at <a href='https://github.com/tanghus/currency_converter_qml'>the project page</a>.<br/><br/>" +

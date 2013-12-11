@@ -84,7 +84,7 @@ ApplicationWindow {
 
     Timer {
         id: timer;
-        interval: refreshInterval * 1000;
+        interval: refreshInterval * 60000;
         running: true;
         repeat: true;
         onTriggered: getQuote();

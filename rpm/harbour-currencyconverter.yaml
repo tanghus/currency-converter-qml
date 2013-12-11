@@ -1,0 +1,31 @@
+Name: harbour-currencyconverter
+Summary: Currency Converter
+Version: 0.1
+Release: 1
+Group: Qt/Qt
+License: "BSD"
+URL: http://github.com/tanghus/currency_converter_qml
+Sources:
+- '%{name}-%{version}.tar.bz2'
+Description: |-
+  Convert currencies using data from Yahoo! Financial.
+Configure: none
+Builder: qtc5
+QMakeOptions:
+- VERSION=%{version}
+PkgConfigBR:
+- Qt5Core
+- Qt5Qml
+- Qt5Quick
+- sailfishapp
+Requires:
+- sailfishsilica-qt5
+Files:
+- '%{_datadir}/icons/hicolor/86x86/apps'
+- '%{_datadir}/icons/hicolor/86x86/apps/%{name}.png'
+- '%{_datadir}/applications/%{name}.desktop'
+- '%{_datadir}/applications'
+- '%{_datadir}/%{name}/qml'
+- '%{_datadir}/%{name}'
+- '%{_bindir}'
+PkgBR: []
