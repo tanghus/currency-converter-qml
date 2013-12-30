@@ -34,7 +34,7 @@ SOURCES += \
     src/$${TARGET}.cpp \
     src/qmlsettings.cpp
 
-OTHER_FILES += \
+QML_FILES = \
     qml/cover/CoverPage.qml \
     qml/pages/FrontPage.qml \
     qml/pages/AboutPage.qml \
@@ -43,6 +43,13 @@ OTHER_FILES += \
     qml/pages/CurrencyItem.qml \
     qml/pages/CurrencyCombo.qml \
     qml/harbour-currencyconverter.qml \
+
+lupdate_only {
+    SOURCES += $${QML_FILES}
+}
+
+OTHER_FILES += \
+    $${QML_FILES} \
     qml/js/provider.js \
     harbour-currencyconverter.desktop \
     rpm/harbour-currencyconverter.yaml
