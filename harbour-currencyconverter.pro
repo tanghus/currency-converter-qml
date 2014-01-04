@@ -33,6 +33,13 @@ OTHER_FILES += \
     qml/components/CurrencyItem.qml \
     qml/components/CurrencyCombo.qml \
     qml/harbour-currencyconverter.qml \
+
+lupdate_only {
+    SOURCES += $${QML_FILES}
+}
+
+OTHER_FILES += \
+    $${QML_FILES} \
     qml/js/provider.js \
     harbour-currencyconverter.desktop \
     rpm/harbour-currencyconverter.yaml \
