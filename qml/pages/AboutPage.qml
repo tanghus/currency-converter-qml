@@ -39,12 +39,18 @@ Page {
         horizontalAlignment: Text.AlignHCenter;
         textFormat: Text.RichText;
         text: "<style>a:link { color: " + Theme.highlightColor + "; }</style>" +
-              "Simple Currency Converter app.<br/>" +
-              "by Thomas Tanghus<br/><br/>" +
-              "Data from <a href=\"http://finance.yahoo.com/currency-converter\">Yahoo! Finance</a><br/><br/>" +
-              "See more at <a href='https://github.com/tanghus/currency_converter_qml'>the project page</a>.<br/><br/>" +
-              "Issues and feature request at the <a href='https://github.com/tanghus/currency_converter_qml/issues'>issue tracker</a>.<br/><br/>" +
-              "Ask 'tanghus' at the <a href='http://webchat.freenode.net/?channels=sailfishos'>#sailfishos</a> channel on Freenode IRC for support"
+              qsTr('Simple Currency Converter app') + '<br/>' +
+              //: Naming the author
+              qsTr('by %1', 'As in made by %1').arg('Thomas Tanghus') + '<br/><br/>' +
+              //: Link to Yahoo! Finance
+              qsTr('Data from %1').arg(' <a href="http://finance.yahoo.com/currency-converter">Yahoo! Finance</a>') + '<br/><br/>' +
+              //: Link to Github project page
+              qsTr('See more at %1.', 'Link URL').arg(' <a href="https://github.com/tanghus/currency-converter-qml">%1</a>').arg(qsTr('the project page', 'Link text')) + '<br/><br/>' +
+              //: Link to the issue tracker
+              qsTr('Issues and feature request at the %1', 'Link URL').arg('<a href="https://github.com/tanghus/currency-converter-qml/issues">%1</a>.').arg(qsTr('issue tracker', 'Link text')) + '<br/><br/>' +
+              //: %1: Author nick, %2:Link to Web IRC
+              qsTr('Ask "%1" at the %2 channel on Freenode IRC for support', 'Link with text').arg('tanghus').arg('<a href="http://webchat.freenode.net/?channels=sailfishos">#sailfishos</a>') + '<br/><br/>' +
+              qsTr('The awesome icon is made by %1').arg('Alain M') + ' <a href="https://twitter.com/capricotwi04">@capricotwi04</a> <a href="mailto:alain_m@gmx.ch">alain_m@gmx.ch</a>';
 
         onLinkActivated: {
             Qt.openUrlExternally(link)

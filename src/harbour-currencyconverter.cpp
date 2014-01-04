@@ -32,12 +32,23 @@
 #endif
 
 #include <sailfishapp.h>
+#include <QLocale>
+#include <QTranslator>
+#include <QDebug>
 #include "qmlsettings.h"
 
 int main(int argc, char *argv[]) {
     QGuiApplication *app = SailfishApp::application(argc, argv);
     QQuickView *view = SailfishApp::createView();
     QmlSettings *settings = new QmlSettings();
+    QTranslator *translator = new QTranslator;
+
+    qDebug() << "Translations:" << SailfishApp::pathTo("translations").toLocalFile() + "/" + QLocale::system().name() + ".qm";
+
+    if(!translator->load(SailfishApp::pathTo("translations").toLocalFile() + "/" + QLocale::system().name() + ".qm")) {
+        qDebug() << "Couldn't load translation";
+    }
+    app->installTranslator(translator);
     view->rootContext()->setContextProperty("settings", settings);
     view->setSource(SailfishApp::pathTo("qml/harbour-currencyconverter.qml"));
     view->showFullScreen();

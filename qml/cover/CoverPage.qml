@@ -34,12 +34,21 @@ import Sailfish.Silica 1.0
 
 CoverBackground {
 
+    property bool active: status === Cover.Active;
+
+    BusyIndicator {
+        id: busyIndicator;
+        anchors.centerIn: parent;
+        size: BusyIndicatorSize.Large;
+        running: isBusy && active;
+    }
+
     Column {
         anchors.fill: parent;
         anchors.leftMargin: Theme.paddingLarge
         anchors.rightMargin: Theme.paddingLarge
         Label {
-            text: "Currencies"
+            text: qsTr('Currencies');
             //font.family: Theme.fontFamilyHeading;
             //font.pixelSize: Theme.fontSizeSmall;
             truncationMode: TruncationMode.Fade;
@@ -62,6 +71,7 @@ CoverBackground {
             width: parent.width;
         }
     }
+
     CoverActionList {
         id: coverActionSync;
 

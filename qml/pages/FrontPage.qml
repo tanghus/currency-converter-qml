@@ -31,6 +31,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../components"
 
 Page {
     id: frontPage;
@@ -61,23 +62,23 @@ Page {
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
             MenuItem {
-                text: 'About'
+                text: qsTr('About');
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl('AboutPage.qml'));
                 }
             }
             MenuItem {
-                text: 'Open website'
+                text: qsTr('Open website');
                 onClicked: Qt.openUrlExternally('http://finance.yahoo.com/currency-converter');
             }
             MenuItem {
-                text: 'Settings'
+                text: qsTr('Settings');
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl('SettingsPage.qml'));
                 }
             }
             MenuItem {
-                text: 'Switch currencies'
+                text: qsTr('Switch currencies');
                 onClicked: {
                     setBusy(true);
                     var from = fromCombo.currentIndex;
@@ -88,7 +89,7 @@ Page {
                 }
             }
             MenuItem {
-                text: 'Update'
+                text: qsTr('Update');
                 onClicked: getQuote();
             }
         }
@@ -106,11 +107,11 @@ Page {
             anchors.leftMargin: Theme.paddingLarge
             anchors.rightMargin: Theme.paddingLarge
             PageHeader {
-                title: 'Currency Converter'
+                title: qsTr('Currency Converter');
             }
             CurrencyCombo {
                 id: fromCombo;
-                label: 'From';
+                label: qsTr('From');
                 currentCurrency: fromCode;
                 onActivated: {
                     fromCode = currency.code;
@@ -120,7 +121,7 @@ Page {
             }
             CurrencyCombo {
                 id: toCombo;
-                label: 'To';
+                label: qsTr('To');
                 currentCurrency: toCode;
                 onActivated: {
                     toCode = currency.code;

@@ -8,47 +8,42 @@
 #         - icon definition filename in desktop file must be changed
 TARGET = harbour-currencyconverter
 
-#CONFIG += sailfishapp
-
-QT += quick qml
-CONFIG += link_pkgconfig
-PKGCONFIG += sailfishapp
-INCLUDEPATH += /usr/include/sailfishapp
-
-TARGETPATH = /usr/bin
-target.path = $${TARGETPATH}
-
-DEPLOYMENT_PATH = /usr/share/$${TARGET}
-qml.files = qml
-qml.path = $${DEPLOYMENT_PATH}
-
-desktop.files = $${TARGET}.desktop
-desktop.path = /usr/share/applications
-
-icon.files = $${TARGET}.png
-icon.path = /usr/share/icons/hicolor/86x86/apps
-
-INSTALLS += target icon desktop qml
+CONFIG += sailfishapp
 
 SOURCES += \
     src/$${TARGET}.cpp \
     src/qmlsettings.cpp
+
+TRANSLATIONS = translations/da_DK.ts
+translations.files = translations/da_DK.qm
+translations.path = /usr/share/$${TARGET}/translations
+
+lupdate_only{
+SOURCES = \
+          qml/pages/*.qml \
+          qml/cover/*.qml
+}
 
 OTHER_FILES += \
     qml/cover/CoverPage.qml \
     qml/pages/FrontPage.qml \
     qml/pages/AboutPage.qml \
     qml/pages/SettingsPage.qml \
-    qml/pages/CurrencyModel.qml \
-    qml/pages/CurrencyItem.qml \
-    qml/pages/CurrencyCombo.qml \
+    qml/components/CurrencyModel.qml \
+    qml/components/CurrencyItem.qml \
+    qml/components/CurrencyCombo.qml \
     qml/harbour-currencyconverter.qml \
     qml/js/provider.js \
     harbour-currencyconverter.desktop \
     rpm/harbour-currencyconverter.yaml \
     harbour-currencyconverter.desktop \
-    qml/harbour-currencyconverter.qml
+    qml/harbour-currencyconverter.qml \
+    README.md \
+    LICENSE \
+    translations/da_DK.qm \
+    translations/da_DK.ts
 
 HEADERS += \
     src/qmlsettings.h
 
+INSTALLS += translations

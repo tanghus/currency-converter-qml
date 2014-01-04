@@ -49,8 +49,8 @@ ApplicationWindow {
     // The amount to multiply the quote with
     property int multiplier: 1;
 
-    // Refresh interval in seconds
-    property int refreshInterval: 3600;
+    // Refresh interval in minutes
+    property int refreshInterval: 60;
 
     // The last result before multiplication
     property string quote: '1';
@@ -67,13 +67,13 @@ ApplicationWindow {
         FrontPage {}
     }
 
-    cover: Component {
+    cover: CoverBackground {
         CoverPage {}
     }
 
     Component.onCompleted: {
         console.log('Ready');
-        refreshInterval = settings.value('refreshInterval', 3600);
+        refreshInterval = settings.value('refreshInterval', 60);
         fromCode = settings.value('currencyCodeFrom', 'USD');
         toCode = settings.value('currencyCodeTo', 'EUR');
         multiplier = settings.value('amount', 1);
@@ -85,7 +85,7 @@ ApplicationWindow {
     Timer {
         id: timer;
         interval: refreshInterval * 60000;
-        running: true;
+        running: refreshInterval > 0 && applicationActive;
         repeat: true;
         onTriggered: getQuote();
     }
@@ -111,6 +111,7 @@ ApplicationWindow {
     }
 
     function getQuote() {
+        console.log('getQuote.', timer.interval);
         if(isBusy) {
             return;
         }

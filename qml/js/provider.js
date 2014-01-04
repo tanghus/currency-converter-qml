@@ -29,18 +29,23 @@ Copyright (c) 2013 Thomas Tanghus
 WorkerScript.onMessage = function(message) {
     var url = 'http://download.finance.yahoo.com/d/quotes.csv?s={quote}=X&f=l1&e=.csv'.replace('{quote}', message.quote);
 
-    var xhr = new XMLHttpRequest()
+    var xhr = new XMLHttpRequest();
+    xhr.timeout = 10000;
 
     xhr.onreadystatechange = function() {
-        if (xhr.readyState == XMLHttpRequest.DONE) {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
             //console.log('status', xhr.status, xhr.statusText)
             //console.log('response', xhr.responseText)
-            if(xhr.status === 200) {
+            if(xhr.status >= 200 && xhr.status < 300) {
                 WorkerScript.sendMessage({quote: xhr.responseText});
             } else {
                 WorkerScript.sendMessage({error: xhr.statusText, message: xhr.responseText});
             }
         }
+    }
+
+    xhr.ontimeout = function() {
+        WorkerScript.sendMessage({error: 'Request timed out'});
     }
 
     xhr.open('GET', url, true);

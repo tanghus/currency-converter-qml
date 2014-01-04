@@ -42,8 +42,8 @@ Dialog {
         DialogHeader {
         }
         TextSwitch {
-            text: "Update";
-            description: "Update exchange rate regularly";
+            text: qsTr('Update');
+            description: qsTr('Update exchange rate regularly');
             checked: refreshInterval > 0;
             onCheckedChanged: {
                 //enable interval input
@@ -54,7 +54,7 @@ Dialog {
             visible: refreshInterval > 0;
             id: interval;
             Label {
-                text: 'Update interval (minutes)';
+                text: qsTr('Update interval (minutes)');
             }
             TextField {
                 id: intervalValue;
@@ -70,6 +70,10 @@ Dialog {
     onDone: {
         if(result == DialogResult.Accepted) {
             refreshInterval = s_update ? parseInt(intervalValue.text) : 0;
+            if(refreshInterval > 0 && !timer.running) {
+                timer.start()
+            }
+
             settings.setValue('refreshInterval', refreshInterval);
         }
     }
