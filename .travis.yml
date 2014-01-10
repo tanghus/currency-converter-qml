@@ -1,6 +1,6 @@
 env:
   global:
-    secure: dHFyC09TmvMGgx4sJVydOrNF3QEASIJaIStNQqQ675fTHgfVqeqj+H3wftXyNscQmY9NMj5/x6Kv4zDBVM8CQZVUBBNMHjIbmKFILnO9YgjMI3wN0mpZD0d5SDBXsBD6g15vsv9euKKASzqVOXVAp4J5H6qSolHWHyDGXSwhTWY=
+    secure: "LGO/4solxrq/GNOjdQbGGpW5oQFL3YZ6eV88G8WSePpUsg07OLETPcgcGB3xfCyaRFzyJM+jauLfXY4spIVls6zygDhELUfgedtyacapT+FY5/O4M/OPCC82/4T1yBU3XLO18n1aBa2/mibTLv6QvBbHyWRFPmUPSimTiWYUxnA="
 
 script:
 - ./transifex.sh
