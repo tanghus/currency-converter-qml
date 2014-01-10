@@ -47,7 +47,7 @@
         <source>issue tracker</source>
         <comment>Link text</comment>
         <extracomment>Link to the issue tracker</extracomment>
-        <translation type="finished">issue trackeren</translation>
+        <translation>issue trackeren</translation>
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="52"/>
@@ -59,7 +59,7 @@
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="53"/>
         <source>The awesome icon is made by %1</source>
-        <translation type="finished">Det fede ikon er lavet af %1</translation>
+        <translation>Det fede ikon er lavet af %1</translation>
     </message>
 </context>
 <context>
@@ -123,12 +123,12 @@
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="46"/>
         <source>Update exchange rate regularly</source>
-        <translation type="finished">Opdatér valutakursen regelmæssigt</translation>
+        <translation>Opdatér valutakursen regelmæssigt</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="57"/>
         <source>Update interval (minutes)</source>
-        <translation type="finished">Interval (minutter)</translation>
+        <translation>Interval (minutter)</translation>
     </message>
 </context>
 </TS>
