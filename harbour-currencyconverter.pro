@@ -14,14 +14,26 @@ SOURCES += \
     src/$${TARGET}.cpp \
     src/qmlsettings.cpp
 
-TRANSLATIONS = translations/da_DK.ts
-translations.files = translations/da_DK.qm
-translations.path = /usr/share/$${TARGET}/translations
+TRANSLATIONS = \
+    translations/da_DK.ts \
+    translations/de_DE.ts \
+    translations/en_GB.ts \
+    translations/fi_FI.ts \
+    translations/fr.ts \
+    translations/nl.ts \
+    translations/pl_PL.ts \
+    translations/ru.ts \
+    translations/sv.ts
+
+translations.files = translations
+translations.path = $${DEPLOYMENT_PATH}
 
 lupdate_only{
 SOURCES = \
-          qml/pages/*.qml \
-          qml/cover/*.qml
+    qml/pages/FrontPage.qml \
+    qml/pages/SettingsPage.qml \
+    qml/pages/AboutPage.qml \
+    qml/cover/CoverPage.qml
 }
 
 OTHER_FILES += \
@@ -33,6 +45,8 @@ OTHER_FILES += \
     qml/components/CurrencyItem.qml \
     qml/components/CurrencyCombo.qml \
     qml/harbour-currencyconverter.qml \
+    transifex.sh \
+    .travis.yml
 
 lupdate_only {
     SOURCES += $${QML_FILES}
@@ -46,9 +60,7 @@ OTHER_FILES += \
     harbour-currencyconverter.desktop \
     qml/harbour-currencyconverter.qml \
     README.md \
-    LICENSE \
-    translations/da_DK.qm \
-    translations/da_DK.ts
+    LICENSE
 
 HEADERS += \
     src/qmlsettings.h

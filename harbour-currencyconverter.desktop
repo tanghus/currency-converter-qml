@@ -2,5 +2,6 @@
 Type=Application
 X-Nemo-Application-Type=silica-qt5
 Name=Currency Converter
+Name[da]=Valutaomregner
 Icon=harbour-currencyconverter
 Exec=harbour-currencyconverter

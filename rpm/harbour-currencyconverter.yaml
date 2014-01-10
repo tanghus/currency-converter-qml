@@ -14,26 +14,20 @@ Builder: qtc5
 QMakeOptions:
 - VERSION=%{version}
 PkgConfigBR:
-- Qt5Core
-- Qt5Qml
-- Qt5Quick
 - sailfishapp
+- Qt5Quick
+- Qt5Qml
+- Qt5Core
 Requires:
 - sailfishsilica-qt5
 Files:
-- /usr/share/icons/hicolor/86x86/apps
-- /usr/share/applications
-- /usr/share/harbour-currencyconverter
-- /usr/share/harbour-currencyconverter/translations
-- /usr/bin
-- '%{_datadir}/%{name}/translations'
-- '%{_datadir}/%{name}/translations/da_DK.qm'
-- '%{_datadir}/icons/hicolor/86x86/apps'
-- '%{_datadir}/icons/hicolor/86x86/apps/%{name}.png'
-- '%{_datadir}/applications'
-- '%{_datadir}/applications/%{name}.desktop'
-- '%{_datadir}/%{name}'
-- '%{_datadir}/%{name}/qml'
-- '%{_bindir}'
 - '%{_bindir}/%{name}'
+- '%{_bindir}'
+- '%{_datadir}/%{name}/qml'
+- '%{_datadir}/%{name}'
+- '%{_datadir}/applications/%{name}.desktop'
+- '%{_datadir}/applications'
+- '%{_datadir}/icons/hicolor/86x86/apps/%{name}.png'
+- '%{_datadir}/icons/hicolor/86x86/apps'
+- '%{_datadir}/%{name}/translations'
 PkgBR: []
