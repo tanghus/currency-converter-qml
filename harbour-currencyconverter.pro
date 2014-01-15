@@ -25,7 +25,8 @@ TRANSLATIONS = \
     translations/nl.ts \
     translations/pl_PL.ts \
     translations/ru.ts \
-    translations/sv.ts
+    translations/sv.ts \
+    translations/zh_CN.ts
 
 translations.files = translations
 translations.path = $${DEPLOYMENT_PATH}
