@@ -1,5 +1,11 @@
-Currency Converter for SailfishOS
+![Icon](https://raw2.github.com/tanghus/currency-converter-qml/master/harbour-currencyconverter.png) Currency Converter for SailfishOS
 =================================
+
+| branch      | status |
+| ----------- | ------ |
+| master      | [![Build Status](https://travis-ci.org/tanghus/currency-converter-qml.png?branch=master)](https://travis-ci.org/tanghus/currency-converter-qml) |
+
+[![flattr this](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=tanghus&url=https%3A%2F%2Fgithub.com%2Ftanghus%2Fcurrency-converter-qml)
 
 Convert currencies using data from Yahoo! Finance.
 
