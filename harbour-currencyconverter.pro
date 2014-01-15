@@ -8,6 +8,8 @@
 #         - icon definition filename in desktop file must be changed
 TARGET = harbour-currencyconverter
 
+DEPLOYMENT_PATH = /usr/share/$${TARGET}
+
 CONFIG += sailfishapp
 
 SOURCES += \
@@ -33,7 +35,8 @@ SOURCES = \
     qml/pages/FrontPage.qml \
     qml/pages/SettingsPage.qml \
     qml/pages/AboutPage.qml \
-    qml/cover/CoverPage.qml
+    qml/cover/CoverPage.qml \
+    qml/components/CurrencyModel.qml
 }
 
 OTHER_FILES += \
