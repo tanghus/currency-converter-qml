@@ -162,6 +162,7 @@ VisualItemModel {
     CurrencyItem {code:'TJS'; numericCode:'972'; name:qsTr('Somoni'); countries: ['TAJIKISTAN']}
     CurrencyItem {code:'KGS'; numericCode:'417'; name:qsTr('Som'); countries: ['KYRGYZSTAN']}
     CurrencyItem {code:'SOS'; numericCode:'706'; name:qsTr('Somali Shilling'); countries: ['SOMALIA']}
+    CurrencyItem {code:'SSP'; numericCode:'728'; name:qsTr('South Sudanese Pound'); symbol: '£'; countries: ['SOUTH SUDAN']}
     CurrencyItem {code:'LKR'; numericCode:'144'; name:qsTr('Sri Lanka Rupee'); countries: ['SRI LANKA']}
     CurrencyItem {code:'SDG'; numericCode:'938'; name:qsTr('Sudanese Pound'); countries: ['SUDAN']}
     CurrencyItem {code:'SRD'; numericCode:'968'; name:qsTr('Surinam Dollar'); countries: ['SURINAME']}
