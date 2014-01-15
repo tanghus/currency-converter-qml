@@ -17,3 +17,4 @@ Convert currencies using data from Yahoo! Finance.
 **Planned** features (or maybe just brain barfs):
  - Select (short) list of currencies to monitor and notify on change (within a range).
 
+[![flattr this](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=tanghus&url=https%3A%2F%2Fgithub.com%2Ftanghus%2Fcurrency-converter-qml)
