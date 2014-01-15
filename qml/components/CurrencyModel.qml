@@ -103,7 +103,7 @@ VisualItemModel {
     CurrencyItem {code:'AOA'; numericCode:'973'; name:qsTr('Kwanza'); countries: ['ANGOLA']}
     CurrencyItem {code:'MMK'; numericCode:'104'; name:qsTr('Kyat'); countries: ['MYANMAR']}
     CurrencyItem {code:'GEL'; numericCode:'981'; name:qsTr('Lari'); countries: ['GEORGIA']}
-    CurrencyItem {code:'LVL'; numericCode:'428'; name:qsTr('Latvian Lats'); countries: ['LATVIA']}
+    //CurrencyItem {code:'LVL'; numericCode:'428'; name:qsTr('Latvian Lats'); countries: ['LATVIA']}
     CurrencyItem {code:'LBP'; numericCode:'422'; name:qsTr('Lebanese Pound'); countries: ['LEBANON']}
     CurrencyItem {code:'ALL'; numericCode:'008'; name:qsTr('Lek'); countries: ['ALBANIA']}
     CurrencyItem {code:'HNL'; numericCode:'340'; name:qsTr('Lempira'); countries: ['HONDURAS']}
