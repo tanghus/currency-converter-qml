@@ -157,7 +157,7 @@ VisualItemModel {
     CurrencyItem {code:'RSD'; numericCode:'941'; name:qsTr('Serbian Dinar'); countries: ['SERBIA']}
     CurrencyItem {code:'XAG'; numericCode:'961'; name:qsTr('Silver'); countries: []}
     CurrencyItem {code:'SGD'; numericCode:'702'; name:qsTr('Singapore Dollar'); countries: ['SINGAPORE']}
-    CurrencyItem {code:'SKK'; numericCode:'703'; name:qsTr('Slovak Koruna'); countries: ['SLOVAKIA']}
+    //CurrencyItem {code:'SKK'; numericCode:'703'; name:qsTr('Slovak Koruna'); countries: ['SLOVAKIA']}
     CurrencyItem {code:'SBD'; numericCode:'090'; name:qsTr('Solomon Islands Dollar'); countries: ['SOLOMON ISLANDS']}
     CurrencyItem {code:'TJS'; numericCode:'972'; name:qsTr('Somoni'); countries: ['TAJIKISTAN']}
     CurrencyItem {code:'KGS'; numericCode:'417'; name:qsTr('Som'); countries: ['KYRGYZSTAN']}
