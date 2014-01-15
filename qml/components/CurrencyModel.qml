@@ -98,8 +98,8 @@ VisualItemModel {
     CurrencyItem {code:'LAK'; numericCode:'418'; name:qsTr('Kip'); countries: ['LAO PEOPLES DEMOCRATIC REPUBLIC']}
     CurrencyItem {code:'EEK'; numericCode:'233'; name:qsTr('Kroon'); countries: ['ESTONIA']}
     CurrencyItem {code:'KWD'; numericCode:'414'; name:qsTr('Kuwaiti Dinar'); countries: ['KUWAIT']}
-    CurrencyItem {code:'ZMK'; numericCode:'894'; name:qsTr('Kwacha'); countries: ['ZAMBIA']}
-    CurrencyItem {code:'MWK'; numericCode:'454'; name:qsTr('Kwacha'); countries: ['MALAWI']}
+    CurrencyItem {code:'ZMK'; numericCode:'894'; name:qsTr('Zambian Kwacha'); countries: ['ZAMBIA']}
+    CurrencyItem {code:'MWK'; numericCode:'454'; name:qsTr('Malawian Kwacha'); countries: ['MALAWI']}
     CurrencyItem {code:'AOA'; numericCode:'973'; name:qsTr('Kwanza'); countries: ['ANGOLA']}
     CurrencyItem {code:'MMK'; numericCode:'104'; name:qsTr('Kyat'); countries: ['MYANMAR']}
     CurrencyItem {code:'GEL'; numericCode:'981'; name:qsTr('Lari'); countries: ['GEORGIA']}
