@@ -96,7 +96,7 @@ VisualItemModel {
     CurrencyItem {code:'KES'; numericCode:'404'; name:qsTr('Kenyan Shilling'); countries: ['KENYA']}
     CurrencyItem {code:'PGK'; numericCode:'598'; name:qsTr('Kina'); countries: ['PAPUA NEW GUINEA']}
     CurrencyItem {code:'LAK'; numericCode:'418'; name:qsTr('Kip'); countries: ['LAO PEOPLES DEMOCRATIC REPUBLIC']}
-    CurrencyItem {code:'EEK'; numericCode:'233'; name:qsTr('Kroon'); countries: ['ESTONIA']}
+    //CurrencyItem {code:'EEK'; numericCode:'233'; name:qsTr('Kroon'); countries: ['ESTONIA']}
     CurrencyItem {code:'KWD'; numericCode:'414'; name:qsTr('Kuwaiti Dinar'); countries: ['KUWAIT']}
     CurrencyItem {code:'ZMK'; numericCode:'894'; name:qsTr('Zambian Kwacha'); countries: ['ZAMBIA']}
     CurrencyItem {code:'MWK'; numericCode:'454'; name:qsTr('Malawian Kwacha'); countries: ['MALAWI']}
