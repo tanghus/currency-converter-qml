@@ -22,6 +22,7 @@ TRANSLATIONS = \
     translations/en_GB.ts \
     translations/fi_FI.ts \
     translations/fr.ts \
+    translations/it_IT.ts \
     translations/nl.ts \
     translations/pl_PL.ts \
     translations/ru.ts \
