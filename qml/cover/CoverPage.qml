@@ -51,6 +51,7 @@ CoverBackground {
             text: qsTr('Currencies');
             //font.family: Theme.fontFamilyHeading;
             //font.pixelSize: Theme.fontSizeSmall;
+            width: parent.width;
             truncationMode: TruncationMode.Fade;
             horizontalAlignment: Text.AlignHCenter;
         }
