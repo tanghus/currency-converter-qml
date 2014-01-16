@@ -128,7 +128,7 @@ VisualItemModel {
     CurrencyItem {code:'RON'; numericCode:'946'; name:qsTr('New Leu'); countries: ['ROMANIA']}
     CurrencyItem {code:'NZD'; numericCode:'554'; name:qsTr('New Zealand Dollar'); countries: ['COOK ISLANDS', 'NEW ZEALAND', 'NIUE', 'PITCAIRN', 'TOKELAU']}
     CurrencyItem {code:'TWD'; numericCode:'901'; name:qsTr('New Taiwan Dollar'); countries: ['TAIWAN']}
-    CurrencyItem {code:'TRY'; numericCode:'949'; name:qsTr('New Turkish Lira'); countries: ['TURKEY']}
+    CurrencyItem {code:'TRY'; numericCode:'949'; name:qsTr('Turkish Lira'); countries: ['TURKEY']}
     CurrencyItem {code:'KPW'; numericCode:'408'; name:qsTr('North Korean Won'); countries: ['KOREA']}
     CurrencyItem {code:'NOK'; numericCode:'578'; name:qsTr('Norwegian Krone'); countries: ['BOUVET ISLAND', 'NORWAY', 'SVALBARD AND JAN MAYEN']}
     CurrencyItem {code:'PEN'; numericCode:'604'; name:qsTr('Nuevo Sol'); countries: ['PERU']}
