@@ -1,0 +1,7 @@
+Currency Converter TODO:
+
+- Rewrite CurrencyModel inheriting QAbstractListModel and use
+  QList<QLocale> allLocales = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale::AnyScript, QLocale::AnyCountry);
+  to get complete list.
+
+- Better error checking and reporting. Use native notifications.
