@@ -36,7 +36,7 @@ VisualItemModel {
     CurrencyItem {code:'DZD'; numericCode:'012'; name:qsTr('Algerian Dinar'); countries: ['ALGERIA']}
     CurrencyItem {code:'ARS'; numericCode:'032'; name:qsTr('Argentine Peso'); countries: ['ARGENTINA']}
     CurrencyItem {code:'AMD'; numericCode:'051'; name:qsTr('Armenian Dram'); countries: ['ARMENIA']}
-    CurrencyItem {code:'AWG'; numericCode:'533'; name:qsTr('Aruban Guilder'); countries: ['ARUBA']}
+    CurrencyItem {code:'AWG'; numericCode:'533'; name:qsTr('Aruban Florin'); countries: ['ARUBA']}
     CurrencyItem {code:'AUD'; numericCode:'036'; name:qsTr('Australian Dollar'); countries: ['AUSTRALIA', 'CHRISTMAS ISLAND', 'COCOS (KEELING) ISLANDS', 'HEARD ISLAND AND MCDONALD ISLANDS', 'KIRIBATI', 'NAURU', 'NORFOLK ISLAND', 'TUVALU']}
     CurrencyItem {code:'AZN'; numericCode:'944'; name:qsTr('Azerbaijanian Manat'); countries: ['AZERBAIJAN']}
     CurrencyItem {code:'BSD'; numericCode:'044'; name:qsTr('Bahamian Dollar'); countries: ['BAHAMAS']}
