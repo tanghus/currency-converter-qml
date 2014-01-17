@@ -539,7 +539,7 @@
     </message>
     <message>
         <location filename="../qml/components/CurrencyModel.qml" line="131"/>
-        <source>New Turkish Lira</source>
+        <source>Turkish Lira</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

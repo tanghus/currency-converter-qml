@@ -390,11 +390,16 @@
     <message>
         <location filename="../qml/components/CurrencyModel.qml" line="101"/>
         <source>Zambian Kwacha</source>
-        <translation type="unfinished"></translation>
+        <translation>Zambian Kwacha</translation>
     </message>
     <message>
         <location filename="../qml/components/CurrencyModel.qml" line="102"/>
         <source>Malawian Kwacha</source>
+        <translation>Malawian Kwacha</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/CurrencyModel.qml" line="131"/>
+        <source>Turkish Lira</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -536,11 +541,6 @@
         <location filename="../qml/components/CurrencyModel.qml" line="130"/>
         <source>New Taiwan Dollar</source>
         <translation>New Taiwan Dollar</translation>
-    </message>
-    <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="131"/>
-        <source>New Turkish Lira</source>
-        <translation>New Turkish Lira</translation>
     </message>
     <message>
         <location filename="../qml/components/CurrencyModel.qml" line="132"/>
@@ -705,7 +705,7 @@
     <message>
         <location filename="../qml/components/CurrencyModel.qml" line="165"/>
         <source>South Sudanese Pound</source>
-        <translation type="unfinished"></translation>
+        <translation>South Sudanese Pound</translation>
     </message>
     <message>
         <location filename="../qml/components/CurrencyModel.qml" line="166"/>

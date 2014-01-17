@@ -398,6 +398,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/components/CurrencyModel.qml" line="131"/>
+        <source>Turkish Lira</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/components/CurrencyModel.qml" line="100"/>
         <source>Kuwaiti Dinar</source>
         <translation type="unfinished"></translation>
@@ -535,11 +540,6 @@
     <message>
         <location filename="../qml/components/CurrencyModel.qml" line="130"/>
         <source>New Taiwan Dollar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="131"/>
-        <source>New Turkish Lira</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
