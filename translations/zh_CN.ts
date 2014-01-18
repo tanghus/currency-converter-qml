@@ -94,7 +94,7 @@
     </message>
     <message>
         <location filename="../qml/components/CurrencyModel.qml" line="39"/>
-        <source>Aruban Guilder</source>
+        <source>Aruban Florin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

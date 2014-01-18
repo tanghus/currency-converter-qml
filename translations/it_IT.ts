@@ -93,11 +93,6 @@
         <translation>Dram armeno</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="39"/>
-        <source>Aruban Guilder</source>
-        <translation>Fiorino di Aruba</translation>
-    </message>
-    <message>
         <location filename="../qml/components/CurrencyModel.qml" line="40"/>
         <source>Australian Dollar</source>
         <translation>Dollaro australiano</translation>
@@ -406,6 +401,11 @@
         <location filename="../qml/components/CurrencyModel.qml" line="100"/>
         <source>Kuwaiti Dinar</source>
         <translation>Dinaro kuwaitiano</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/CurrencyModel.qml" line="39"/>
+        <source>Aruban Florin</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/components/CurrencyModel.qml" line="103"/>
