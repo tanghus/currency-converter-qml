@@ -102,7 +102,7 @@ ApplicationWindow {
 
         onMessage: {
             if(messageObject.quote) {
-                result = String(messageObject.quote * multiplier);
+                result = Number(messageObject.quote * multiplier).toFixed(4);
             } else {
                 console.log(messageObject.error);
             }
