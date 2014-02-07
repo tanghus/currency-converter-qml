@@ -66,6 +66,21 @@ Dialog {
                 }
             }
         }
+        Row {
+            id: decimals;
+            Label {
+                text: qsTr('Number of decimals');
+            }
+            TextField {
+                id: decimalsValue;
+                text: numDecimals;
+                horizontalAlignment: TextInput.AlignRight;
+                inputMethodHints: Qt.ImhFormattedNumbersOnly;
+                validator: IntValidator {
+                    bottom: 0;
+                }
+            }
+        }
     }
     onDone: {
         if(result == DialogResult.Accepted) {
@@ -74,6 +89,9 @@ Dialog {
                 timer.start()
             }
 
+            numDecimals = parseInt(decimalsValue.text);
+
+            settings.setValue('numDecimals', numDecimals);
             settings.setValue('refreshInterval', refreshInterval);
         }
     }

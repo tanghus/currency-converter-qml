@@ -39,18 +39,21 @@ ApplicationWindow {
 
     id: app;
 
-    property string fromCode: 'USD';
-    property string toCode: 'EUR';
+    property string fromCode;
+    property string toCode;
 
     // Usually the same as above, but can be e.g. £ or $
-    property string fromSymbol: '$';
-    property string toSymbol: '€';
+    property string fromSymbol;
+    property string toSymbol;
 
     // The amount to multiply the quote with
-    property int multiplier: 1;
+    property int multiplier;
 
     // Refresh interval in minutes
-    property int refreshInterval: 60;
+    property int refreshInterval;
+
+    // The number of decimals to show the result with
+    property int numDecimals;
 
     // The last result before multiplication
     property string quote: '1';
@@ -72,12 +75,15 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        console.log('Ready');
+        setBusy(true);
         refreshInterval = settings.value('refreshInterval', 60);
         fromCode = settings.value('currencyCodeFrom', 'USD');
         toCode = settings.value('currencyCodeTo', 'EUR');
         multiplier = settings.value('amount', 1);
+        numDecimals = settings.value('numDecimals', 4);
         quote = settings.value('quote', '1');
+        console.log('Ready', fromCode, toCode);
+        setBusy(false);
         //startUp();
         getQuote();
     }
@@ -102,7 +108,7 @@ ApplicationWindow {
 
         onMessage: {
             if(messageObject.quote) {
-                result = Number(messageObject.quote * multiplier).toFixed(4);
+                result = Number(messageObject.quote * multiplier).toFixed(numDecimals);
             } else {
                 console.log(messageObject.error);
             }
@@ -122,6 +128,10 @@ ApplicationWindow {
             timer.restart();
         }
         myWorker.sendMessage({'quote': fromCode + toCode});
+
+        settings.setValue('currencyCodeFrom', fromCode);
+        settings.setValue('currencyCodeTo', toCode);
+        settings.setValue('amount', multiplier);
     }
 
     function setBusy(state) {

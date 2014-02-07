@@ -114,6 +114,7 @@ Page {
                 label: qsTr('From');
                 currentCurrency: fromCode;
                 onActivated: {
+                    console.log('fromCombo', currency.code);
                     fromCode = currency.code;
                     fromSymbol = currency.getSymbol();
                     getQuote();
@@ -124,6 +125,7 @@ Page {
                 label: qsTr('To');
                 currentCurrency: toCode;
                 onActivated: {
+                    console.log('toCombo', currency.code);
                     toCode = currency.code;
                     toSymbol = currency.getSymbol();
                     getQuote();

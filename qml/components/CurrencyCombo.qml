@@ -49,7 +49,7 @@ ComboBox {
 
         for(var i = 0; i < currencies.length; i++ ) {
             if(currencies[i].code === currentCurrency) {
-                currentIndex = i;
+                currentItem = currencies[i];
                 return;
             }
         }

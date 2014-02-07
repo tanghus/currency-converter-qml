@@ -53,7 +53,9 @@ OTHER_FILES += \
     qml/components/CurrencyCombo.qml \
     qml/harbour-currencyconverter.qml \
     transifex.sh \
-    .travis.yml
+    .travis.yml \
+    Changelog \
+    TODO
 
 lupdate_only {
     SOURCES += $${QML_FILES}
