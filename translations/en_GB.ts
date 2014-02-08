@@ -891,7 +891,7 @@
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="72"/>
         <source>Number of decimals</source>
-        <translation type="unfinished"></translation>
+        <translation>Number of decimals</translation>
     </message>
 </context>
 </TS>
