@@ -111,7 +111,8 @@ VisualItemModel {
     CurrencyItem {code:'LRD'; numericCode:'430'; name:qsTr('Liberian Dollar'); countries: ['LIBERIA']}
     CurrencyItem {code:'SZL'; numericCode:'748'; name:qsTr('Lilangeni'); countries: ['SWAZILAND']}
     CurrencyItem {code:'LYD'; numericCode:'434'; name:qsTr('Libyan Dinar'); countries: ['LIBYAN ARAB JAMAHIRIYA']}
-    CurrencyItem {code:'LTL'; numericCode:'440'; name:qsTr('Lithuanian Litas'); countries: ['LITHUANIA']}
+    // Lithuania uses Euro from 1 January 2015
+    //CurrencyItem {code:'LTL'; numericCode:'440'; name:qsTr('Lithuanian Litas'); countries: ['LITHUANIA']}
     CurrencyItem {code:'MGA'; numericCode:'969'; name:qsTr('Malagasy Ariary'); countries: ['MADAGASCAR']}
     CurrencyItem {code:'MYR'; numericCode:'458'; name:qsTr('Malaysian Ringgit'); countries: ['MALAYSIA']}
     CurrencyItem {code:'TMM'; numericCode:'795'; name:qsTr('Manat'); countries: ['TURKMENISTAN']}
