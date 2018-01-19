@@ -31,7 +31,7 @@
 
 QmlSettings::QmlSettings(QObject *parent) :
     QObject(parent) {
-    _settings = new QSettings("Tanghus", "net.tanghus.currencyconverter.sailfish");
+    _settings = new QSettings("harbour-currencyconverter", "net.tanghus.currencyconverter.sailfish");
 }
 
 QVariant QmlSettings::value(const QString &key, const QVariant & defaultValue) {
