@@ -1,0 +1,7 @@
+0.3
+- Update currency model.
+
+0.2
+- Add settings for number of decimals to show in the result.
+- Adjust CurrencyCombo to changes in Silica ComboBox in 1.0.3.8.
+- Last currencies weren't being used on start after update to 1.0.3.8.
