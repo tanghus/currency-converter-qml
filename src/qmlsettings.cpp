@@ -39,6 +39,11 @@ QVariant QmlSettings::value(const QString &key, const QVariant & defaultValue) {
    if(value.isNull()) {
        value = defaultValue;
    }
+   if(value == "false") {
+       return false;
+   } else if(value == "true") {
+       return true;
+   }
    return value;
 }
 
