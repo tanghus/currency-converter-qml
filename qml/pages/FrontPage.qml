@@ -161,6 +161,14 @@ Page {
                     horizontalAlignment: Text.AlignHCenter;
                     verticalAlignment: Text.AlignBottom;
                 }
+                // Set the time updated. Use Date().toLocaleString(Qt.locale())
+                Label {
+                    width: parent.width;
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere;
+                    font.pixelSize: Theme.fontSizeExtraSmall;
+                    color: Theme.secondaryColor;
+                    text: "";
+                }
             }
         }
     }
