@@ -86,7 +86,7 @@ VisualItemModel {
     CurrencyItem {code:'GNF'; numericCode:'324'; name:qsTr('Guinea Franc'); countries: ['GUINEA']}
     CurrencyItem {code:'GYD'; numericCode:'328'; name:qsTr('Guyana Dollar'); countries: ['GUYANA']}
     CurrencyItem {code:'HKD'; numericCode:'344'; name:qsTr('Hong Kong Dollar'); countries: ['HONG KONG']}
-    CurrencyItem {code:'UAH'; numericCode:'980'; name:qsTr('Hryvnia'); countries: ['UKRAINE']}
+    CurrencyItem {code:'UAH'; numericCode:'980'; name:qsTr('Ukrainian Hryvna'); countries: ['UKRAINE']}
     CurrencyItem {code:'ISK'; numericCode:'352'; name:qsTr('Iceland Krona'); countries: ['ICELAND']}
     CurrencyItem {code:'INR'; numericCode:'356'; name:qsTr('Indian Rupee'); countries: ['INDIA']}
     CurrencyItem {code:'IRR'; numericCode:'364'; name:qsTr('Iranian Rial'); countries: ['IRAN']}
