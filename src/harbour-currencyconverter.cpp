@@ -40,6 +40,8 @@
 #include <QDebug>
 #include "qmlsettings.h"
 
+// TODO: Use http://doc.qt.io/qt-5/qnetworkconfigurationmanager.html to check for online state.
+
 int main(int argc, char *argv[]) {
     QGuiApplication *app = SailfishApp::application(argc, argv);
     QQuickView *view = SailfishApp::createView();
