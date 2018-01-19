@@ -134,6 +134,7 @@ VisualItemModel {
     CurrencyItem {code:'NOK'; numericCode:'578'; name:qsTr('Norwegian Krone'); countries: ['BOUVET ISLAND', 'NORWAY', 'SVALBARD AND JAN MAYEN']}
     CurrencyItem {code:'PEN'; numericCode:'604'; name:qsTr('Nuevo Sol'); countries: ['PERU']}
     CurrencyItem {code:'MRO'; numericCode:'478'; name:qsTr('Ouguiya'); countries: ['MAURITANIA']}
+    CurrencyItem {code:'MRU'; numericCode:'929'; name:qsTr('Ouguiya'); countries: ['MAURITANIA']}
     CurrencyItem {code:'PKR'; numericCode:'586'; name:qsTr('Pakistan Rupee'); countries: ['PAKISTAN']}
     CurrencyItem {code:'XPD'; numericCode:'964'; name:qsTr('Palladium'); countries: []}
     CurrencyItem {code:'MOP'; numericCode:'446'; name:qsTr('Pataca'); countries: ['MACAO']}
