@@ -5,3 +5,4 @@ env:
 script:
 - ./transifex.sh
 
+group: deprecated-2017Q4
