@@ -2,8 +2,6 @@
 #
 # This is only to be used by travis-ci
 
-pip install --exists-action s urllib3
-
 git clone http://code.transifex.com/transifex-client > /dev/null || exit 1
 cd transifex-client || exit 1
 python setup.py install --user > /dev/null
