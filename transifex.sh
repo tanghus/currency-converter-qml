@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+#
+# This is only to be used by travis-ci
+
+pip install urllib3
 
 git clone http://code.transifex.com/transifex-client > /dev/null || exit 1
 cd transifex-client || exit 1
