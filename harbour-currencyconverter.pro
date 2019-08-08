@@ -12,9 +12,16 @@ DEPLOYMENT_PATH = /usr/share/$${TARGET}
 
 CONFIG += sailfishapp
 
+#QT += network quick
+
 SOURCES += \
     src/$${TARGET}.cpp \
     src/qmlsettings.cpp
+
+HEADERS += \
+    src/qmlsettings.h
+#    src/network/networkplugin.h \
+#    src/network/network.h
 
 TRANSLATIONS = \
     translations/ca.ts \
@@ -71,7 +78,8 @@ OTHER_FILES += \
     README.md \
     LICENSE
 
-HEADERS += \
-    src/qmlsettings.h
-
 INSTALLS += translations
+
+#TEMPLATE = subdirs
+#SUBDIRS = src
+#SUBDIRS = src/network src
