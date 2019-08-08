@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="en">
+<TS version="2.1" language="en">
 <context>
     <name>AboutPage</name>
     <message>
@@ -32,7 +32,6 @@
         <location filename="../qml/pages/AboutPage.qml" line="48"/>
         <source>the project page</source>
         <comment>Link text</comment>
-        <extracomment>Link to Github project page</extracomment>
         <translation>the project page</translation>
     </message>
     <message>
@@ -46,7 +45,6 @@
         <location filename="../qml/pages/AboutPage.qml" line="50"/>
         <source>issue tracker</source>
         <comment>Link text</comment>
-        <extracomment>Link to the issue tracker</extracomment>
         <translation>issue tracker</translation>
     </message>
     <message>
@@ -65,7 +63,7 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="51"/>
+        <location filename="../qml/cover/CoverPage.qml" line="49"/>
         <source>Currencies</source>
         <translation>Currencies</translation>
     </message>
@@ -333,11 +331,6 @@
         <translation>Hong Kong Dollar</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="89"/>
-        <source>Hryvnia</source>
-        <translation>Hryvnia</translation>
-    </message>
-    <message>
         <location filename="../qml/components/CurrencyModel.qml" line="90"/>
         <source>Iceland Krona</source>
         <translation>Iceland Krona</translation>
@@ -393,7 +386,7 @@
         <translation>Malawian Kwacha</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="131"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="132"/>
         <source>Turkish Lira</source>
         <translation>Turkish Lira</translation>
     </message>
@@ -406,6 +399,11 @@
         <location filename="../qml/components/CurrencyModel.qml" line="39"/>
         <source>Aruban Florin</source>
         <translation>Aruban Florin</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/CurrencyModel.qml" line="89"/>
+        <source>Ukrainian Hryvna</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/components/CurrencyModel.qml" line="103"/>
@@ -458,372 +456,368 @@
         <translation>Libyan Dinar</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="114"/>
-        <source>Lithuanian Litas</source>
-        <translation>Lithuanian Litas</translation>
-    </message>
-    <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="115"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="116"/>
         <source>Malagasy Ariary</source>
         <translation>Malagasy Ariary</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="116"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="117"/>
         <source>Malaysian Ringgit</source>
         <translation>Malaysian Ringgit</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="117"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="118"/>
         <source>Manat</source>
         <translation>Manat</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="118"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="119"/>
         <source>Mauritius Rupee</source>
         <translation>Mauritius Rupee</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="119"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="120"/>
         <source>Metical</source>
         <translation>Metical</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="120"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="121"/>
         <source>Mexican Peso</source>
         <translation>Mexican Peso</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="121"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="122"/>
         <source>Moldovan Leu</source>
         <translation>Moldovan Leu</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="122"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="123"/>
         <source>Moroccan Dirham</source>
         <translation>Moroccan Dirham</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="123"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="124"/>
         <source>Naira</source>
         <translation>Naira</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="124"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="125"/>
         <source>Nakfa</source>
         <translation>Nakfa</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="125"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="126"/>
         <source>Nepalese Rupee</source>
         <translation>Nepalese Rupee</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="126"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="127"/>
         <source>Netherlands Antillian Guilder</source>
         <translation>Netherlands Antillian Guilder</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="127"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="128"/>
         <source>New Israeli Sheqel</source>
         <translation>New Israeli Sheqel</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="128"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="129"/>
         <source>New Leu</source>
         <translation>New Leu</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="129"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="130"/>
         <source>New Zealand Dollar</source>
         <translation>New Zealand Dollar</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="130"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="131"/>
         <source>New Taiwan Dollar</source>
         <translation>New Taiwan Dollar</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="132"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="133"/>
         <source>North Korean Won</source>
         <translation>North Korean Won</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="133"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="134"/>
         <source>Norwegian Krone</source>
         <translation>Norwegian Krone</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="134"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="135"/>
         <source>Nuevo Sol</source>
         <translation>Nuevo Sol</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="135"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="136"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="137"/>
         <source>Ouguiya</source>
         <translation>Ouguiya</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="136"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="138"/>
         <source>Pakistan Rupee</source>
         <translation>Pakistan Rupee</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="137"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="139"/>
         <source>Palladium</source>
         <translation>Palladium</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="138"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="140"/>
         <source>Pataca</source>
         <translation>Pataca</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="139"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="141"/>
         <source>Philippine Peso</source>
         <translation>Philippine Peso</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="140"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="142"/>
         <source>Platinum</source>
         <translation>Platinum</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="141"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="143"/>
         <source>Pound Sterling</source>
         <translation>Pound Sterling</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="142"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="144"/>
         <source>Pula</source>
         <translation>Pula</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="143"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="145"/>
         <source>Qatari Rial</source>
         <translation>Qatari Rial</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="144"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="146"/>
         <source>Quetzal</source>
         <translation>Quetzal</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="145"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="147"/>
         <source>Paanga</source>
         <translation>Paanga</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="146"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="148"/>
         <source>Rand</source>
         <translation>Rand</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="147"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="149"/>
         <source>Rial Omani</source>
         <translation>Rial Omani</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="148"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="150"/>
         <source>Riel</source>
         <translation>Riel</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="149"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="151"/>
         <source>Rufiyaa</source>
         <translation>Rufiyaa</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="150"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="152"/>
         <source>Rupiah</source>
         <translation>Rupiah</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="151"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="153"/>
         <source>Russian Ruble</source>
         <translation>Russian Ruble</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="152"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="154"/>
         <source>Rwanda Franc</source>
         <translation>Rwanda Franc</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="153"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="155"/>
         <source>Saint Helena Pound</source>
         <translation>Saint Helena Pound</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="154"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="156"/>
         <source>Saudi Riyal</source>
         <translation>Saudi Riyal</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="155"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="157"/>
         <source>SDR</source>
         <translation>SDR</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="156"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="158"/>
         <source>Seychelles Rupee</source>
         <translation>Seychelles Rupee</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="157"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="159"/>
         <source>Serbian Dinar</source>
         <translation>Serbian Dinar</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="158"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="160"/>
         <source>Silver</source>
         <translation>Silver</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="159"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="161"/>
         <source>Singapore Dollar</source>
         <translation>Singapore Dollar</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="161"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="163"/>
         <source>Solomon Islands Dollar</source>
         <translation>Solomon Islands Dollar</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="162"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="164"/>
         <source>Somoni</source>
         <translation>Somoni</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="163"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="165"/>
         <source>Som</source>
         <translation>Som</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="164"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="166"/>
         <source>Somali Shilling</source>
         <translation>Somali Shilling</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="165"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="167"/>
         <source>South Sudanese Pound</source>
         <translation>South Sudanese Pound</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="166"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="168"/>
         <source>Sri Lanka Rupee</source>
         <translation>Sri Lanka Rupee</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="167"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="169"/>
         <source>Sudanese Pound</source>
         <translation>Sudanese Pound</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="168"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="170"/>
         <source>Surinam Dollar</source>
         <translation>Surinam Dollar</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="169"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="171"/>
         <source>Swedish Krona</source>
         <translation>Swedish Krona</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="170"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="172"/>
         <source>Swiss Franc</source>
         <translation>Swiss Franc</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="171"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="173"/>
         <source>Syrian Pound</source>
         <translation>Syrian Pound</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="172"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="174"/>
         <source>Tunisian Dinar</source>
         <translation>Tunisian Dinar</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="173"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="175"/>
         <source>Taka</source>
         <translation>Taka</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="174"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="176"/>
         <source>Tala</source>
         <translation>Tala</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="175"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="177"/>
         <source>Tanzanian Shilling</source>
         <translation>Tanzanian Shilling</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="176"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="178"/>
         <source>Tenge</source>
         <translation>Tenge</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="177"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="179"/>
         <source>Trinidad and Tobago Dollar</source>
         <translation>Trinidad and Tobago Dollar</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="178"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="180"/>
         <source>Tugrik</source>
         <translation>Tugrik</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="179"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="181"/>
         <source>UAE Dirham</source>
         <translation>UAE Dirham</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="180"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="182"/>
         <source>US Dollar</source>
         <translation>US Dollar</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="181"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="183"/>
         <source>Won</source>
         <translation>Won</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="182"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="184"/>
         <source>Yen</source>
         <translation>Yen</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="183"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="185"/>
         <source>Yuan Renminbi</source>
         <translation>Yuan Renminbi</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="184"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="186"/>
         <source>Uganda Shilling</source>
         <translation>Uganda Shilling</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="185"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="187"/>
         <source>Uzbekistan Sum</source>
         <translation>Uzbekistan Sum</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="186"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="188"/>
         <source>Vatu</source>
         <translation>Vatu</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="187"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="189"/>
         <source>Yemeni Rial</source>
         <translation>Yemeni Rial</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="188"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="190"/>
         <source>Zimbabwe Dollar</source>
         <translation>Zimbabwe Dollar</translation>
     </message>
     <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="189"/>
+        <location filename="../qml/components/CurrencyModel.qml" line="191"/>
         <source>Zloty</source>
         <translation>Zloty</translation>
     </message>
@@ -831,42 +825,42 @@
 <context>
     <name>FrontPage</name>
     <message>
-        <location filename="../qml/pages/FrontPage.qml" line="65"/>
+        <location filename="../qml/pages/FrontPage.qml" line="63"/>
         <source>About</source>
         <translation>About</translation>
     </message>
     <message>
-        <location filename="../qml/pages/FrontPage.qml" line="71"/>
+        <location filename="../qml/pages/FrontPage.qml" line="69"/>
         <source>Open website</source>
         <translation>Open website</translation>
     </message>
     <message>
-        <location filename="../qml/pages/FrontPage.qml" line="75"/>
+        <location filename="../qml/pages/FrontPage.qml" line="73"/>
         <source>Settings</source>
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="../qml/pages/FrontPage.qml" line="81"/>
+        <location filename="../qml/pages/FrontPage.qml" line="79"/>
         <source>Switch currencies</source>
         <translation>Switch currencies</translation>
     </message>
     <message>
-        <location filename="../qml/pages/FrontPage.qml" line="92"/>
+        <location filename="../qml/pages/FrontPage.qml" line="90"/>
         <source>Update</source>
         <translation>Update</translation>
     </message>
     <message>
-        <location filename="../qml/pages/FrontPage.qml" line="110"/>
+        <location filename="../qml/pages/FrontPage.qml" line="108"/>
         <source>Currency Converter</source>
         <translation>Currency Converter</translation>
     </message>
     <message>
-        <location filename="../qml/pages/FrontPage.qml" line="114"/>
+        <location filename="../qml/pages/FrontPage.qml" line="112"/>
         <source>From</source>
         <translation>From</translation>
     </message>
     <message>
-        <location filename="../qml/pages/FrontPage.qml" line="125"/>
+        <location filename="../qml/pages/FrontPage.qml" line="123"/>
         <source>To</source>
         <translation>To</translation>
     </message>
@@ -874,22 +868,27 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="45"/>
-        <source>Update</source>
-        <translation>Update</translation>
-    </message>
-    <message>
         <location filename="../qml/pages/SettingsPage.qml" line="46"/>
-        <source>Update exchange rate regularly</source>
-        <translation>Update exchange rate regularly</translation>
+        <source>Settings</source>
+        <translation type="unfinished">Settings</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="57"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="65"/>
+        <source>Work offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="66"/>
+        <source>Use available locally stored exchange rates instead of querying online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="76"/>
         <source>Update interval (minutes)</source>
         <translation>Update interval (minutes)</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="72"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="91"/>
         <source>Number of decimals</source>
         <translation>Number of decimals</translation>
     </message>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="it_IT">
+<TS version="2.1">
 <context>
     <name>AboutPage</name>
     <message>
@@ -336,6 +336,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/components/CurrencyModel.qml" line="89"/>
+        <source>Ukrainian Hryvna</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/components/CurrencyModel.qml" line="90"/>
         <source>Iceland Krona</source>
         <translation type="unfinished"></translation>
@@ -443,11 +448,6 @@
     <message>
         <location filename="../qml/components/CurrencyModel.qml" line="113"/>
         <source>Libyan Dinar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/components/CurrencyModel.qml" line="89"/>
-        <source>Ukrainian Hryvna</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
