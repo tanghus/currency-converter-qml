@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013-2018 Thomas Tanghus <thomas@tanghus.net>
+  Copyright (C) 2013-2019 Thomas Tanghus <thomas@tanghus.net>
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -27,7 +27,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
+import QtQuick 2.6
 import Sailfish.Silica 1.0
 
 CoverBackground {
@@ -35,48 +35,66 @@ CoverBackground {
     property bool active: status === Cover.Active;
 
     BusyIndicator {
-        id: busyIndicator;
-        anchors.centerIn: parent;
-        size: BusyIndicatorSize.Large;
-        running: isBusy && active;
+        id: busyIndicator
+        anchors.centerIn: parent
+        size: BusyIndicatorSize.Large
+        running: isBusy && active
     }
 
     Column {
         anchors.fill: parent;
-        anchors.leftMargin: Theme.paddingLarge
-        anchors.rightMargin: Theme.paddingLarge
-        Label {
-            text: qsTr('Currencies');
-            //font.family: Theme.fontFamilyHeading;
-            //font.pixelSize: Theme.fontSizeSmall;
-            width: parent.width;
-            truncationMode: TruncationMode.Fade;
-            horizontalAlignment: Text.AlignHCenter;
+        anchors {
+            topMargin:  Theme.paddingLarge
+            leftMargin: Theme.paddingLarge
+            rightMargin: Theme.paddingLarge
         }
         Label {
-            text: fromSymbol + multiplier;
-            horizontalAlignment: Text.AlignHCenter;
-            verticalAlignment: Text.AlignBottom;
-            width: parent.width;
+            text: qsTr('Currency')
+            font {
+                bold: true
+                family: Theme.fontFamilyHeading
+                pixelSize: Theme.fontSizeLarge
+            }
+            width: parent.width
+            truncationMode: TruncationMode.Fade
+            horizontalAlignment: Text.AlignHCenter
         }
         Label {
-            text: ' = ';
-            horizontalAlignment: Text.AlignHCenter;
-            width: parent.width;
+            text: qsTr('Converter')
+            font.bold: true
+            font.family: Theme.fontFamilyHeading
+            font.pixelSize: Theme.fontSizeLarge
+            width: parent.width
+            truncationMode: TruncationMode.Fade
+            horizontalAlignment: Text.AlignHCenter
         }
         Label {
-            text: toSymbol + result;
-            horizontalAlignment: Text.AlignHCenter;
-            width: parent.width;
+            text: fromSymbol + ' ' + multiplier
+            font.pixelSize: Theme.fontSizeLarge
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignBottom
+            width: parent.width
+        }
+        Label {
+            text: ' = '
+            font.pixelSize: Theme.fontSizeLarge
+            horizontalAlignment: Text.AlignHCenter
+            width: parent.width
+        }
+        Label {
+            text: toSymbol + ' ' + qsTr("%L1").arg(result)
+            font.pixelSize: Theme.fontSizeLarge
+            horizontalAlignment: Text.AlignHCenter
+            width: parent.width
         }
     }
 
     CoverActionList {
-        id: coverActionSync;
+        id: coverActionSync
 
         CoverAction {
-            iconSource: "image://theme/icon-cover-sync";
-            onTriggered: getQuote();
+            iconSource: "image://theme/icon-cover-sync"
+            onTriggered: getRate()
         }
     }
 }

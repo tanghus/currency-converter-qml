@@ -38,31 +38,22 @@
 #include <QLocale>
 #include <QTranslator>
 #include <QDebug>
-#include <qnetworkconfigmanager.h>
-#include <qnetworksession.h>
-#include "qmlsettings.h"
-
-// TODO: Use http://doc.qt.io/qt-5/qnetworkconfigurationmanager.html to check for online state.
 
 int main(int argc, char *argv[]) {
     QGuiApplication *app = SailfishApp::application(argc, argv);
     QQuickView *view = SailfishApp::createView();
-    QmlSettings *settings = new QmlSettings();
     QTranslator *translator = new QTranslator;
-    bool isOnline = false;
 
-    QNetworkConfigurationManager ncm;
+    QString locale = QLocale::system().name();
+    QString translation = SailfishApp::pathTo("translations").toLocalFile() + "/" + locale + ".qm";
 
-    isOnline =  ncm.isOnline(); // ns->isOpen();
+    qDebug() << "Active translation for:" << locale << ": " << translation;
 
-    qDebug() << "Translations:" << SailfishApp::pathTo("translations").toLocalFile() + "/" + QLocale::system().name() + ".qm";
-
-    if(!translator->load(SailfishApp::pathTo("translations").toLocalFile() + "/" + QLocale::system().name() + ".qm")) {
+    if(!translator->load(translation)) {
         qDebug() << "Couldn't load translation";
     }
     app->installTranslator(translator);
-    view->rootContext()->setContextProperty("settings", settings);
-    view->rootContext()->setContextProperty("isOnline", isOnline);
+
     view->setSource(SailfishApp::pathTo("qml/harbour-currencyconverter.qml"));
     view->showFullScreen();
     return app->exec();

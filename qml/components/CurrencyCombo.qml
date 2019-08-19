@@ -27,41 +27,45 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
+import QtQuick 2.6
 import Sailfish.Silica 1.0
 
 ComboBox {
     id: currencyCombo;
 
-    signal activated(Item currency);
+    signal activated(Item currency, int idx)
 
-    property string currentCurrency;
+    property string currentCurrency
+    property bool ready: false
 
     onCurrentCurrencyChanged: {
-        console.log('Setting currency', currentCurrency, typeof currentCurrency, currentCurrency.length);
+        if(!ready) {
+            return
+        }
+
+        console.log('Setting currency', currentCurrency);
         if(typeof currentCurrency !== 'string' || currentCurrency.length !== 3) {
-            console.log('Trying to set invalid currency', currentCurrency);
+            console.warn('Trying to set invalid currency', currentCurrency);
+            notifier.notify('Trying to set invalid currency:', currentCurrency)
+
             return;
         }
 
-        // Use the children directly from the model as the menu isn't populated yet
+        // Use the children directly from the model as the menu isn't necessarily populated yet
         var currencies = currencyModel.children;
 
         for(var i = 0; i < currencies.length; i++ ) {
             if(currencies[i].code === currentCurrency) {
                 currentItem = currencies[i];
+                currencyCombo.activated(currentItem, i);
                 return;
             }
         }
     }
 
-    onCurrentIndexChanged: {
-        console.log('currentIndex changed', currentIndex);
-        var currency = currencyModel.children[currentIndex];
-        currencyCombo.activated(currency);
-        _updating = true;
-        currentCurrency = currency.code;
-        _updating = false;
+    Component.onCompleted: {
+        console.log('Combo.Ready')
+        ready = true
     }
 
     menu: ContextMenu {
@@ -70,11 +74,11 @@ ComboBox {
              model: currencyModel
         }
         onActivated: {
+            console.log('menu index: ', index)
+            console.log('menu parent: ', currencyCombo)
             var currency = contextMenu.children[index];
-            currencyCombo.activated(currency);
-            _updating = true;
+            //currencyCombo.activated(currency);
             currentCurrency = currency.code;
-            _updating = false;
         }
     }
 

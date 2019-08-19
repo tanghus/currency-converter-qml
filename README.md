@@ -1,7 +1,5 @@
-![Icon](https://raw2.github.com/tanghus/currency-converter-qml/master/harbour-currencyconverter.png) Currency Converter for SailfishOS
+![Icon](https://raw.githubusercontent.com/tanghus/currency-converter-qml/master/harbour-currencyconverter.png) Currency Converter for SailfishOS
 =================================
-
-[![Join the chat at https://gitter.im/tanghus/currency-converter-qml](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tanghus/currency-converter-qml?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 | branch      | status |
 | ----------- | ------ |

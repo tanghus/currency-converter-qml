@@ -1,5 +1,14 @@
 0.3
+- Currency Converter now uses https://exchangeratesapi.io/ instead Yahoo Finance.
+- Caching!!! Now all results are saved (on the device) and looked up before
+  trying to request newer rates from the service. You can select to work offline
+  so you won't be bothered with network availablity problems.
+- Detects online state, both the actual, and whether the user wants to work offline.
+- Settings dialog is much more intuitive now. Number of decimals in the result
+  can be set with a Slider.
+- Better error handling and notifications.
 - Update currency model.
+- Moves from homegrown settings class to Nemo.Configuration.
 
 0.2
 - Add settings for number of decimals to show in the result.
