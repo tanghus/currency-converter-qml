@@ -1,18 +1,22 @@
-# The name of your app.
-# NOTICE: name defined in TARGET has a corresponding QML filename.
-#         If name defined in TARGET is changed, following needs to be
-#         done to match new name:
-#         - corresponding QML filename must be changed
-#         - desktop icon filename must be changed
-#         - desktop filename must be changed
-#         - icon definition filename in desktop file must be changed
+# NOTICE:
+#
+# Application name defined in TARGET has a corresponding QML filename.
+# If name defined in TARGET is changed, the following needs to be done
+# to match new name:
+#   - corresponding QML filename must be changed
+#   - desktop icon filename must be changed
+#   - desktop filename must be changed
+#   - icon definition filename in desktop file must be changed
+#   - translation filenames have to be changed
+
+# The name of your application
 TARGET = harbour-currencyconverter
 
 DEPLOYMENT_PATH = /usr/share/$${TARGET}
 
-CONFIG += sailfishapp
+#QT += qml quick
 
-#QT += network quick
+CONFIG += sailfishapp
 
 SOURCES += \
     src/$${TARGET}.cpp \
@@ -20,66 +24,44 @@ SOURCES += \
 
 HEADERS += \
     src/qmlsettings.h
-#    src/network/networkplugin.h \
-#    src/network/network.h
 
-TRANSLATIONS = \
-    translations/ca.ts \
-    translations/da_DK.ts \
-    translations/de_DE.ts \
-    translations/en_GB.ts \
-    translations/fi_FI.ts \
-    translations/fr.ts \
-    translations/hu_HU.ts \
-    translations/it_IT.ts \
-    translations/nl.ts \
-    translations/pl_PL.ts \
-    translations/ru.ts \
-    translations/sv.ts \
-    translations/zh_CN.ts
-
-translations.files = translations
-translations.path = $${DEPLOYMENT_PATH}
-
-lupdate_only{
-SOURCES = \
-    qml/pages/FrontPage.qml \
-    qml/pages/SettingsPage.qml \
-    qml/pages/AboutPage.qml \
-    qml/cover/CoverPage.qml \
-    qml/components/CurrencyModel.qml
-}
-
-OTHER_FILES += \
-    qml/cover/CoverPage.qml \
-    qml/pages/FrontPage.qml \
-    qml/pages/AboutPage.qml \
-    qml/pages/SettingsPage.qml \
-    qml/components/CurrencyModel.qml \
-    qml/components/CurrencyItem.qml \
-    qml/components/CurrencyCombo.qml \
-    qml/harbour-currencyconverter.qml \
-    transifex.sh \
-    .travis.yml \
+DISTFILES += qml/harbour-currencyconverter.qml \
     Changelog \
-    TODO
-
-lupdate_only {
-    SOURCES += $${QML_FILES}
-}
-
-OTHER_FILES += \
-    $${QML_FILES} \
-    qml/js/provider.js \
-    harbour-currencyconverter.desktop \
-    rpm/harbour-currencyconverter.yaml \
-    harbour-currencyconverter.desktop \
-    qml/harbour-currencyconverter.qml \
+    LICENSE \
     README.md \
-    LICENSE
+    TODO \
+    flags/*.png \
+    qml/cover/CoverPage.qml \
+    rpm/harbour-currencyconverter.changes.in \
+    rpm/harbour-currencyconverter.changes.run.in \
+    rpm/harbour-currencyconverter.spec \
+    rpm/harbour-currencyconverter.yaml \
+    translations/*.ts \
+    harbour-currencyconverter.desktop \
+    translations/pl_PL.ts
 
-INSTALLS += translations
+SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 
-#TEMPLATE = subdirs
-#SUBDIRS = src
-#SUBDIRS = src/network src
+# to disable building translations every time, comment out the
+# following CONFIG line
+CONFIG += sailfishapp_i18n
+
+# German translation is enabled as an example. If you aren't
+# planning to localize your app, remember to comment out the
+# following TRANSLATIONS line. And also do not forget to
+# modify the localized app name in the the .desktop file.
+
+# TRANSLATION
+#lupdate_only{
+# Add .qml files here
+#}
+TRANSLATIONS += translations/*.ts
+
+SUBDIRS += \
+    src/src.pro
+
+INSTALLS += flags
+flags.files = flags
+flags.path = $${DEPLOYMENT_PATH}
+
+# translations
