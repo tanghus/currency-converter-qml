@@ -63,9 +63,19 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="49"/>
-        <source>Currencies</source>
-        <translation>Currencies</translation>
+        <location filename="../qml/cover/CoverPage.qml" line="52"/>
+        <source>Currency</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/cover/CoverPage.qml" line="63"/>
+        <source>Converter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/cover/CoverPage.qml" line="85"/>
+        <source>%L1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -826,71 +836,144 @@
     <name>FrontPage</name>
     <message>
         <location filename="../qml/pages/FrontPage.qml" line="63"/>
-        <source>About</source>
-        <translation>About</translation>
+        <source>Test</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/FrontPage.qml" line="69"/>
-        <source>Open website</source>
-        <translation>Open website</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/FrontPage.qml" line="73"/>
-        <source>Settings</source>
-        <translation>Settings</translation>
+        <source>About</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/FrontPage.qml" line="79"/>
-        <source>Switch currencies</source>
-        <translation>Switch currencies</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/FrontPage.qml" line="90"/>
-        <source>Update</source>
-        <translation>Update</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/FrontPage.qml" line="108"/>
-        <source>Currency Converter</source>
-        <translation>Currency Converter</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/FrontPage.qml" line="112"/>
-        <source>From</source>
-        <translation>From</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/FrontPage.qml" line="123"/>
-        <source>To</source>
-        <translation>To</translation>
-    </message>
-</context>
-<context>
-    <name>SettingsPage</name>
-    <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="46"/>
         <source>Settings</source>
         <translation type="unfinished">Settings</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="65"/>
+        <location filename="../qml/pages/FrontPage.qml" line="85"/>
+        <source>Switch currencies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FrontPage.qml" line="101"/>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FrontPage.qml" line="115"/>
+        <source>Currency Converter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FrontPage.qml" line="119"/>
+        <source>From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FrontPage.qml" line="130"/>
+        <source>To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FrontPage.qml" line="155"/>
+        <source>Amount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FrontPage.qml" line="189"/>
+        <source>%L1</source>
+        <extracomment>Just localizing the result. NOT to be translated</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FrontPage.qml" line="210"/>
+        <source>Working online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/FrontPage.qml" line="209"/>
+        <source>Working offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsDialog</name>
+    <message>
+        <location filename="../qml/pages/SettingsDialog.qml" line="51"/>
+        <source>Settings</source>
+        <translation type="unfinished">Settings</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsDialog.qml" line="62"/>
+        <source>Empty cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsDialog.qml" line="73"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsDialog.qml" line="74"/>
+        <source>There was an error clearing the cache.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsDialog.qml" line="93"/>
         <source>Work offline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="66"/>
+        <location filename="../qml/pages/SettingsDialog.qml" line="94"/>
         <source>Use available locally stored exchange rates instead of querying online</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="76"/>
-        <source>Update interval (minutes)</source>
-        <translation>Update interval (minutes)</translation>
+        <location filename="../qml/pages/SettingsDialog.qml" line="104"/>
+        <source>Number of decimals in result</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="91"/>
-        <source>Number of decimals</source>
-        <translation>Number of decimals</translation>
+        <location filename="../qml/pages/SettingsDialog.qml" line="121"/>
+        <source>Notice</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Storage</name>
+    <message>
+        <location filename="../qml/components/Storage.qml" line="35"/>
+        <location filename="../qml/components/Storage.qml" line="57"/>
+        <source>No table name has been set</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/Storage.qml" line="109"/>
+        <source>The number of values must match the number of fields</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/Storage.qml" line="113"/>
+        <source>The number of fields to update must be larger than one</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/Storage.qml" line="145"/>
+        <source>fields must be a string or an array.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>harbour-currencyconverter</name>
+    <message>
+        <location filename="../qml/harbour-currencyconverter.qml" line="196"/>
+        <source>Network is down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/harbour-currencyconverter.qml" line="266"/>
+        <source>You have chosen to work offline, but the currency combination  %1 =&gt; %2 is not in the cache.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
