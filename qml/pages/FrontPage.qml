@@ -153,6 +153,7 @@ Page {
                     id: amountText;
                     text: multiplier;
                     label: qsTr('Amount')
+                    placeholderText: label
                     //anchors.left: fromSymbolLabel.right;
                     //anchors.rightMargin: fromSymbolLabel.right;
                     width: Math.round(frontPage.width/3.5)

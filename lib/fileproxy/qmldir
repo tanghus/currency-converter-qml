@@ -1,0 +1,2 @@
+module net.tanghus.qmlcomponents
+plugin FileProxy
