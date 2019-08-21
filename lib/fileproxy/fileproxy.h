@@ -8,7 +8,7 @@
 
 class FileProxy : public QQuickItem {
     Q_OBJECT
-    Q_DISABLE_COPY(FileProxy)
+    //Q_DISABLE_COPY(FileProxy)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString fileName READ fileName NOTIFY nameChanged)
     Q_PROPERTY(bool exists READ exists)
@@ -18,7 +18,7 @@ class FileProxy : public QQuickItem {
     Q_PROPERTY(QString error READ error)
 
 public:
-    FileProxy(QQuickItem *parent = 0);
+    FileProxy(QQuickItem *parent = nullptr);
     ~FileProxy();
 
     inline QString name() const { return m_file.fileName(); }

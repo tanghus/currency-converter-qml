@@ -1,2 +1,2 @@
-module net.tanghus.qmlcomponents
-plugin FileProxy
+module harbour.currencyconverter.fileproxy
+plugin fileproxy

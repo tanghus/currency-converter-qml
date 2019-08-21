@@ -40,7 +40,9 @@
 #include <QDebug>
 
 int main(int argc, char *argv[]) {
-    QGuiApplication *app = SailfishApp::application(argc, argv);
+    //QGuiApplication *app = SailfishApp::application(argc, argv);
+    QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
+    app->setApplicationVersion(QString(APP_VERSION));
     QQuickView *view = SailfishApp::createView();
     QTranslator *translator = new QTranslator;
 

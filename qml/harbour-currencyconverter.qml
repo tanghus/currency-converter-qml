@@ -31,6 +31,7 @@ import QtQuick 2.6
 import Sailfish.Silica 1.0
 import org.freedesktop.contextkit 1.0
 import Nemo.DBus 2.0
+import harbour.currencyconverter.fileproxy 1.0
 import "cover"
 import "pages"
 import "components"

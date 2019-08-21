@@ -1,20 +1,18 @@
 # The name of your application
 TARGET = harbour-currencyconverter
 
-TEMPLATE = app
+CONFIG += sailfishapp
+
+# App version
+DEFINES += APP_VERSION=\"\\\"$${VERSION}\\\"\"
 
 DEPLOYMENT_PATH = /usr/share/$${TARGET}
-CONFIG += sailfishapp
-CONFIG += sailfishapp_i18n
-QT += dbus quick
 
 SOURCES += \
     src/$${TARGET}.cpp
 
-TRANSLATIONS += translations/*.ts
-
 DISTFILES += qml/cover/CoverPage.qml \
-    qml/harbour-currencyconverter.qml \
+    qml/$${TARGET}.qml \
     qml/pages/FrontPage.qml \
     qml/pages/SettingsDialog.qml \
     qml/pages/SearchPage.qml \
@@ -26,15 +24,20 @@ DISTFILES += qml/cover/CoverPage.qml \
     qml/components/CurrencyCombo.qml \
     qml/components/Notification.qml \
     qml/components/Storage.qml \
-    harbour-currencyconverter.desktop
+    rpm/$${TARGET}.changes.in \
+    rpm/$${TARGET}.changes.run.in \
+    rpm/$${TARGET}.spec \
+    rpm/$${TARGET}.yaml \
+    translations/*.ts \
+    $${TARGET}.desktop
+
+SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
+
+# to disable building translations every time, comment out the
+# following CONFIG line
+#CONFIG += sailfishapp_i18n
+TRANSLATIONS += translations/*.ts
 
 INSTALLS += flags
 flags.files = flags
 flags.path = $${DEPLOYMENT_PATH}
-
-
-SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
-
-CONFIG(release, debug|release) {
-    DEFINES += QT_NO_DEBUG_OUTPUT
-}

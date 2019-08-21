@@ -1,20 +1,22 @@
-TEMPLATE = app
+### NOT USED!!!
 
-TARGET = harbour-currencyconverter
+#TEMPLATE = app
+
+#TARGET = harbour-currencyconverter
 
 # App version
-DEFINES += APP_VERSION=\"\\\"$${VERSION}\\\"\"
+#DEFINES += APP_VERSION=\"\\\"$${VERSION}\\\"\"
 
-CONFIG += sailfishapp
+#CONFIG += sailfishapp
 
-QT += dbus quick
+#QT += dbus quick
 #declarative
 
-SOURCES += \
-    $${TARGET}.cpp
+#SOURCES += \
+#    $${TARGET}.cpp
 
 #HEADERS += qmlsettings.h
 
-CONFIG(release, debug|release) {
-    DEFINES += QT_NO_DEBUG_OUTPUT
-}
+#CONFIG(release, debug|release) {
+#    DEFINES += QT_NO_DEBUG_OUTPUT
+#}

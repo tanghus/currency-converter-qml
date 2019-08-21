@@ -13,7 +13,7 @@ Version:    0.3
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE
-URL:        http://example.org/
+URL:        https://github.com/tanghus/currency-converter-qml
 Source0:    %{name}-%{version}.tar.bz2
 Source100:  harbour-currencyconverter.yaml
 Requires:   sailfishsilica-qt5 >= 0.10.9
@@ -24,7 +24,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
 
 %description
-Short description of my Sailfish OS Application
+Convert Currencies using data from European Central Bank
 
 
 %prep
@@ -61,7 +61,6 @@ desktop-file-install --delete-original       \
 %defattr(-,root,root,-)
 %{_bindir}
 %{_datadir}/%{name}
-%{_datadir}/%{name}/icons
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 # >> files

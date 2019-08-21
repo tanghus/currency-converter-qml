@@ -5,14 +5,14 @@ Release: 1
 # The contents of the Group field should be one of the groups listed here:
 # https://github.com/mer-tools/spectacle/blob/master/data/GROUPS
 Group: Qt/Qt
-URL: http://example.org/
+URL: https://github.com/tanghus/currency-converter-qml
 License: LICENSE
 # This must be generated before uploading a package to a remote build service.
 # Usually this line does not need to be modified.
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |
-  Short description of my Sailfish OS Application
+  Convert Currencies using data from European Central Bank
 Configure: none
 Builder: qmake5
 
@@ -36,7 +36,6 @@ Requires:
 Files:
   - '%{_bindir}'
   - '%{_datadir}/%{name}'
-  - '%{_datadir}/%{name}/icons'
   - '%{_datadir}/applications/%{name}.desktop'
   - '%{_datadir}/icons/hicolor/*/apps/%{name}.png'
 
