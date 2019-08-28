@@ -33,34 +33,42 @@ import Sailfish.Silica 1.0
 Dialog {
 
     id: settingsDialog
-    canAccept: false
+    canAccept: changed
     allowedOrientations: Orientation.All //Portrait | Orientation.Landscape;
     property bool tmpWorkOffline: workOffline
     property int tmpNumDecimals: numDecimals
     property string info: ''
+    property bool changed: tmpWorkOffline !== workOffline || tmpNumDecimals !== numDecimals
 
     SilicaFlickable {
         height: isPortrait ? Screen.height : Screen.width
         anchors.fill: parent
         quickScroll: true
+        contentHeight: column.height
         VerticalScrollDecorator {}
 
-        DialogHeader {
-            id: header;
-            dialog: settingsDialog;
-            title: qsTr("Settings")
-        }
-        Label {
+        /*Label {
             id: infoBox
             visible: info
             parent: header.extraContent
-            text: "Extra content"
-            // text: info
-        }
+            //text: "Extra content"
+            text: info
+            font.pixelSize: Theme.fontSizeExtraSmall
+            wrapMode: Text.Wrap
+            //y: header.height //+ Theme.paddingMedium
+            width: settingsDialog.width - (Theme.paddingMedium * 2)
+            anchors.horizontalCenter: parent.horizontalCenter
+            padding: Theme.horizontalPageMargin
+            //anchors.top: header.bottom
+            anchors.leftMargin: Theme.paddingLarge
+            anchors.rightMargin: Theme.paddingLarge
+        }*/
         PullDownMenu {
             MenuItem {
+                //: Remove the cached conversions
                 text: qsTr('Empty cache');
                 onClicked: {
+                    //: The currency to convert from
                     Remorse.popupAction(settingsDialog, "Emptying cache", function() {
                     try {
                         storage.truncate(function(result) {
@@ -80,22 +88,34 @@ Dialog {
             }
         }
         Column {
-            y: header.height + Theme.paddingMedium
-            width: settingsDialog.width - (Theme.paddingMedium * 2)
+            id: column
+            //y: header.height + Theme.paddingMedium
+            width: parent.width - (Theme.paddingMedium * 2)
             spacing: Theme.horizontalPageMargin
+            padding: Theme.paddingMedium  //.horizontalPageMargin
+            /*
             anchors.horizontalCenter: parent.horizontalCenter
-            padding: Theme.horizontalPageMargin
+            anchors.top: header.bottom
             anchors.leftMargin: Theme.paddingLarge
             anchors.rightMargin: Theme.paddingLarge
+            */
 
+            /*DialogHeader {
+                id: header;
+                dialog: settingsDialog;
+                title: qsTr("Settings")
+            }*/
+            SectionHeader {
+                id: sectionHeaderGeneral
+                text: qsTr('General settings')
+            }
             TextSwitch {
-                anchors.rightMargin: Theme.paddingLarge
+                //anchors.rightMargin: Theme.paddingLarge
                 text: qsTr('Work offline')
                 description: qsTr('Use available locally stored exchange rates instead of querying online')
                 checked: tmpWorkOffline
                 onCheckedChanged: {
                     tmpWorkOffline = checked
-                    canAccept = workOffline === tmpWorkOffline ? false : true
                 }
             }
 
@@ -104,15 +124,28 @@ Dialog {
                 label: qsTr('Number of decimals in result')
                 width: parent.width
                 minimumValue: 0
-                maximumValue: 10
+                maximumValue: 5
                 value: numDecimals
                 valueText: value
                 stepSize: 1
                 onValueChanged:  {
-                    canAccept = numDecimals !== value
                     tmpNumDecimals = value
                 }
             }
+            SectionHeader {
+                id: sectionProvidersGeneral
+                text: qsTr('Exchange Rate Provider')
+            }
+            //Column {
+            //    anchors.fill: parent
+                ComboBox {
+                    menu: ContextMenu {
+                        MenuItem { text: "European Central Bank" }
+                        MenuItem { text: "CurrencyLayer" }
+                        MenuItem { text: "Fixer.io" }
+                    }
+                }
+            //}
         }
     }
     Component.onCompleted: {
@@ -128,14 +161,19 @@ Dialog {
         console.log('isOnline:', isOnline)
         console.log('All:', !tmpWorkOffline && workOffline !== tmpWorkOffline && !isOnline)
 
-        console.log('About to open network!')
-        if(!tmpWorkOffline && workOffline !== tmpWorkOffline && !isOnline) {
+        // If the user selected to work online, but the phone isn't
+        // open the network connection dialog.
+        if(workOffline && !tmpWorkOffline !== tmpWorkOffline && !isOnline) {
             console.log('Opening network!')
             networkIFace.openConnection()
         }
+        // If the user chose to go from working offline to online,
+        // and we are currently online, refresh .
+        else if(workOffline && !tmpWorkOffline && isOnline) {
+           getRate()
+        }
 
-        settings.workOffle =  workOffline = tmpWorkOffline
+        settings.workOffline =  workOffline = tmpWorkOffline
         settings.numDecimals = numDecimals = parseInt(tmpNumDecimals)
-        //saveSettings()
     }
 }

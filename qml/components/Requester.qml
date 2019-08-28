@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013-2018 Thomas Tanghus <thomas@tanghus.net>
+  Copyright (C) 2013-2019 Thomas Tanghus
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -27,26 +27,15 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "qmlsettings.h"
+import QtQuick 2.6
 
-QmlSettings::QmlSettings(QObject *parent) :
-    QObject(parent) {
-    _settings = new QSettings("harbour-currencyconverter", "net.tanghus.currencyconverter.sailfish");
-}
+WorkerScript {
+    id: rateFetcher
+    source: Qt.resolvedUrl('requester.mjs')
+    property string url: ''
 
-QVariant QmlSettings::value(const QString &key, const QVariant & defaultValue) {
-   QVariant value = _settings->value(key);
-   if(value.isNull()) {
-       value = defaultValue;
-   }
-   if(value == "false") {
-       return false;
-   } else if(value == "true") {
-       return true;
-   }
-   return value;
-}
-
-void QmlSettings::setValue(const QString &key, const QVariant &value) {
-   _settings->setValue(key, value);
+    function request(args) {
+        console.log('rateFetcher.request:', JSON.stringify(args))
+        sendMessage({url: url, args: args})
+    }
 }

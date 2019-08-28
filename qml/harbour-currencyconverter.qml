@@ -31,7 +31,7 @@ import QtQuick 2.6
 import Sailfish.Silica 1.0
 import org.freedesktop.contextkit 1.0
 import Nemo.DBus 2.0
-import harbour.currencyconverter.fileproxy 1.0
+//import harbour.currencyconverter.fileproxy 1.0
 import "cover"
 import "pages"
 import "components"
@@ -41,6 +41,7 @@ ApplicationWindow {
 
     id: app
 
+    // E.g. USD, EUR, DKK
     property string fromCode
     property string toCode
 
@@ -59,16 +60,25 @@ ApplicationWindow {
     property double rate: 1.0
 
     // The multiplied result
+    // The reason for having two variables, is to avoid double multiplication
     property double tmpResult: 1.0
     property double result: 1.0
 
     property bool isBusy: true
     property bool workOffline: false
     property bool isOnline: false
+    // An object containing all current currencies
+    property variant currencies
+    property string locale: Qt.locale().name
 
-    onTmpResultChanged: {
-        result = Number(tmpResult * multiplier).toFixed(numDecimals)
-        console.log('Result changed from:', tmpResult, ' to:', result)
+    // The final result: amount * rate
+    onTmpResultChanged: result = Number(tmpResult * multiplier).toFixed(numDecimals)
+    onNumDecimalsChanged: result = Number(tmpResult * multiplier).toFixed(numDecimals)
+    onLocaleChanged: {
+        console.log('App.onLocaleChanged:', locale)
+        if(!locale || locale === 'C') {
+            locale = 'en_GB'
+        }
     }
 
     allowedOrientations: Orientation.Portrait | Orientation.Landscape //defaultAllowedOrientations
@@ -78,6 +88,12 @@ ApplicationWindow {
         FrontPage {}
     }
 
+    /*
+    initialPage: config.isFirstStart()
+                     ? Qt.resolvedUrl("common/wizard/Welcome.qml")
+                     : Qt.resolvedUrl("tablet/pages/MainPage.qml")
+    */
+
     cover: CoverBackground {
         CoverPage {}
     }
@@ -86,40 +102,28 @@ ApplicationWindow {
         id: settings
     }
 
+    /*FileProxy {
+        name: StandardPaths.data + '/currencyconverter.conf'
+        Component.onCompleted: {
+            //console.log('FileProxy.name:', exists)
+            //console.log('FileProxy.writeable:', writeable)
+            //console.log('FileProxy.exists:', exists)
+            //console.log('FileProxy.error:', error)
+            //console.log('StandardPaths.data:', StandardPaths.data)
+            //var jsd = JSON.parse('{"result":true, "count":42}')
+            //data: jsd
+            //console.log('.data:', data)
+        }
+    }*/
+
     ContextProperty {
+        // `cat /run/state/namespaces/Internet/NetworkState`
         id: networkOnline
         key: 'Internet.NetworkState'
         onValueChanged: {
-            console.log('Internet.NetworkName', value)
             isOnline = value === 'connected' ? true : false
             console.log('Connected', isOnline)
         }
-    }
-
-    Component.onCompleted: {
-        //console.log('Subscribing', networkOnline.subscribe())
-        console.log('Network context', networkOnline.value, networkOnline.subscribed)
-        console.log('Network context', networkOnline.objectName)
-        setBusy(true)
-        fromCode = settings.value('fromCode', 'USD')
-        toCode = settings.value('toCode', 'EUR')
-        multiplier = settings.value('multiplier', 1)
-        numDecimals = settings.value('numDecimals', 4)
-        rate = settings.value('rate', 1.0)
-        workOffline = settings.value('workOffline', false)
-        console.log('App.onCompleted. isOnline:', isOnline)
-        if(isOnline && !workOffline) {
-            networkIFace.openConnection()
-        }
-        getRate()
-        console.log('App.Ready', fromCode, toCode)
-        setBusy(false)
-    }
-
-    Notification {
-        id: notifier
-        body: 'Test body'
-        summary: 'Test summary'
     }
 
     // Popup the network selection dialogue
@@ -136,10 +140,17 @@ ApplicationWindow {
         }
     }
 
+    Notification {
+        id: notifier
+        body: 'Test body'
+        summary: 'Test summary'
+    }
+
     BusyIndicator {
         id: busyIndicator
         anchors.centerIn: parent
         size: BusyIndicatorSize.Large
+        running: isBusy
     }
 
     Storage {
@@ -184,26 +195,30 @@ ApplicationWindow {
         }
     }
 
-    WorkerScript {
-        id: myWorker
-        source: Qt.resolvedUrl('components/requester.mjs')
-
-        function request(url, args) {
-            console.log('myWorker.request. url:', url, 'args:', JSON.stringify(args))
-            if(isOnline) {
-                sendMessage({url: url, args: args})
-            } else {
-                console.log('Network is down')
-                notifier.notify(qsTr('Network is down'))
-                setBusy(false)
-            }
-        }
-
+    // Used for instantiating object with all currencies.
+    Requester {
+        id: currenciesFetcher
+        url: Qt.resolvedUrl('../data/currencies_{locale}.json'.replace('{locale}', locale))
         onMessage: {
-            //console.log('WorkerScript.onMessage:', JSON.stringify(messageObject))
-            //console.log('WorkerScript.onMessage. response:', JSON.stringify(messageObject.response))
-            if(messageObject.request && messageObject.response ) {
+            console.log('currenciesFetcher.onMessage:') //, JSON.stringify(messageObject))
+            currencies = messageObject.response
+        }
+    }
 
+    // https://doc.qt.io/qt-5/qml-qtquick-loader.html
+    /*
+      Loader {
+          source: 'ExchangeProviderXXX'
+      }
+    */
+    Requester {
+        id: rateFetcher
+        url: 'https://api.exchangeratesapi.io/latest?base={from}&symbols={to}'
+        onMessage: {
+            console.log('rateFetcher.onMessage:', JSON.stringify(messageObject))
+            console.log('rateFetcher.onMessage. response:', JSON.stringify(messageObject.response))
+            if(messageObject.request && messageObject.response ) {
+                // TODO: This part needs to be generalized
                 var _f = messageObject.request.args.from
                 var _t = messageObject.request.args.to
                 var _r = messageObject.response.rates[_t]
@@ -219,13 +234,30 @@ ApplicationWindow {
         }
     }
 
+    Component.onCompleted: {
+        setBusy(true)
+        fromCode = settings.value('fromCode', 'USD')
+        toCode = settings.value('toCode', 'EUR')
+        multiplier = settings.value('multiplier', 1)
+        numDecimals = settings.value('numDecimals', 4)
+        rate = settings.value('rate', 1.0)
+        workOffline = settings.value('workOffline', false)
+        if(!isOnline && !workOffline) {
+            networkIFace.openConnection()
+        }
+        // NOTE: Is 'locale' used?
+        currenciesFetcher.request({'locale': locale})
+        getRate()
+        console.log('App.Ready', fromCode, toCode)
+        setBusy(false)
+    }
+
+    // TODO: This method needs to be generalized to allow for
+    // other providers
     function getRate() {
         var response, doUpdate = false
 
-        if(isBusy) {
-            //console.warn('Too busy...')
-            return
-        }
+        if(isBusy) return
 
         setBusy(true)
 
@@ -258,10 +290,13 @@ ApplicationWindow {
             }
 
             if(doUpdate && !workOffline) {
-                myWorker.request(
-                   'https://api.exchangeratesapi.io/latest?base={from}&symbols={to}',
-                   {'from': fromCode, 'to': toCode}
-                )
+                if(isOnline) {
+                    rateFetcher.request( {'from': fromCode, 'to': toCode} )
+                } else {
+                    console.log('Network is down')
+                    notifier.notify(qsTr('Network is down'))
+                    setBusy(false)
+                }
             } else if(doUpdate) {
                 setBusy(false)
                 var str = qsTr("You have chosen to work offline, but the currency combination \
@@ -271,30 +306,13 @@ ApplicationWindow {
             }
         })
 
-        //settings.setValue('currencyCodeFrom', fromCode)
-        //settings.setValue('currencyCodeTo', toCode)
-        //settings.setValue('amount', multiplier)
         settings.fromCode = fromCode
         settings.toCode = toCode
         settings.multiplier = multiplier
     }
 
-    function saveSettings() {
-        setBusy(true)
-
-        // The values are assigned in SettingsDialog.onAccept
-        //settings.setValue('numDecimals', numDecimals);
-        //settings.setValue('workOffline', workOffline);
-        settings.numDecimals = numDecimals
-        settings.workOffline = workOffline
-        settings.sync()
-
-        setBusy(false)
-    }
-
     function setBusy(state) {
         isBusy = state;
-        busyIndicator.running = state;
     }
 }
 

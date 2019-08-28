@@ -93,7 +93,7 @@ CoverBackground {
         id: coverActionSync
 
         CoverAction {
-            iconSource: "image://theme/icon-cover-sync"
+            iconSource: "image://theme/icon-cover-refresh"
             onTriggered: getRate()
         }
     }

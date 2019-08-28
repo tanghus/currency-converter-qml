@@ -21,15 +21,16 @@ Item {
         var xhr = new XMLHttpRequest;
         xhr.open("GET", source);
         xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE)
+            if (xhr.readyState === XMLHttpRequest.DONE) {
                 console.log('xhr.status:', xhr.status, xhr.statusText)
                 json = xhr.responseText;
+            }
         }
         xhr.send();
     }
 
     Component.onCompleted: {
-        console.log('JSONListModel.onCompleted. source:', source)
+        console.log('JSONListModel.onCompleted. count:', count)
     }
 
     onJsonChanged: {
@@ -44,18 +45,12 @@ Item {
         if ( json === "" )
             return;
 
-        var objectArray = parseJSONString(json, query);
+        var objectArray = JSON.parse(json).rates;
         for ( var key in objectArray ) {
             var jo = objectArray[key];
-            jsonModel.append( jo );
+
+            jsonModel.append( { "code": key, "rate": jo } );
         }
     }
 
-    function parseJSONString(jsonString, jsonPathQuery) {
-        var objectArray = JSON.parse(jsonString);
-        if ( jsonPathQuery !== "" )
-            objectArray = JSONPath.jsonPath(objectArray, jsonPathQuery);
-
-        return objectArray;
-    }
 }

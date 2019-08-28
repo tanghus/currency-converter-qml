@@ -880,18 +880,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FrontPage.qml" line="189"/>
+        <location filename="../qml/pages/FrontPage.qml" line="190"/>
         <source>%L1</source>
         <extracomment>Just localizing the result. NOT to be translated</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FrontPage.qml" line="210"/>
+        <location filename="../qml/pages/FrontPage.qml" line="211"/>
         <source>Working online</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FrontPage.qml" line="209"/>
+        <location filename="../qml/pages/FrontPage.qml" line="210"/>
         <source>Working offline</source>
         <translation type="unfinished"></translation>
     </message>
@@ -966,12 +966,12 @@
 <context>
     <name>harbour-currencyconverter</name>
     <message>
-        <location filename="../qml/harbour-currencyconverter.qml" line="196"/>
+        <location filename="../qml/harbour-currencyconverter.qml" line="197"/>
         <source>Network is down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harbour-currencyconverter.qml" line="266"/>
+        <location filename="../qml/harbour-currencyconverter.qml" line="267"/>
         <source>You have chosen to work offline, but the currency combination  %1 =&gt; %2 is not in the cache.</source>
         <translation type="unfinished"></translation>
     </message>

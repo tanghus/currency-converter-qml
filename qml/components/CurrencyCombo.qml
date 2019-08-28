@@ -63,10 +63,7 @@ ComboBox {
         }
     }
 
-    Component.onCompleted: {
-        console.log('Combo.Ready')
-        ready = true
-    }
+    Component.onCompleted: ready = true
 
     menu: ContextMenu {
         id: contextMenu;

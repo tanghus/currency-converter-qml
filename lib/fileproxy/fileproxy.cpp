@@ -1,6 +1,7 @@
 #include "fileproxy.h"
 #include <QUrl>
 #include <QFileInfo>
+#include <QStandardPaths>
 #include <QDir>
 #include <QJsonDocument>
 #include <QDebug>
@@ -9,7 +10,10 @@
 //#include <stdio.h>
 
 FileProxy::FileProxy(QQuickItem *parent):
-    QQuickItem(parent){
+    QQuickItem(parent) {
+    qDebug() << "FileProxy constructor."
+             << "Cache folder: "
+             << QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 }
 
 FileProxy::~FileProxy() {
@@ -18,6 +22,7 @@ FileProxy::~FileProxy() {
 void FileProxy::setName(const QString &name)
 {
     QString localName = name;
+    qDebug() << "FileProxy.setName: " << name;
     if (m_file.fileName() != localName) {
         m_file.setFileName(localName);
         emit nameChanged(localName);

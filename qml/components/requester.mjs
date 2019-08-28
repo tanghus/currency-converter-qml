@@ -43,7 +43,6 @@ WorkerScript.onMessage = function(message) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             console.log('requester: status:', xhr.status, xhr.statusText)
-            console.log('requester: response:', xhr.responseText)
             if(xhr.status >= 200 && xhr.status < 300) {
                 var result = JSON.parse(xhr.responseText);
 

@@ -31,7 +31,7 @@ import QtQuick 2.6
 //import QtQml 2.13
 import QtQml 2.2
 import Sailfish.Silica 1.0
-import "../components"
+import '../components'
 
 Page {
     id: frontPage;
@@ -60,46 +60,55 @@ Page {
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
             MenuItem {
-                text: qsTr('Test');
+                text: workOffline ? qsTr('Work online') : qsTr('Work offline')
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl('SearchPage.qml'));
+                    settings.workOffline = workOffline = !workOffline
                 }
             }
             MenuItem {
-                text: qsTr('About');
+                text: qsTr('Switch currencies')
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl('AboutPage.qml'));
-                }
-            }
-            /*MenuItem {
-                text: qsTr('Open website');
-                onClicked: Qt.openUrlExternally('http://finance.yahoo.com/currency-converter');
-            }*/
-            MenuItem {
-                text: qsTr('Settings');
-                onClicked: {
-                    pageStack.push(Qt.resolvedUrl('SettingsDialog.qml'));
-                }
-            }
-            MenuItem {
-                text: qsTr('Switch currencies');
-                onClicked: {
-                    setBusy(true);
-                    var from = fromCombo.currentIndex;
-                    fromCombo.currentIndex = toCombo.currentIndex;
-                    toCombo.currentIndex = from;
+                    setBusy(true)
+                    var from = fromCombo.currentIndex
+                    fromCombo.currentIndex = toCombo.currentIndex
+                    toCombo.currentIndex = from
 
                     // Trigger activation
                     fromCombo.currentCurrency = fromCombo.currentItem.code
                     toCombo.currentCurrency = toCombo.currentItem.code
-                    setBusy(false);
+                    setBusy(false)
                     // And go
-                    getRate();
+                    getRate()
+                }
+            }
+            // FIXME: Menu 'Update' doesn't work
+            MenuItem {
+                text: qsTr('Update')
+                onClicked: {
+                    console.log('FrontPage menu Update:')
+                    getRate()
+                }
+            }
+        }
+
+        PushUpMenu {
+            MenuItem {
+                text: qsTr('Settings');
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl('SettingsDialog.qml'))
                 }
             }
             MenuItem {
-                text: qsTr('Update');
-                onClicked: getRate
+                text: qsTr('About')
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl('AboutPage.qml'))
+                }
+            }
+            MenuItem {
+                text: qsTr('Test')
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl('SearchPage.qml'))
+                }
             }
         }
 
@@ -116,6 +125,7 @@ Page {
             }
             CurrencyCombo {
                 id: fromCombo
+                //: The currency to convert from
                 label: qsTr('From')
                 currentCurrency: fromCode
                 onActivated: {
@@ -127,6 +137,7 @@ Page {
             }
             CurrencyCombo {
                 id: toCombo
+                //: The currency to convert to
                 label: qsTr('To')
                 currentCurrency: toCode
                 onActivated: {
@@ -167,18 +178,16 @@ Page {
                     }
                     onTextChanged: {
                         // Try not to refresh on every change.
-                        // NOTE: Would this delay it too much?
-                        //Qt.callLater(inputTimer.restart);
-                        console.log('Result 1:', text)
-                        if(text.length > 0 && !isNaN(text) && parseFloat(text) > 0.0) {
+                        //console.log('Result 1:', text)
+                        if(text.trim().length > 0 && !isNaN(text) && parseFloat(text) > 0.0) {
                             inputTimer.restart();
-                        } else if(isNaN(text)) {
+                        } else if(isNaN(text)) { // || text.trim().length === 0) {
                             text = 1
-                        } else if(parseFloat(text) === 0) {
+                        }/* else if(parseFloat(text) === 0.0) {
                             console.log('Change', text, 'to', 1.0, '?')
-                        }
+                        }*/
                         tmpResult = parseFloat(text)
-                        console.log('Result 2:', text)
+                        //console.log('Result 2:', text)
                     }
                     EnterKey.enabled: text.length > 0 && parseFloat(text) > 0.1
                     //EnterKey.iconSource: 'image://theme/icon-m-enter-next'
@@ -209,19 +218,8 @@ Page {
                 text: (workOffline || !isOnline)
                       ? qsTr('Working offline')
                       : qsTr('Working online')
-                Component.onCompleted: {
-                    console.log('Small notice Ready. workOffline?', (workOffline || !isOnline) ? true : false)
-                    console.log('Small notice Ready. workOffline?', workOffline)
-                    console.log('Small notice Ready. isOnline?', isOnline)
-                }
-
             }
         }
-    }
-
-    // NOTE: Remove this before release
-    Component.onCompleted: {
-        console.log('FrontPage.Ready')
     }
 }
 

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013-2018 Thomas Tanghus <thomas@tanghus.net>
+  Copyright (C) 2013-2019 Thomas Tanghus
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -27,25 +27,28 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef QMLSETTINGS_H
-#define QMLSETTINGS_H
+import QtQuick 2.6
+// NOTE: QtObject { ?
+Item {
+    id: provider
+    property string url: ''
+    // Holds the Storage component.
+    property var cache
+    // The update interval the provider supports in minutes
+    property int updateInterval: 1440
+    property var updateWeekdays: [0,1,2,3,4,5,6]
+    property date _lastUpdated: new Date()
 
-#include <QObject>
-#include <QSettings>
+    signal rateRecieved(string from, string to, string rate)
+    signal error()
 
-class QmlSettings : public QObject {
-    Q_OBJECT
-public:
-    explicit QmlSettings(QObject *parent = 0);
+    function getRate() {
+        // This should never get called
+    }
 
-signals:
-
-public slots:
-    QVariant value(const QString &key, const QVariant & defaultValue = QVariant());
-    void setValue(const QString &key, const QVariant &value);
-
-private:
-    QSettings *_settings;
-};
-
-#endif // QMLSETTINGS_H
+    // Parse response from rateFetcher and return an object:
+    //      {from, to, rate, date}
+    function parseResponse(request, response) {
+        // This should never get called
+    }
+}

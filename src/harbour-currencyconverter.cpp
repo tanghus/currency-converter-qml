@@ -42,8 +42,14 @@
 int main(int argc, char *argv[]) {
     //QGuiApplication *app = SailfishApp::application(argc, argv);
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
-    app->setApplicationVersion(QString(APP_VERSION));
+    //app->setApplicationVersion(QString(APP_VERSION));
+    app->setApplicationName(QStringLiteral("harbour-currencyconverter"));
+    app->setApplicationDisplayName(QStringLiteral("Currency Converter"));
+    //app->setApplicationVersion(QStringLiteral(VERSION_STRING));
     QQuickView *view = SailfishApp::createView();
+    view->engine()->addImportPath(SailfishApp::pathTo("lib/").toLocalFile());
+    view->engine()->addImportPath(SailfishApp::pathTo("qml/components/").toLocalFile());
+    view->engine()->addImportPath(SailfishApp::pathTo("qml/pages/").toLocalFile());
     QTranslator *translator = new QTranslator;
 
     QString locale = QLocale::system().name();

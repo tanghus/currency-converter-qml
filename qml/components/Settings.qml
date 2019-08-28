@@ -20,7 +20,6 @@ ConfigurationGroup {
     property int numDecimals
 
     // The last result before multiplication
-    // NOTE: Changed from string.
     property double rate: 1.0
 
     property bool workOffline: true

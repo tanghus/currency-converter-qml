@@ -9,6 +9,7 @@
 - Better error handling and notifications.
 - Update currency model.
 - Moves from homegrown settings class to Nemo.Configuration.
+- Change cover refresh icon to a more suitable one.
 
 0.2
 - Add settings for number of decimals to show in the result.

@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
-SUBDIRS += app.pro \
-    lib/fileproxy
+SUBDIRS += app.pro
+#    lib/fileproxy
