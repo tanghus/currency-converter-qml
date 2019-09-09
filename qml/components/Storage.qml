@@ -32,6 +32,7 @@ import QtQuick.LocalStorage 2.0 as LS
 QtObject {
 
     property string dbName: ''
+    // TODO: Change this to 'property var tables: []
     property string tblName: ''
     property string dbDescription: dbName;
     // TODO: Check what database version means
@@ -49,7 +50,9 @@ QtObject {
         _hasTable = _getTable()
     }
 
+    // TODO: Use callback method if provided
     function _formatException(e) {
+        console.error(e)
         console.trace()
         throw e
     }
@@ -60,7 +63,7 @@ QtObject {
         }
 
         if(!typeof dbName === 'string' || !dbName.trim()) {
-            _formatException(new Error(qsTr('No table name has been set')))
+            _formatException(new Error(qsTr('No database name has been set')))
         }
 
         try {
@@ -108,6 +111,7 @@ QtObject {
         }
         sql += ')'
 
+        console.log('Storage._getTable. SQL:', sql)
         try {
             _dbObj.transaction(
                 function(tx) {
@@ -129,7 +133,7 @@ QtObject {
      * @return undefined or throws exception
      */
     function set(fields, values) {
-        _getTable()
+        //_getTable()
         if(fields.length !== values.length) {
             _formatException(
                 new Error(qsTr('The number of values must match the number of fields')))
@@ -145,20 +149,11 @@ QtObject {
                 + '(' + fieldsString + ')'
                 + ' VALUES ("' + valuesString + '");'
         console.log('Storage.set() SQL:', sql);
-
-        try {
-            _dbObj.transaction(
-                function(tx) {
-                    tx.executeSql(sql)
-                }
-            )
-        } catch(e) {
-            _formatException(e)
-        }
+        executeSQL(sql)
     }
 
     function get(fields, where, cb) {
-        _getTable()
+        //_getTable()
 
         var whereList = [], sql = 'SELECT '
 
@@ -175,56 +170,65 @@ QtObject {
         sql += ' FROM '+ tblName +' WHERE '
         for(var w in where) {
             if (where.hasOwnProperty(w)) {
-                console.log(w + " -> " + where[w]);
+                //console.log(w + " -> " + where[w]);
                 whereList.push(w + '="' + where[w] + '"')
             }
         }
         sql += whereList.join(' AND ')
         console.log('Storage.get() SQL:', sql)
-        try {
-            _dbObj.transaction(
-                function(tx) {
-                    tx.executeSql(sql)
-                    var result = tx.executeSql(sql);
+        executeSQL(sql, cb)
+    }
 
-                    if (result.rows.length > 0) {
-                        var row = result.rows.item(0);
-                        cb(row);
-                    } else {
-                        // TODO: callback should contain result or error msg(?)
-                        cb(false);
-                    }
-                }
-            )
-        } catch(e) {
-            _formatException(e)
+    function remove(where, cb) {
+        _getTable()
+
+        var whereList = [], sql = 'DELETE FROM ' + tblName
+
+        // The WHERE clauses
+        sql += ' WHERE '
+        for(var w in where) {
+            if (where.hasOwnProperty(w)) {
+                //console.log(w + " -> " + where[w]);
+                whereList.push(w + '="' + where[w] + '"')
+            }
         }
-
+        sql += whereList.join(' AND ')
+        console.log('Storage.remove() SQL:', sql)
+        executeSQL(sql, cb)
     }
 
     function truncate(cb) {
         _getTable()
 
         var sql = 'DELETE FROM ' + tblName
+        console.log('Storage.truncate. SQL:', sql)
+
+        executeSQL(sql, cb)
+    }
+
+    function executeSQL(sql, cb) {
+        console.log('Storage.executeSQL:', sql)
+        _getTable()
 
         try {
             _dbObj.transaction(
                 function(tx) {
-                    tx.executeSql(sql)
                     var result = tx.executeSql(sql);
 
-                    if (result.rows.length > 0) {
-                        var row = result.rows.item(0);
-                        cb(true);
-                    } else {
-                        // TODO: callback should contain result or error msg(?)
-                        cb(false);
+                    //console.log('Storage.getFromSQL:', JSON.stringify(result.rows))
+                    console.log('Storage.executeSQL. rows.length:', result.rows.length)
+                    var rows = []
+                    for (var i = 0; i < result.rows.length; i++) {
+                        rows.push(result.rows.item(i))
+                        //console.log(JSON.stringify(rows[i]))
+                    }
+                    if(cb) {
+                        cb(rows);
                     }
                 }
             )
         } catch(e) {
             _formatException(e)
         }
-
     }
 }

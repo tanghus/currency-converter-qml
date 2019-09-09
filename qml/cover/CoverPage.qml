@@ -29,6 +29,7 @@
 
 import QtQuick 2.6
 import Sailfish.Silica 1.0
+import '../components'
 
 CoverBackground {
 
@@ -38,7 +39,7 @@ CoverBackground {
         id: busyIndicator
         anchors.centerIn: parent
         size: BusyIndicatorSize.Large
-        running: isBusy && active
+        running: Env.isBusy
     }
 
     Column {
@@ -52,7 +53,7 @@ CoverBackground {
             text: qsTr('Currency')
             font {
                 bold: true
-                family: Theme.fontFamilyHeading
+                family: Theme.fontFamily
                 pixelSize: Theme.fontSizeLarge
             }
             width: parent.width
@@ -62,14 +63,14 @@ CoverBackground {
         Label {
             text: qsTr('Converter')
             font.bold: true
-            font.family: Theme.fontFamilyHeading
+            font.family: Theme.fontFamily
             font.pixelSize: Theme.fontSizeLarge
             width: parent.width
             truncationMode: TruncationMode.Fade
             horizontalAlignment: Text.AlignHCenter
         }
         Label {
-            text: fromSymbol + ' ' + multiplier
+            text: app.fromCode + ' ' + app.multiplier
             font.pixelSize: Theme.fontSizeLarge
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
@@ -82,7 +83,7 @@ CoverBackground {
             width: parent.width
         }
         Label {
-            text: toSymbol + ' ' + qsTr("%L1").arg(result)
+            text: app.toCode + ' ' + qsTr("%L1").arg(app.result)
             font.pixelSize: Theme.fontSizeLarge
             horizontalAlignment: Text.AlignHCenter
             width: parent.width
@@ -94,7 +95,20 @@ CoverBackground {
 
         CoverAction {
             iconSource: "image://theme/icon-cover-refresh"
-            onTriggered: getRate()
+            onTriggered: {
+                if(!Env.isBusy) {
+                    getRate()
+                }
+            }
+        }
+        CoverAction {
+            iconSource: "image://theme/icon-cover-transfers"
+            onTriggered: {
+                console.log('TODO: Cover. Switching')
+                //if(!Env.isBusy) {
+                //    getRate()
+                //}
+            }
         }
     }
 }

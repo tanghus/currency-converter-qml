@@ -1,5 +1,11 @@
 /*
-  Copyright (C) 2013-2018 Thomas Tanghus <thomas@tanghus.net>
+  Originally from ValueButton.qml
+  Copyright (C) 2013 Jolla Ltd.
+  Contact: Bea Lam <bea.lam@jollamobile.com>
+  All rights reserved.
+
+  Modifications by:
+  Copyright (C) 2013-2019 Thomas Tanghus <thomas@tanghus.net>
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -29,57 +35,109 @@
 
 import QtQuick 2.6
 import Sailfish.Silica 1.0
+import '.'
 
-ComboBox {
+BackgroundItem {
     id: currencyCombo;
 
-    signal activated(Item currency, int idx)
+    signal activated(var currency)
 
-    property string currentCurrency
-    property bool ready: false
+    property alias label: titleText.text
+    property alias value: valueText.text
+    property var allCurrencies
+    property string currentCurrencyCode
+    property var currentCurrency
+    property var list
+    property alias _imagePath: flag.source
+    property int _duration: 200
 
-    onCurrentCurrencyChanged: {
-        if(!ready) {
-            return
+    Binding {
+        target: currencyCombo
+        property: 'allCurrencies'
+        value: Currencies.all
+    }
+
+    Column {
+        id: column
+
+        anchors {
+            left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter
+            leftMargin: currencyCombo.leftMargin; rightMargin: currencyCombo.rightMargin
         }
+        Flow {
+            id: row
 
-        console.log('Setting currency', currentCurrency);
-        if(typeof currentCurrency !== 'string' || currentCurrency.length !== 3) {
-            console.warn('Trying to set invalid currency', currentCurrency);
-            notifier.notify('Trying to set invalid currency:', currentCurrency)
+            spacing: Theme.paddingMedium
+            width: parent.width
+            move: Transition {
+                NumberAnimation {
+                    properties: 'x,y'; easing.type: Easing.InOutQuad; duration: currencyCombo._duration
+                }
+            }
 
-            return;
-        }
+            Label {
+                id: titleText
+                color: currencyCombo.down ? Theme.highlightColor : Theme.primaryColor
+                width: Math.min(Math.round(parent.width*0.3) - Theme.paddingMedium)
+                height: text.length ? implicitHeight : 0
+                horizontalAlignment: Text.AlignRight
+                fontSizeMode: Text.HorizontalFit
+                minimumPixelSize: Theme.fontSizeSmallBase
+                truncationMode: TruncationMode.Fade
+            }
 
-        // Use the children directly from the model as the menu isn't necessarily populated yet
-        var currencies = currencyModel.children;
+            Image {
+                id: flag
+                source: ''
+                fillMode: Image.PreserveAspectFit
+                visible: source !== ''
+                height: parent.height
+                width: height
+                verticalAlignment: Image.AlignVCenter
+            }
 
-        for(var i = 0; i < currencies.length; i++ ) {
-            if(currencies[i].code === currentCurrency) {
-                currentItem = currencies[i];
-                currencyCombo.activated(currentItem, i);
-                return;
+            Label {
+                id: valueText
+                color: Theme.highlightColor
+                truncationMode: TruncationMode.Fade
             }
         }
     }
 
-    Component.onCompleted: ready = true
+    onAllCurrenciesChanged: {
+        currentCurrency = allCurrencies[currentCurrencyCode]
+        setCurrentCurrency(currentCurrency)
+    }
 
-    menu: ContextMenu {
-        id: contextMenu;
-        Repeater {
-             model: currencyModel
-        }
-        onActivated: {
-            console.log('menu index: ', index)
-            console.log('menu parent: ', currencyCombo)
-            var currency = contextMenu.children[index];
-            //currencyCombo.activated(currency);
-            currentCurrency = currency.code;
+    onClicked: {
+        list = pageStack.push(Qt.resolvedUrl('CurrencyList.qml'))
+        list.currencySelected.connect(setCurrentCurrency)
+    }
+
+    onCurrentCurrencyCodeChanged: {
+        var allCurrencies = Currencies.all
+
+        if(Env.isReady) {
+            currentCurrency = allCurrencies[currentCurrencyCode]
+            setCurrentCurrency(currentCurrency)
         }
     }
 
-    CurrencyModel {
-        id: currencyModel
+    function setCurrentCurrency(currency) {
+        console.log('CurrencyCombo.setCurrentCurrency', currency)
+        if(!currency) {
+            console.log('CurrencyCombo.setCurrentCurrency. Empty currency!!!', typeof currency)
+            console.trace()
+            return
+        }
+
+        if(currentCurrencyCode && currentCurrencyCode !== currency.code) {
+            currentCurrencyCode = currency.code
+        }
+        value = currency.name + ' (' + currency.code + ')'
+        _imagePath = Qt.resolvedUrl("../../flags/" + currency.code.toLowerCase() + ".png")
+        if(!Env.isBusy && Env.isReady && currentCurrencyCode) {
+            currencyCombo.activated(currency)
+        }
     }
 }

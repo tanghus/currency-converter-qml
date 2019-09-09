@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013-2019 Thomas Tanghus
+  Copyright (C) 2019 Thomas Tanghus
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -26,23 +26,23 @@
   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
 import QtQuick 2.6
+import org.freedesktop.contextkit 1.0
+import Nemo.DBus 2.0
 
-WorkerScript {
-    id: requester
-    source: Qt.resolvedUrl('requester.mjs')
-    property string url: ''
+QtObject {
+    id: network
+    property bool isOnline: state.value === 'connected'
+    property ContextProperty state
 
-    function request(args) {
-        //console.log('Requester.request:', JSON.stringify(args))
-        sendMessage({url: url, args: args})
-    }
+    onIsOnlineChanged: console.log('Env.Network.isOnline:', isOnline)
 
-    Component.onCompleted: {
-        if(url === '') {
-            console.trace()
-            throw new Error('Requester: ' + qsTr('"URL" must be set by subclasses'))
-        }
+    state: ContextProperty {
+        // `cat /run/state/namespaces/Internet/NetworkState`
+        id: networkOnline
+        key: 'Internet.NetworkState'
+        /*onValueChanged: {
+            console.log('Env.Network.state', value, isOnline)
+        }*/
     }
 }

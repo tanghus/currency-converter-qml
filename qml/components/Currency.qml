@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013-2019 Thomas Tanghus
+  Copyright (C) 2013-2019 Thomas Tanghus <thomas@tanghus.net>
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -29,20 +29,27 @@
 
 import QtQuick 2.6
 
-WorkerScript {
-    id: requester
-    source: Qt.resolvedUrl('requester.mjs')
-    property string url: ''
+QtObject {
+    readonly property string objectType: 'Currency'
+    readonly property string objectName: name + ' (' + code + ')'
+    property string code: ''
+    property string num: ''
+    property string name: ''
+    property string symbol: ''
+    property variant countries: []
 
-    function request(args) {
-        //console.log('Requester.request:', JSON.stringify(args))
-        sendMessage({url: url, args: args})
+    function init(dict) {
+        code = dict.code
+        symbol = dict.symbol
+        name = dict.name
+        num = dict.num
     }
 
-    Component.onCompleted: {
-        if(url === '') {
-            console.trace()
-            throw new Error('Requester: ' + qsTr('"URL" must be set by subclasses'))
-        }
+    function getSymbol() {
+        return symbol || code
+    }
+
+    function toString() {
+        return objectName
     }
 }

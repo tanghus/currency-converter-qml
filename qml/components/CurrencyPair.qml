@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013-2018 Thomas Tanghus <thomas@tanghus.net>
+  Copyright (C) 2019 Thomas Tanghus <thomas@tanghus.net>
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -28,18 +28,23 @@
 */
 
 import QtQuick 2.6
-import Sailfish.Silica 1.0
 
-MenuItem {
-    property string code: '';
-    property string numericCode: '';
-    property string name: '';
-    property string symbol: '';
-    property variant countries: [];
+QtObject {
+    readonly property string objectType: 'CurrencyPair'
+    objectName: from + '/' + to + '=' + rate
+    property string from: ''
+    property string to: ''
+    property double rate: 0.0
+    property string date: ''
 
-    text: name + ' (' + (symbol || code) + ')';
+    function init(dict) {
+        from = dict.from
+        to = dict.to
+        rate = dict.rate
+        date = dict.date
+    }
 
-    function getSymbol() {
-        return symbol || code;
+    function toString() {
+        return objectName
     }
 }

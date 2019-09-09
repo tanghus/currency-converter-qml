@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013-2019 Thomas Tanghus
+  Copyright (C) 2019 Thomas Tanghus
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -27,22 +27,34 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+pragma Singleton
+
 import QtQuick 2.6
+import '.'
 
-WorkerScript {
-    id: requester
-    source: Qt.resolvedUrl('requester.mjs')
-    property string url: ''
+QtObject {
+    property bool _isBusy: false
+    readonly property bool isReady: Currencies.isReady
+    readonly property bool isOnline: network.isOnline || false // network.isOnline ? network.isOnline : false
+    readonly property bool isBusy: (_isBusy || !Currencies.isReady)
+    //onIsOnlineChanged: console.log('Env.isOnline:', isOnline)
+    //onIsReadyChanged:  console.log('Env.isReady:', isReady)
+    onIsBusyChanged:  console.log('Env.isBusy:', isBusy)
 
-    function request(args) {
-        //console.log('Requester.request:', JSON.stringify(args))
-        sendMessage({url: url, args: args})
+    // This is for setting before requesting a result and when it's recieved.
+    // This stops request and other actions, blocks for user input and shows busy indicator.
+    function setBusy(state) {
+        //console.log('Setting busy:', state)
+        _isBusy = state
     }
 
-    Component.onCompleted: {
-        if(url === '') {
-            console.trace()
-            throw new Error('Requester: ' + qsTr('"URL" must be set by subclasses'))
+    property var network: {
+        var component = Qt.createComponent(Qt.resolvedUrl('Network.qml'));
+        if (component.status === Component.Error) {
+            console.error(component.errorString());
+            return 0;
         }
+
+        return component.createObject();
     }
 }

@@ -47,22 +47,6 @@ Dialog {
         contentHeight: column.height
         VerticalScrollDecorator {}
 
-        /*Label {
-            id: infoBox
-            visible: info
-            parent: header.extraContent
-            //text: "Extra content"
-            text: info
-            font.pixelSize: Theme.fontSizeExtraSmall
-            wrapMode: Text.Wrap
-            //y: header.height //+ Theme.paddingMedium
-            width: settingsDialog.width - (Theme.paddingMedium * 2)
-            anchors.horizontalCenter: parent.horizontalCenter
-            padding: Theme.horizontalPageMargin
-            //anchors.top: header.bottom
-            anchors.leftMargin: Theme.paddingLarge
-            anchors.rightMargin: Theme.paddingLarge
-        }*/
         PullDownMenu {
             MenuItem {
                 //: Remove the cached conversions
@@ -93,12 +77,6 @@ Dialog {
             width: parent.width - (Theme.paddingMedium * 2)
             spacing: Theme.horizontalPageMargin
             padding: Theme.paddingMedium  //.horizontalPageMargin
-            /*
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: header.bottom
-            anchors.leftMargin: Theme.paddingLarge
-            anchors.rightMargin: Theme.paddingLarge
-            */
 
             /*DialogHeader {
                 id: header;
@@ -136,16 +114,13 @@ Dialog {
                 id: sectionProvidersGeneral
                 text: qsTr('Exchange Rate Provider')
             }
-            //Column {
-            //    anchors.fill: parent
-                ComboBox {
-                    menu: ContextMenu {
-                        MenuItem { text: "European Central Bank" }
-                        MenuItem { text: "CurrencyLayer" }
-                        MenuItem { text: "Fixer.io" }
-                    }
+            ComboBox {
+                menu: ContextMenu {
+                    MenuItem { text: "European Central Bank" }
+                    MenuItem { text: "CurrencyLayer" }
+                    MenuItem { text: "Fixer.io" }
                 }
-            //}
+            }
         }
     }
     Component.onCompleted: {
@@ -155,12 +130,6 @@ Dialog {
         }
     }
     onAccepted: {
-        console.log('tmpWorkOffline:', tmpWorkOffline)
-        console.log('workOffline:', workOffline)
-        console.log('workOffline !== tmpWorkOffline:', workOffline !== tmpWorkOffline)
-        console.log('isOnline:', isOnline)
-        console.log('All:', !tmpWorkOffline && workOffline !== tmpWorkOffline && !isOnline)
-
         // If the user selected to work online, but the phone isn't
         // open the network connection dialog.
         if(workOffline && !tmpWorkOffline !== tmpWorkOffline && !isOnline) {

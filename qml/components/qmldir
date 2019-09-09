@@ -1,0 +1,4 @@
+module harbour.currencyconverter.environment
+singleton Env 0.1 Env.qml
+singleton Currencies 0.1 Currencies.qml
+

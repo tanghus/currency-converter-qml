@@ -1,25 +1,43 @@
 ![Icon](https://raw.githubusercontent.com/tanghus/currency-converter-qml/master/harbour-currencyconverter.png) Currency Converter for SailfishOS
 =================================
 
-| branch      | status |
-| ----------- | ------ |
-| master      | [![Build Status](https://travis-ci.org/tanghus/currency-converter-qml.png?branch=master)](https://travis-ci.org/tanghus/currency-converter-qml) |
+Convert currencies using data configurable currency rates providers.
 
-[![flattr this](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=tanghus&url=https%3A%2F%2Fgithub.com%2Ftanghus%2Fcurrency-converter-qml)
+Currency Converter per default uses {https://ExchangeRatesAPI.io](https://exchangeratesapi.io/)
+that offers daily exchange rates for a limited set of currencies (currently 33) published by
+the [European Central Bank](https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html).
 
-Convert currencies using data from Yahoo! Finance.
+With Currency Converter you can select different Exchange Rates Providers to get
+faster updates, more options, and a wider set of currencies.
+Most commercial providers also offers a free version, but with some caveats, as for
+example not being able to request a base currency, with the result that each time you
+request one new currency pair, all of them will be downloaded.
+So unless you *really* need to, I strongly recommend sticking with the default.
 
-**Current** features:
- - Select to and/or from the dropdown list and the converted amount will be updated.
- - Change the amount to be converted and the result will be updated.
- - Selected currencies and amount is saved between sessions.
- - Refresh selected convertion when no activity for a user defined period of time, or by request.
- - Selected exchange rates is shown real-time on the home screen cover.
- - Swap currently selected currencies.
+For the average traveller or businessperson the default selection should be more than enough.
 
-**Planned** features (in time for first release):
- - Well, pretty much done, I think.
+If you - like me - have a combination of lousy math skills and bad short-time memory,
+the quick switch of currencies comes in handy ;)
 
-**Planned** features (or maybe just brain barfs):
- - Select (short) list of currencies to monitor and notify on change (within a range).
+Currency Converter keeps an internal list of registered, legal currencies, which is
+used together with a list of the currencies offered by the chosen provider. The latter
+is refreshed when the app is loaded, except if there is no network connection, or if
+you have explicitly chosen to work offline.
+For this Currency Converter uses an effective caching mechanism. Based on the update interval
+of the current provider, and timestamps on each currency pair (e.g. EUR/USD) it only fetches
+online rates when needed - or, again, when explicitly told to.
+
+You can chose to delete the cache for one pair or the entire cache.
+
+**Be aware**, that if you delete the entire cache, the list of available currencies will
+have to be downloaded once again. It's not a very big payload, though, but if you're offline
+it could be problematic.
+
+**Also be aware**, that the list of available currencies is dependant on which 'From Currency'
+you had selected selected when the app is loaded.
+That means, that if you change the 'From Currency' right after you go offline, there is
+no guarantee that a list of the available currencies can be generated from the cache.
+To remedy this, change to the 'From Currency' you need to be cached, close the app, and
+launch it again. I'll put an option in to load them on demand if I get that request.
+
 

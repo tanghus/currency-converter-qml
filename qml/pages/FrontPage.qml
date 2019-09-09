@@ -28,30 +28,63 @@
 */
 
 import QtQuick 2.6
-//import QtQml 2.13
-import QtQml 2.2
+import QtQuick.Layouts 1.1
 import Sailfish.Silica 1.0
 import '../components'
 
 Page {
     id: frontPage;
-    allowedOrientations: Orientation.Portrait | Orientation.Landscape //defaultAllowedOrientations
+    property bool isEnabled: true
+    property var currentPair
 
-    Timer {
-        // This is used to update result
-        // but only after a short delay
-        id: inputTimer;
-        interval: 300;
-        running: false;
-        repeat: false;
-        onTriggered: {
-            multiplier = parseFloat(amountText.text);
-            //Qt.callLater(getRate);
-            getRate();
+    Binding {
+        target: frontPage
+        property: 'currentPair'
+        value: app.currentPair
+    }
+
+    allowedOrientations: Orientation.All
+
+    // This is triggered in App.provider.onRateRecieved
+    onCurrentPairChanged: {
+        console.log('FrontPage.currentPair:',currentPair.from, currentPair.to)
+        var from = Currencies.createCurrency(currentPair.from)
+        var to = Currencies.createCurrency(currentPair.to)
+        // Trigger the combos to adjust properties
+        if(Env.isReady && !Env.isBusy) {
+            fromCombo.activated(from)
+            toCombo.activated(to)
         }
     }
 
-    // To enable PullDownMenu, place our content in a SilicaFlickable
+    onIsEnabledChanged: console.log('frontPage.isEnabled: ', isEnabled)
+
+    Binding {
+        target: frontPage
+        property: 'isEnabled'
+        value: Env.isReady
+        // when: Env.isReady
+        // delayed: true
+    }
+
+    Timer {
+        // This is used to update result but only after a short delay
+        id: inputTimer
+        interval: 300
+        running: false
+        repeat: false
+        property alias text: amountText.text
+        onTriggered: {
+            if(text.trim().length > 0 && !isNaN(text) && parseFloat(text) > 0.0) {
+                multiplier = parseFloat(amountText.text)
+                if(!Env.isBusy) { getRate() }
+            } else {
+                restart()
+            }
+        }
+    }
+
+    // To enable PullDownMenu, place the content in a SilicaFlickable
     SilicaFlickable {
         anchors.fill: parent
         // Tell SilicaFlickable the height of its content.
@@ -59,6 +92,8 @@ Page {
 
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
+            // TODO "Pulsate" menu when busy. Shouldn't 'busy' do that?
+            busy: Env.isBusy
             MenuItem {
                 text: workOffline ? qsTr('Work online') : qsTr('Work offline')
                 onClicked: {
@@ -67,31 +102,24 @@ Page {
             }
             MenuItem {
                 text: qsTr('Switch currencies')
-                onClicked: {
-                    setBusy(true)
-                    var from = fromCombo.currentIndex
-                    fromCombo.currentIndex = toCombo.currentIndex
-                    toCombo.currentIndex = from
-
-                    // Trigger activation
-                    fromCombo.currentCurrency = fromCombo.currentItem.code
-                    toCombo.currentCurrency = toCombo.currentItem.code
-                    setBusy(false)
-                    // And go
-                    getRate()
-                }
+                enabled: isEnabled
+                onClicked: switchCurrencies()
             }
-            // FIXME: Menu 'Update' doesn't work
+
             MenuItem {
                 text: qsTr('Update')
+                enabled: isEnabled
                 onClicked: {
                     console.log('FrontPage menu Update:')
-                    getRate()
+                    storage.removeRate(fromCode, toCode,
+                        function(rows) {
+                            app.getRate()})
                 }
             }
         }
 
         PushUpMenu {
+            busy: Env.isBusy
             MenuItem {
                 text: qsTr('Settings');
                 onClicked: {
@@ -104,15 +132,9 @@ Page {
                     pageStack.push(Qt.resolvedUrl('AboutPage.qml'))
                 }
             }
-            MenuItem {
-                text: qsTr('Test')
-                onClicked: {
-                    pageStack.push(Qt.resolvedUrl('SearchPage.qml'))
-                }
-            }
         }
 
-        // Place our content in a Column.  The PageHeader is always placed at the top
+        // Place the content in a Column.  The PageHeader is always placed at the top
         // of the page, followed by our content.
         Column {
             id: column
@@ -121,106 +143,194 @@ Page {
             spacing: Theme.paddingLarge
             anchors.centerIn: parent
             PageHeader {
+                id: pageHeader
                 title: qsTr('Currency Converter')
             }
             CurrencyCombo {
                 id: fromCombo
                 //: The currency to convert from
                 label: qsTr('From')
-                currentCurrency: fromCode
+                enabled: isEnabled
+                currentCurrencyCode: fromCode
                 onActivated: {
-                    console.log('fromCombo', idx, currency.code, currency.getSymbol())
+                    console.log('FrontPage.fromCombo.onActivated:', JSON.stringify(currency))
                     fromCode = currency.code
-                    fromSymbol = currency.getSymbol()
-                    getRate()
+                    fromSymbol = currency.symbol ? currency.symbol : currency.code
+                    if(fromCode !== toCode && !Env.isBusy && Env.isReady) { app.getRate() }
+                }
+            }
+            // The iconButton, including animations, is "borrowed"
+            // from https://github.com/dgrr/harbour-translate/blob/master/qml/pages/MainPage.qml
+            // Thanks, dgrr (:
+            IconButton {
+                id: iconButton
+                enabled: isEnabled
+                opacity: (enabled ? 1 : 0)
+                anchors {
+                    //top: fromCombo.bottom
+                    horizontalCenter: parent.horizontalCenter
+                }
+                icon.source: "image://theme/icon-m-data-download?"
+                             + (pressed ? Theme.highlightColor : Theme.primaryColor)
+                onClicked: {
+                    rotationAnimation.start()
+                    hideAnimation.start()
+                    switchCurrencies()
+                }
+
+                states: State {
+                    when: page.orientation === Orientation.Landscape
+                    /*AnchorChanges {
+                        target: iconButton
+                        //anchors.top: pageHeader.bottom
+                    }*/
+                    PropertyChanges {
+                        target: iconButton
+                        rotation: 90
+                    }
+                }
+
+                transitions: Transition {
+                    ParallelAnimation {
+                        AnchorAnimation {
+                            duration: 300
+                        }
+                        RotationAnimation {
+                            duration: 300
+                            direction: RotationAnimation.Clockwise
+                        }
+                    }
+                }
+
+                RotationAnimator {
+                    id: rotationAnimation
+                    target: iconButton
+                    from: 0
+                    to: 360
+                    duration: 300
+                    running: false
                 }
             }
             CurrencyCombo {
                 id: toCombo
                 //: The currency to convert to
                 label: qsTr('To')
-                currentCurrency: toCode
+                enabled: isEnabled
+                currentCurrencyCode: toCode
                 onActivated: {
-                    console.log('toCombo', idx, currency.code, currency.getSymbol())
                     toCode = currency.code
-                    toSymbol = currency.getSymbol()
-                    getRate()
+                    toSymbol = currency.symbol ? currency.symbol : currency.code
+                    if(fromCode !== toCode && !Env.isBusy && Env.isReady) { app.getRate() }
                 }
             }
 
-            Row {
+            ParallelAnimation {
+                id: hideAnimation
+                running: false
+                onStopped: {
+                    //var v = box1.value
+                    //box1.value = box2.value
+                    //box2.value = v
+                    pumpAnimation.start()
+                }
+                OpacityAnimator {
+                    target: toCombo
+                    from: 1
+                    to: 0
+                }
+                OpacityAnimator {
+                    target: toCombo
+                    from: 1
+                    to: 0
+                }
+            }
+            ParallelAnimation {
+                id: pumpAnimation
+                running: false
+                OpacityAnimator {
+                    target: fromCombo
+                    from: 0
+                    to: 1
+                }
+                OpacityAnimator {
+                    target: toCombo
+                    from: 0
+                    to: 1
+                }
+            }
+
+            // https://doc.qt.io/qt-5/qml-qtquick-layouts-rowlayout.html ?
+            Flow {
                 id: resultItem
                 anchors.horizontalCenter: parent.horizontalCenter
-                //anchors.top: toCombo.bottom;
-                //anchors.topMargin: Theme.paddingLarge;
                 Label {
                     id: fromSymbolLabel;
                     text: fromSymbol;
-                    //anchors.leftMargin: Theme.paddingLarge;
-                    //anchors.top: parent.top;
-                    //anchors.left: parent.left;
+                    verticalAlignment: Text.AlignBottom
+                    horizontalAlignment: Text.AlignRight
+                    topPadding: Theme.paddingSmall
                 }
+                // https://doc.qt.io/qt-5/qml-qtquick-textinput.html ?
                 TextField {
                     id: amountText;
                     text: multiplier;
-                    label: qsTr('Amount')
+                    enabled: isEnabled
                     placeholderText: label
-                    //anchors.left: fromSymbolLabel.right;
-                    //anchors.rightMargin: fromSymbolLabel.right;
-                    width: Math.round(frontPage.width/3.5)
-                    horizontalAlignment: TextInput.AlignRight;
+                    width: resultLabel.width // Math.round(frontPage.width/3.5)
+                    //height: parent.height
+                    horizontalAlignment: TextInput.AlignHCenter
+                    //_editor.verticalAlignment: TextInput.AlignTop
                     inputMethodHints: Qt.ImhFormattedNumbersOnly;
                     validator: DoubleValidator {
                         bottom: 0.1
                         decimals: numDecimals
                         notation: DoubleValidator.StandardNotation
-                        //locale:
+                    }
+                    onClicked: {
+                        if(!selectedText) {
+                            selectAll()
+                        }
                     }
                     onTextChanged: {
                         // Try not to refresh on every change.
-                        //console.log('Result 1:', text)
                         if(text.trim().length > 0 && !isNaN(text) && parseFloat(text) > 0.0) {
                             inputTimer.restart();
-                        } else if(isNaN(text)) { // || text.trim().length === 0) {
-                            text = 1
-                        }/* else if(parseFloat(text) === 0.0) {
-                            console.log('Change', text, 'to', 1.0, '?')
-                        }*/
-                        tmpResult = parseFloat(text)
-                        //console.log('Result 2:', text)
+                        }
                     }
-                    EnterKey.enabled: text.length > 0 && parseFloat(text) > 0.1
+                    EnterKey.enabled: text.length > 0 && !isNaN(text) && parseFloat(text) > 0.0
                     //EnterKey.iconSource: 'image://theme/icon-m-enter-next'
                     EnterKey.iconSource: "image://theme/icon-m-enter-accept"
                 }
                 Label {
-                    //anchors.left: amountText.right;
+                    id: resultLabel
+                    topPadding: Theme.paddingSmall
                     //: Just localizing the result. NOT to be translated
                     text: ' =    ' + toSymbol + ' ' + qsTr("%L1").arg(result);
                     horizontalAlignment: Text.AlignHCenter;
                     verticalAlignment: Text.AlignBottom;
                 }
-                // Set the time updated. Use Date().toLocaleString(Qt.locale())
-                /*Label {
-                    width: parent.width;
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere;
-                    font.pixelSize: Theme.fontSizeExtraSmall;
-                    color: Theme.secondaryColor;
-                    text: "";
-                }*/
             }
+            // Set the time updated. Use Date().toLocaleString(Qt.locale())
             Label {
                 anchors.horizontalCenter: parent.horizontalCenter
-                //anchors.top: resultItem.bottom;
-                //anchors.topMargin: Theme.paddingLarge
-                font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryHighlightColor
-                text: (workOffline || !isOnline)
-                      ? qsTr('Working offline')
-                      : qsTr('Working online')
+                font.pixelSize: Theme.fontSizeExtraSmall;
+                color: Theme.secondaryHighlightColor;
+                text: ((workOffline || !Env.isOnline) ? qsTr('Offline') : qsTr('Online'))
+                      + ', '+ qsTr('Date: ')
+                      + new Date(dateRecieved).toLocaleString(Qt.locale(locale), Locale.NarrowFormat)
+                      + ' UTC'
             }
         }
     }
+    function switchCurrencies() {
+        var from = fromCombo.currentCurrencyCode
+        fromCombo.currentCurrencyCode = toCombo.currentCurrencyCode
+        toCombo.currentCurrencyCode = from
+
+        // NOTE: Trigger activation. Forget why I need this..?
+        fromCombo.currentCurrencyCode = fromCombo.currentCurrency.code
+        toCombo.currentCurrencyCode = toCombo.currentCurrency.code
+        // And go
+        app.getRate()
+    }
 }
-
-

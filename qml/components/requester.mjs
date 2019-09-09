@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-2019 Thomas Tanghus
+Copyright (c) 2019 Thomas Tanghus
 
   You may use this file under the terms of BSD license as follows:
 
@@ -26,31 +26,31 @@ Copyright (c) 2013-2019 Thomas Tanghus
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 //import "utils.js" as Utils
-/*
-  Get all currencies ('.length' is parts of the array)
-  https://api.exchangeratesapi.io/latest?base=DKK&symbols=
-  Object.keys(r.rates);
-  Add an extra argument to messages object, to treat it accordingly
-*/
+
 WorkerScript.onMessage = function(message) {
     var url = message.url.supplant(message.args)
-    console.log('message', JSON.stringify(message))
-    console.log('url', url)
+    console.log('Requester.onMessage', JSON.stringify(message))
+    console.log('Requester.onMessage. url:', url)
 
     var xhr = new XMLHttpRequest();
     xhr.timeout = 3000;
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            console.log('requester: status:', xhr.status, xhr.statusText)
             if(xhr.status >= 200 && xhr.status < 300) {
+                console.log('requester: status/size:', xhr.status, xhr.statusText, xhr.responseText.length)
                 var result = JSON.parse(xhr.responseText);
 
                 WorkerScript.sendMessage({response: result, request: message});
 
             } else {
                 console.log('requester.js', xhr.statusText, JSON.parse(xhr.responseText).error);
-                WorkerScript.sendMessage({error: xhr.statusText, message: JSON.parse(xhr.responseText).error});
+                WorkerScript.sendMessage({
+                        error: xhr.statusText,
+                        message: JSON.parse(xhr.responseText).error,
+                        request: message
+                    }
+                );
             }
         }
     }
@@ -62,6 +62,7 @@ WorkerScript.onMessage = function(message) {
     xhr.open('GET', url, true);
     xhr.send();
 }
+
 
 String.prototype.supplant = function (o) {
     try {
@@ -75,4 +76,5 @@ String.prototype.supplant = function (o) {
 
     }
 };
+
 

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013-2018 Thomas Tanghus <thomas@tanghus.net>
+  Copyright (C) 2013-2019 Thomas Tanghus <thomas@tanghus.net>
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -31,6 +31,7 @@ import QtQuick 2.6
 import Sailfish.Silica 1.0
 import org.freedesktop.contextkit 1.0
 import Nemo.DBus 2.0
+//import harbour.currencyconverter.environment 0.1
 //import harbour.currencyconverter.fileproxy 1.0
 import "cover"
 import "pages"
@@ -40,6 +41,17 @@ import "components"
 ApplicationWindow {
 
     id: app
+
+    // A Currency Pair is the combination of two currencies and their current
+    // exchange rate. A Currency pair can be e.g. EUR/USD, where in this case
+    // USD is the Base Currency.
+    // In this context a pair is an object with the properties:
+    //     'from', 'to', 'rate', and 'date'
+    // where 'from' is the three-letter Base Currency, and 'to' is
+    // the Minor Currency. 'rate' is of course the exchange rate, and 'date'
+    // is the date(time) the service reports the rate has changed.
+
+    property var currentPair
 
     // E.g. USD, EUR, DKK
     property string fromCode
@@ -56,36 +68,104 @@ ApplicationWindow {
     property int numDecimals
 
     // The last result before multiplication
-    // NOTE: Changed from string.
     property double rate: 1.0
 
     // The multiplied result
     // The reason for having two variables, is to avoid double multiplication
     property double tmpResult: 1.0
     property double result: 1.0
+    property string dateRecieved: ''
 
-    property bool isBusy: true
     property bool workOffline: false
-    property bool isOnline: false
-    // An object containing all current currencies
-    property variant currencies
+    property bool isOnline: Env.isOnline
+    property var allCurrencies: Currencies.all
+    property var availableCurrencies: Currencies.available
     property string locale: Qt.locale().name
 
+    // https://doc.qt.io/qt-5/qtqml-syntax-objectattributes.html#object-list-property-attributes
+    // https://doc.qt.io/qt-5/qml-list.html
+    //property list<ExchangeRatesProvider> providers
+
     // The final result: amount * rate
-    onTmpResultChanged: result = Number(tmpResult * multiplier).toFixed(numDecimals)
-    onNumDecimalsChanged: result = Number(tmpResult * multiplier).toFixed(numDecimals)
+    onTmpResultChanged: updateResult('tmpResult', tmpResult)
+    onNumDecimalsChanged: updateResult('numDecimals', numDecimals)
+    onMultiplierChanged: updateResult('multiplier', multiplier)
+
+    function updateResult(field, value) {
+        // This triggers an update in frontPage
+        result = Number(tmpResult * multiplier).toFixed(numDecimals)
+    }
+
     onLocaleChanged: {
-        console.log('App.onLocaleChanged:', locale)
+        //console.log('App.onLocaleChanged:', locale)
         if(!locale || locale === 'C') {
             locale = 'en_GB'
         }
     }
 
+    onCurrentPairChanged: {
+        console.log('App.currentPair:', JSON.stringify(currentPair))
+    }
+
+    Timer {
+        id: kickOff
+        interval: 300; running: true; repeat: true
+        onTriggered: {
+            if(Currencies.isReady) {
+                console.log('KICKOFF!!!!!!!')
+                stop()
+                repeat = false
+                if(!Env.isOnline && !workOffline) {
+                    networkIFace.openConnection()
+                }
+                getRate()
+            } else {
+                restart()
+            }
+        }
+    }
+
+    onIsOnlineChanged: {
+        fromCode = settings.value('fromCode', 'USD')
+        toCode = settings.value('toCode', 'EUR')
+        multiplier = settings.value('multiplier', 1)
+        numDecimals = settings.value('numDecimals', 2)
+        rate = settings.value('rate', 1.0)
+        workOffline = settings.value('workOffline', false)
+        console.log('App.isOnline:', Env.isOnline)  //, fromCode, '=>', toCode)
+
+        if(settings.firstRun) {
+            // TODO: Use for first time loaded
+            // Use a 'Loader' to load a 'Requester' to execute DB schema(s).
+            // When DB is created, signal to Currencies/Env.
+        }
+
+        allCurrenciesFetcher.request({})
+        provider.getAvailable(toCode)
+        //storage.getAvailable(fromCode)
+        //storage.getRaw('SELECT * FROM rates WHERE fromCode="CZK"')
+        // Start timer to monitor when Currencies data is ready.
+        kickOff.start()
+    }
+
+    Binding {
+        target: app
+        property: 'isOnline'
+        value: Env.isOnline
+    }
+
+    Binding {
+        target: app
+        property: 'allCurrencies'
+        value: Currencies.all
+    }
+
     allowedOrientations: Orientation.Portrait | Orientation.Landscape //defaultAllowedOrientations
 
     initialPage: Component {
-        id: frontPage;
-        FrontPage {}
+        FrontPage {
+            id: frontPage;
+        }
     }
 
     /*
@@ -100,6 +180,9 @@ ApplicationWindow {
 
     Settings {
         id: settings
+        Component.onCompleted: {
+            // TODO: Check if 'version' matches current version.
+        }
     }
 
     /*FileProxy {
@@ -116,17 +199,8 @@ ApplicationWindow {
         }
     }*/
 
-    ContextProperty {
-        // `cat /run/state/namespaces/Internet/NetworkState`
-        id: networkOnline
-        key: 'Internet.NetworkState'
-        onValueChanged: {
-            isOnline = value === 'connected' ? true : false
-            console.log('Connected', isOnline)
-        }
-    }
-
     // Popup the network selection dialogue
+    // Maybe move this to Env.network?
     DBusInterface {
          id: networkIFace
          service: 'com.jolla.lipstick.ConnectionSelector'
@@ -134,8 +208,6 @@ ApplicationWindow {
          iface: 'com.jolla.lipstick.ConnectionSelectorIf'
 
         function openConnection() {
-            console.log('DBusInterface.openConnection')
-            console.trace()
             call('openConnectionNow', 'wifi')
         }
     }
@@ -150,58 +222,26 @@ ApplicationWindow {
         id: busyIndicator
         anchors.centerIn: parent
         size: BusyIndicatorSize.Large
-        running: isBusy
+        running: Env.isBusy
+        //onRunningChanged: console.log('busyIndicator.running', busyIndicator.running)
     }
 
-    Storage {
-        id: storage
-        // TODO: This creates some weird path.
-        dbName: StandardPaths.data
-        tblName: 'rates'
-        // Use Map? https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
-        columns: ({
-            fromCurrency: 'TEXT',
-            toCurrency: 'TEXT',
-            rate: 'TEXT',
-            date: 'TEXT'
-        })
-        key: ['fromCurrency', 'toCurrency']
-
-        function setRate(fromCurrency, toCurrency, rate, date) {
-            try {
-                set(['fromCurrency', 'toCurrency', 'rate', 'date'],
-                    [fromCurrency, toCurrency, rate, date])
-            } catch(e) {
-                console.error(e)
-            }
-        }
-
-        function getRate(from, to, cb) {
-            try {
-                get(['rate'], {'fromCurrency': fromCode, 'toCurrency': toCode},
-                    function(row) {cb(row)})
-            } catch(e) {
-                console.log(e)
-            }
-        }
-
-        function getAll(from, cb) {
-            try {
-                get(['rate'], {'fromCurrency': fromCode, 'toCurrency': ''},
-                    function(row) {cb(row)})
-            } catch(e) {
-                console.log(e)
-            }
-        }
-    }
-
+    // TODO: Move 'storage' to separate file 'Cache.qml'
     // Used for instantiating object with all currencies.
     Requester {
-        id: currenciesFetcher
-        url: Qt.resolvedUrl('../data/currencies_{locale}.json'.replace('{locale}', locale))
+        id: allCurrenciesFetcher
+        url: Qt.resolvedUrl('../data/currencies.json')
+        //url: Qt.resolvedUrl('../data/currencies_{locale}.json'.replace('{locale}', locale))
         onMessage: {
-            console.log('currenciesFetcher.onMessage:') //, JSON.stringify(messageObject))
-            currencies = messageObject.response
+            console.log('allCurrenciesFetcher.onMessage:', JSON.stringify(messageObject).substring(0, 200))
+            var all = messageObject.response
+            for(var currency in all) {
+                // 'code' is the key, but not in the object itself.
+                all[currency]['code'] = currency
+                //console.log('currency:', JSON.stringify(all[currency]['code']))
+            }
+
+            Currencies.all = all
         }
     }
 
@@ -211,108 +251,68 @@ ApplicationWindow {
           source: 'ExchangeProviderXXX'
       }
     */
-    Requester {
-        id: rateFetcher
+
+    Cache {
+        id: storage
+    }
+
+    ExchangeRatesAPIProvider {
+        id: provider
         url: 'https://api.exchangeratesapi.io/latest?base={from}&symbols={to}'
-        onMessage: {
-            console.log('rateFetcher.onMessage:', JSON.stringify(messageObject))
-            console.log('rateFetcher.onMessage. response:', JSON.stringify(messageObject.response))
-            if(messageObject.request && messageObject.response ) {
-                // TODO: This part needs to be generalized
-                var _f = messageObject.request.args.from
-                var _t = messageObject.request.args.to
-                var _r = messageObject.response.rates[_t]
-                var _d = messageObject.response.date
-                tmpResult = parseFloat(_r)
-                storage.setRate(_f, _t, _r, _d)
-            } else {
-                notifier.notify(messageObject.error, messageObject.message)
-                console.warn(messageObject.error, messageObject.message)
+        cache: storage
+
+        // The signal is sent from ExchangeProvider.getRate()
+        onRateRecieved: {
+            // This triggers frontPage.onCurrentPairChanged
+            if(!pair) {
+                console.error('App.provider.onRateRecieved: Got empty pair!')
+                console.trace()
+                Env.setBusy(false)
+                return
             }
 
-            setBusy(false)
+            currentPair = pair
+            // This is recieved in onTmpResultChanged where it is formatted and assigned to 'result'
+            tmpResult = parseFloat(pair.rate)
+            dateRecieved = pair.date
+            Env.setBusy(false)
+        }
+        onAvailableRecieved: {
+            console.log('App.provider.onAvailableRecieved:', JSON.stringify(availableCurrencies))
+
+            /*var available = {}
+            for(var i = 0; i < availableCurrencies.length; i++) {
+                //console.log('Available:', JSON.stringify(availableCurrencies[i]))
+                available[availableCurrencies[i].toCode] = { rate: availableCurrencies[i].rate }
+            }*/
+
+            Currencies.available = availableCurrencies
+            //Currencies.available = available
+        }
+        onError: {
+            console.log('App.provider.onError:', error, message)
+            Env.setBusy(false)
         }
     }
 
-    Component.onCompleted: {
-        setBusy(true)
-        fromCode = settings.value('fromCode', 'USD')
-        toCode = settings.value('toCode', 'EUR')
-        multiplier = settings.value('multiplier', 1)
-        numDecimals = settings.value('numDecimals', 4)
-        rate = settings.value('rate', 1.0)
-        workOffline = settings.value('workOffline', false)
-        if(!isOnline && !workOffline) {
-            networkIFace.openConnection()
-        }
-        // NOTE: Is 'locale' used?
-        currenciesFetcher.request({'locale': locale})
-        getRate()
-        console.log('App.Ready', fromCode, toCode)
-        setBusy(false)
-    }
+    /*Component.onCompleted: {
+    }*/
 
-    // TODO: This method needs to be generalized to allow for
-    // other providers
     function getRate() {
         var response, doUpdate = false
 
-        if(isBusy) return
+        //console.log('App.getRate. Busy or !Ready?', (Env.isBusy || !Env.isReady))
+        if(Env.isBusy || !Env.isReady) {
+            console.log('App.GetRate. Returning!!!!')
+            return
+        }
 
-        setBusy(true)
-
-        // Try to get it from the cache
-        storage.getRate(fromCode, toCode, function(response) {
-            //console.log('App.getRate()', response)
-            if(response.rate) {
-                //console.log('App.getRate(). rate:', response.rate)
-                var now, then
-                tmpResult = parseFloat(response['rate']).toFixed(numDecimals)
-                now = new Date()
-                then = new Date(response['date'])
-
-                // Is it older than a 36 hrs?'
-                // Using 36 instead of 24 to avoid too many requests.
-                if(now.getTime() - then.getTime() > 129600000) {
-                    // Also test if it's weekend, as the rates aren't updated then.
-                    if(0 < now.getDay() < 6) {
-                        console.log("It's a WEEKDAY")
-                        doUpdate = workOffline ? false : true
-                    } else {
-                        console.log("It's WEEKEND")
-                    }
-                }
-                setBusy(false)
-            } else {
-                console.log('App.getRate(). Nothing cached')
-                // Nothing cached
-                doUpdate = true
-            }
-
-            if(doUpdate && !workOffline) {
-                if(isOnline) {
-                    rateFetcher.request( {'from': fromCode, 'to': toCode} )
-                } else {
-                    console.log('Network is down')
-                    notifier.notify(qsTr('Network is down'))
-                    setBusy(false)
-                }
-            } else if(doUpdate) {
-                setBusy(false)
-                var str = qsTr("You have chosen to work offline, but the currency combination \
- %1 => %2 is not in the cache.").arg(fromCode).arg(toCode);
-
-                pageStack.push(Qt.resolvedUrl('pages/SettingsDialog.qml'), {info: str})
-            }
-        })
-
+        console.log('App.getRate(' + fromCode + ', ' + toCode + ')')
         settings.fromCode = fromCode
         settings.toCode = toCode
         settings.multiplier = multiplier
-    }
-
-    function setBusy(state) {
-        isBusy = state;
+        Env.setBusy(true)
+        provider.getRate(fromCode, toCode)
     }
 }
 

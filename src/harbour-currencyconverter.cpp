@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013 Thomas Tanghus <thomas@tanghus.net>
+  Copyright (C) 2013-2019 Thomas Tanghus <thomas@tanghus.net>
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -48,8 +48,12 @@ int main(int argc, char *argv[]) {
     //app->setApplicationVersion(QStringLiteral(VERSION_STRING));
     QQuickView *view = SailfishApp::createView();
     view->engine()->addImportPath(SailfishApp::pathTo("lib/").toLocalFile());
+    qDebug() << "Components import path" << SailfishApp::pathTo("qml/components/").toLocalFile();
     view->engine()->addImportPath(SailfishApp::pathTo("qml/components/").toLocalFile());
     view->engine()->addImportPath(SailfishApp::pathTo("qml/pages/").toLocalFile());
+
+    //qmlRegisterSingletonType(SailfishApp::pathTo("qml/components/Env.qml"), "harbour.currencyconverter.environment", 0, 1, "Env");
+
     QTranslator *translator = new QTranslator;
 
     QString locale = QLocale::system().name();
@@ -62,6 +66,8 @@ int main(int argc, char *argv[]) {
     }
     app->installTranslator(translator);
 
+    // https://stackoverflow.com/questions/34109523/setting-localstorage-location-via-setofflinestoragepath
+    view->rootContext()->setContextProperty("root", SailfishApp::pathTo("./").toLocalFile());
     view->setSource(SailfishApp::pathTo("qml/harbour-currencyconverter.qml"));
     view->showFullScreen();
     return app->exec();

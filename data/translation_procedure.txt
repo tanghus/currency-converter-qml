@@ -1,16 +1,21 @@
 Currency translation procedure:
 
+Open "currencies.csv"
+Cut the first line: "code", "symbol", "num","name"
+
 Go to translate.google.com and translate "currencies.csv" to the needed language {LANG} e.g. "en_GB".
-Save result as currencies_{LANG}.txt. 
-Check that all fields are enclosed bu double quotes and for any serious discrepancies.
-Run `sort -f --field-separator=',' -k2 currencies_{LANG}.txt > currencies_{LANG}.csv`
-Insert as first line: "code","name"
+Save result as currencies_{LANG}.txt. NOTE: NOT ".csv" 
+Check that all fields are enclosed by double quotes and for any serious discrepancies.
+Run `sort -f --field-separator=',' -k4 currencies_{LANG}.txt > currencies_{LANG}.csv`
+
+Insert as first line: "code", "symbol", "num","name"
 
 Go to http://www.convertcsv.com/csv-to-json.htm (Or similar service)
-Upload/paste currencies_sort_by_name_{LANG}.csv.
+Upload/paste currencies_{LANG}.csv.
 Encoding UTF-8
 Input options:
   First row is column names. Check
 Generate output:
   CVS To Keyed JSON
 Save result as "currencies_{LANG}.json" 
+Check again that all fields are enclosed by double quotes and for any serious discrepancies.
