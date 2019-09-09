@@ -116,14 +116,26 @@ QtObject {
                     // Return a new object to make sure it's initialized properly
                     return _createFromCurrency(currency)
             } else {
-                // Try anyway
+                // Try something else
                 console.warn('Creating "Currency" from unknown object!')
-                return _createFromCurrency(currency)
+                return _createFromProperties(currency)
             }
         } else {
             error("I don't know what to do with", currency)
             console.trace()
         }
+    }
+
+    function _createFromProperties(currency) {
+        var props = ['code', 'num', 'name', 'symbol']
+
+        for(var i = 0; i < props.length; i++) {
+            if(!currency.hasOwnProperty(props[i])) {
+                error('Not a Currency. No property:' + props[i] + ' ' + JSON.stringify(currency))
+                return
+            }
+        }
+        return _createFromCode(currency.code)
     }
 
     function _createFromCurrency(currency) {
