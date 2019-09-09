@@ -110,7 +110,9 @@ BackgroundItem {
     }
 
     onClicked: {
-        list = pageStack.push(Qt.resolvedUrl('CurrencyList.qml'))
+        console.log('CurrencyCombo.onClicked. currentCurrencyCode:', currentCurrencyCode)
+        list = pageStack.push(Qt.resolvedUrl('CurrencyList.qml'),
+                              {currentCurrencyCode: currentCurrencyCode})
         list.currencySelected.connect(setCurrentCurrency)
     }
 
@@ -131,6 +133,8 @@ BackgroundItem {
             return
         }
 
+        var c = Currencies.createCurrency(currency)
+        console.log('CurrencyCombo.setCurrentCurrency. Converted:', JSON.stringify(c))
         if(currentCurrencyCode && currentCurrencyCode !== currency.code) {
             currentCurrencyCode = currency.code
         }

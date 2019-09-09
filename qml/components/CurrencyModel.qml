@@ -120,7 +120,7 @@ ListModel {
 
         if(Env.isReady) {
             // Begin populating
-            console.log('CurrencyModel. Populating...', availableCurrencies.length)
+            console.log('CurrencyModel. Populating...')
             for(var currency in allCurrencies) {
                 if (allCurrencies.hasOwnProperty(currency)) { // Of course it has???
                     allCurrencies[currency].code = currency

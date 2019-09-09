@@ -34,13 +34,38 @@ Page {
     id: searchPage
     property string searchString
     property bool keepSearchFieldFocus
+    property string currentCurrencyCode: value
     signal currencySelected(var currency)
     allowedOrientations: Orientation.All
 
+    SequentialAnimation {
+        id: animateHighlighted
+        PropertyAnimation {
+            target: currencyList.currentItem
+            properties: 'highlighted'
+            to: true
+            duration: 500
+        }
+        PropertyAnimation {
+            target: currencyList.currentItem
+            properties: 'highlighted'
+            to: false
+            duration: 1000
+        }
+    }
+
     // Temporaryly giving up on searching
-    //onSearchStringChanged: currenciesModel.update()
+    // onSearchStringChanged: currencyModel.update()
     Component.onCompleted: {
-        //currenciesModel.update()
+        console.log('CurrencyList.onCompleted. currentCurrencyCode:', currentCurrencyCode)
+        var idx = currencyModel.findByCode(currentCurrencyCode)
+        if(!isNaN(idx)) {
+            currencyList.currentIndex = idx
+            animateHighlighted.start()
+            currencyList.positionViewAtIndex(idx, ListView.Beginning)
+        }
+
+        //currencyModel.update()
     }
 
     Column {
@@ -65,6 +90,7 @@ Page {
     }
 
     SilicaListView {
+        id: currencyList
         anchors {
             fill: parent
             topMargin: headerContainer.height + Theme.paddingLarge
@@ -73,23 +99,22 @@ Page {
 
         VerticalScrollDecorator {}
 
-        model: currenciesModel
+        model: currencyModel
         delegate: currencyDelegate
     }
 
     CurrencyModel {
-        id: currenciesModel
+        id: currencyModel
 
-        /*
         function findByCode(code) {
             for(var i = 0; i < rowCount(); i++) {
-                if(model.get(i).code === code) {
-                    return model.get(i)
+                if(get(i).code === code) {
+                    console.log('CurrencyList.currencyModel. Found:', JSON.stringify(get(i)))
+                    return i
                 }
             }
             return null
         }
-        */
     }
 
     Component {
