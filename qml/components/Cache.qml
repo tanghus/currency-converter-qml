@@ -26,11 +26,10 @@ Copyright (c) 2019 Thomas Tanghus
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 import QtQuick 2.6
+import '.'
 
 Storage {
     id: storage
-    // TODO: This creates some weird path.
-    dbName: StandardPaths.data
     tblName: 'rates'
     // Use Map? https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
     columns: ({

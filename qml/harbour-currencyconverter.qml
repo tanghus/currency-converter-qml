@@ -254,6 +254,7 @@ ApplicationWindow {
 
     Cache {
         id: storage
+        dbName: StandardPaths.data
     }
 
     ExchangeRatesAPIProvider {

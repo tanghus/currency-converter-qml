@@ -32,7 +32,7 @@ import QtQuick.LocalStorage 2.0 as LS
 QtObject {
 
     property string dbName: ''
-    // TODO: Change this to 'property var tables: []
+    // TODO: Change this to: property var tables: []
     property string tblName: ''
     property string dbDescription: dbName;
     // TODO: Check what database version means
@@ -111,7 +111,7 @@ QtObject {
         }
         sql += ')'
 
-        console.log('Storage._getTable. SQL:', sql)
+        //console.log('Storage._getTable. SQL:', sql)
         try {
             _dbObj.transaction(
                 function(tx) {
