@@ -49,8 +49,8 @@ Item {
     property var updateWeekdays: [0,1,2,3,4,5,6]
     property date _lastUpdated: new Date()
 
-    signal rateRecieved(var pair)
-    signal availableRecieved(var availableCurrencies)
+    signal rateReceived(var pair)
+    signal availableReceived(var availableCurrencies)
     signal error(string error, string message)
 
     Requester {
@@ -75,10 +75,10 @@ Item {
                         console.log('ExchangeProvider.rateFetcher.onMessage:', JSON.stringify(_data))
                         cache.setRate(_data.from, _data.to, _data.rate, _data.date)
                         // Signal received
-                        provider.rateRecieved(Currencies.createPair(_data))
+                        provider.rateReceived(Currencies.createPair(_data))
                     } else if(messageObject.request.args.requestType === 'available') {
                         // Signal received
-                        provider.availableRecieved(messageObject.response)
+                        provider.availableReceived(messageObject.response)
                         console.log('ExchangeProvider.rateFetcher. available:', messageObject.length,
                                     JSON.stringify(messageObject.response).substring(0, 100))
                         // 'parseAvailableResponse' must be implemented by subclasses.
@@ -127,7 +127,7 @@ Item {
                     console.log('ExchangeProvider.getAvailable. Fetching "' + base + '" OFFLINE')
                     doUpdate = false
                     // Signal received
-                    provider.availableRecieved(rates)
+                    provider.availableReceived(rates)
                 } else {
                     doUpdate = true
                 }
@@ -184,8 +184,8 @@ Item {
                     // The response is OK. Format it to fit with the required format
                     var pair = Currencies.createPair(response)
                     // Signal received
-                    // is caught in App.onRateRecieved
-                    provider.rateRecieved(pair)
+                    // is caught in App.onRateReceived
+                    provider.rateReceived(pair)
                 }
             } else {
                 console.log('ExchangeProvider.getRate(). Nothing cached')

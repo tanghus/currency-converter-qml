@@ -74,7 +74,7 @@ ApplicationWindow {
     // The reason for having two variables, is to avoid double multiplication
     property double tmpResult: 1.0
     property double result: 1.0
-    property string dateRecieved: ''
+    property string dateReceived: ''
 
     property bool workOffline: false
     property bool isOnline: Env.isOnline
@@ -262,23 +262,23 @@ ApplicationWindow {
         cache: storage
 
         // The signal is sent from ExchangeProvider.getRate()
-        onRateRecieved: {
+        onRateReceived: {
             // This triggers frontPage.onCurrentPairChanged
             if(!pair) {
-                console.error('App.provider.onRateRecieved: Got empty pair!')
+                console.error('App.provider.onRateReceived: Got empty pair!')
                 console.trace()
                 Env.setBusy(false)
                 return
             }
 
             currentPair = pair
-            // This is recieved in onTmpResultChanged where it is formatted and assigned to 'result'
+            // This is received in onTmpResultChanged where it is formatted and assigned to 'result'
             tmpResult = parseFloat(pair.rate)
-            dateRecieved = pair.date
+            dateReceived = pair.date
             Env.setBusy(false)
         }
-        onAvailableRecieved: {
-            console.log('App.provider.onAvailableRecieved:', JSON.stringify(availableCurrencies))
+        onAvailableReceived: {
+            console.log('App.provider.onAvailableReceived:', JSON.stringify(availableCurrencies))
 
             /*var available = {}
             for(var i = 0; i < availableCurrencies.length; i++) {

@@ -35,13 +35,13 @@ import '.'
 QtObject {
     property bool _isBusy: false
     readonly property bool isReady: Currencies.isReady
-    readonly property bool isOnline: network.isOnline || false // network.isOnline ? network.isOnline : false
+    readonly property bool isOnline: network.isOnline || false
     readonly property bool isBusy: (_isBusy || !Currencies.isReady)
     //onIsOnlineChanged: console.log('Env.isOnline:', isOnline)
     //onIsReadyChanged:  console.log('Env.isReady:', isReady)
     onIsBusyChanged:  console.log('Env.isBusy:', isBusy)
 
-    // This is for setting before requesting a result and when it's recieved.
+    // This is for setting before requesting a result and when it's received.
     // This stops request and other actions, blocks for user input and shows busy indicator.
     function setBusy(state) {
         //console.log('Setting busy:', state)

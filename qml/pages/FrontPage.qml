@@ -45,7 +45,7 @@ Page {
 
     allowedOrientations: Orientation.All
 
-    // This is triggered in App.provider.onRateRecieved
+    // This is triggered in App.provider.onRateReceived
     onCurrentPairChanged: {
         console.log('FrontPage.currentPair:',currentPair.from, currentPair.to)
         var from = Currencies.createCurrency(currentPair.from)
@@ -317,7 +317,7 @@ Page {
                 color: Theme.secondaryHighlightColor;
                 text: ((workOffline || !Env.isOnline) ? qsTr('Offline') : qsTr('Online'))
                       + ', '+ qsTr('Date: ')
-                      + new Date(dateRecieved).toLocaleString(Qt.locale(locale), Locale.NarrowFormat)
+                      + new Date(dateReceived).toLocaleString(Qt.locale(locale), Locale.NarrowFormat)
                       + ' UTC'
             }
         }
