@@ -92,13 +92,12 @@ QtObject {
         var sql = 'CREATE TABLE IF NOT EXISTS ' + tblName
 
         // The columns
-        // Use Map?
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#Iterating_Map_with_for..of
         for(var k in columns) {
             if (columns.hasOwnProperty(k)) {
                 tmpColumns.push(k + ' ' + columns[k])
             }
         }
+        tmpColumns.push('timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP')
         sql += '(' + tmpColumns.join(',')
 
         // Any primary key?
