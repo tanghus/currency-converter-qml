@@ -123,10 +123,7 @@ ApplicationWindow {
             // When DB is created, signal to Currencies/Env.
         }
 
-        allCurrenciesFetcher.request({})
-        provider.getAvailable(toCode)
-        // Start timer to monitor when Currencies data is ready.
-        kickOff.start()
+        kickOff.moveOn()
     }
 
     Component.onCompleted: {
@@ -139,11 +136,8 @@ ApplicationWindow {
         if(!workOffline) {
             waitForNetwork.start()
         } else {
-            // NOTE: Duplicate code from onIsOnlineChanged
-            allCurrenciesFetcher.request({})
-            provider.getAvailable(toCode)
             // Start timer to monitor when Currencies data is ready.
-            kickOff.start()
+            kickOff.moveOn()
         }
     }
 
@@ -173,6 +167,11 @@ ApplicationWindow {
             } else {
                 restart()
             }
+        }
+        function moveOn() {
+            allCurrenciesFetcher.request({})
+            provider.getAvailable(toCode)
+            start()
         }
     }
 
