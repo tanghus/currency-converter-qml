@@ -44,13 +44,13 @@ Page {
             target: currencyList.currentItem
             properties: 'highlighted'
             to: true
-            duration: 500
+            duration: 300
         }
         PropertyAnimation {
             target: currencyList.currentItem
             properties: 'highlighted'
             to: false
-            duration: 1000
+            duration: 1500
         }
     }
 
