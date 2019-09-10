@@ -173,8 +173,6 @@ Page {
                 icon.source: "image://theme/icon-m-data-download?"
                              + (pressed ? Theme.highlightColor : Theme.primaryColor)
                 onClicked: {
-                    rotationAnimation.start()
-                    hideAnimation.start()
                     switchCurrencies()
                 }
 
@@ -262,6 +260,10 @@ Page {
             // https://doc.qt.io/qt-5/qml-qtquick-layouts-rowlayout.html ?
             Flow {
                 id: resultItem
+                padding: {
+                    top: Theme.paddingLarge
+                }
+
                 anchors.horizontalCenter: parent.horizontalCenter
                 Label {
                     id: fromSymbolLabel;
@@ -323,6 +325,8 @@ Page {
         }
     }
     function switchCurrencies() {
+        rotationAnimation.start()
+        hideAnimation.start()
         var from = fromCombo.currentCurrencyCode
         fromCombo.currentCurrencyCode = toCombo.currentCurrencyCode
         toCombo.currentCurrencyCode = from
