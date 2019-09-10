@@ -107,6 +107,52 @@ ApplicationWindow {
         console.log('App.currentPair:', JSON.stringify(currentPair))
     }
 
+    onIsOnlineChanged: {
+        if(!isOnline) {
+            console.log('Not online')
+            if(!workOffline) {
+                networkIFace.openConnection()
+            }
+        }
+
+        console.log('App.isOnline:', Env.isOnline)  //, fromCode, '=>', toCode)
+
+        if(settings.firstRun) {
+            // TODO: Use for first time loaded
+            // Use a 'Loader' to load a 'Requester' to execute DB schema(s).
+            // When DB is created, signal to Currencies/Env.
+        }
+
+        allCurrenciesFetcher.request({})
+        provider.getAvailable(toCode)
+        // Start timer to monitor when Currencies data is ready.
+        kickOff.start()
+    }
+
+    Component.onCompleted: {
+        fromCode = settings.value('fromCode', 'USD')
+        toCode = settings.value('toCode', 'EUR')
+        multiplier = settings.value('multiplier', 1)
+        numDecimals = settings.value('numDecimals', 2)
+        rate = settings.value('rate', 1.0)
+        workOffline = settings.value('workOffline', false)
+        if(!workOffline) {
+            waitForNetwork.start()
+        }
+    }
+
+    Timer {
+        id: waitForNetwork
+        interval: 3000
+        repeat: false
+        onTriggered: {
+            if(!Env.isOnline) {
+                console.log('App.waitForNetwork triggered')
+                networkIFace.openConnection()
+            }
+        }
+    }
+
     Timer {
         id: kickOff
         interval: 300; running: true; repeat: true
@@ -123,29 +169,6 @@ ApplicationWindow {
                 restart()
             }
         }
-    }
-
-    onIsOnlineChanged: {
-        fromCode = settings.value('fromCode', 'USD')
-        toCode = settings.value('toCode', 'EUR')
-        multiplier = settings.value('multiplier', 1)
-        numDecimals = settings.value('numDecimals', 2)
-        rate = settings.value('rate', 1.0)
-        workOffline = settings.value('workOffline', false)
-        console.log('App.isOnline:', Env.isOnline)  //, fromCode, '=>', toCode)
-
-        if(settings.firstRun) {
-            // TODO: Use for first time loaded
-            // Use a 'Loader' to load a 'Requester' to execute DB schema(s).
-            // When DB is created, signal to Currencies/Env.
-        }
-
-        allCurrenciesFetcher.request({})
-        provider.getAvailable(toCode)
-        //storage.getAvailable(fromCode)
-        //storage.getRaw('SELECT * FROM rates WHERE fromCode="CZK"')
-        // Start timer to monitor when Currencies data is ready.
-        kickOff.start()
     }
 
     Binding {
@@ -297,9 +320,6 @@ ApplicationWindow {
             Env.setBusy(false)
         }
     }
-
-    /*Component.onCompleted: {
-    }*/
 
     function getRate() {
         var response, doUpdate = false
