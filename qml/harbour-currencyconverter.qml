@@ -246,8 +246,10 @@ ApplicationWindow {
     }
 
     // https://doc.qt.io/qt-5/qml-qtquick-loader.html
+    // https://doc.qt.io/qt-5/qml-qtqml-component.html#details
     /*
       Loader {
+          sourceComponent: // Which one?
           source: 'ExchangeProviderXXX'
       }
     */
