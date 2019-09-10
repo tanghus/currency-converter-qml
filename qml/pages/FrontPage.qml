@@ -153,7 +153,7 @@ Page {
                 enabled: isEnabled
                 currentCurrencyCode: fromCode
                 onActivated: {
-                    console.log('FrontPage.fromCombo.onActivated:', JSON.stringify(currency))
+                    console.log('FrontPage.fromCombo.onActivated:')
                     fromCode = currency.code
                     fromSymbol = currency.symbol ? currency.symbol : currency.code
                     if(fromCode !== toCode && !Env.isBusy && Env.isReady) { app.getRate() }

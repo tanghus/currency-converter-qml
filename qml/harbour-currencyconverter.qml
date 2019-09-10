@@ -138,6 +138,12 @@ ApplicationWindow {
         workOffline = settings.value('workOffline', false)
         if(!workOffline) {
             waitForNetwork.start()
+        } else {
+            // NOTE: Duplicate code from onIsOnlineChanged
+            allCurrenciesFetcher.request({})
+            provider.getAvailable(toCode)
+            // Start timer to monitor when Currencies data is ready.
+            kickOff.start()
         }
     }
 
@@ -146,8 +152,7 @@ ApplicationWindow {
         interval: 3000
         repeat: false
         onTriggered: {
-            if(!Env.isOnline) {
-                console.log('App.waitForNetwork triggered')
+            if(!Env.isOnline && !workOffline) {
                 networkIFace.openConnection()
             }
         }
@@ -316,6 +321,7 @@ ApplicationWindow {
             //Currencies.available = available
         }
         onError: {
+            notifier.notify(error, message)
             console.log('App.provider.onError:', error, message)
             Env.setBusy(false)
         }
