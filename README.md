@@ -3,7 +3,7 @@
 
 Convert currencies using data configurable currency rates providers.
 
-Currency Converter per default uses [https://ExchangeRatesAPI.io](https://exchangeratesapi.io/)
+Currency Converter per default uses [ExchangeRatesAPI.io](https://exchangeratesapi.io/)
 that offers daily exchange rates for a limited set of currencies (currently 33) published by
 the [European Central Bank](https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html).
 
