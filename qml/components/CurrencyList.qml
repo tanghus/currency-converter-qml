@@ -87,10 +87,10 @@ Page {
             for(i = 0; i < currencyModel.count; i++) {
                 var item = currencyModel.get(i)
                 if(item.code === currentCurrencyCode) {
-                    console.log('Found:', item.code)
+                    console.log('CurrencyList.onCompleted. Found:', JSON.stringify(item))
                     item.highlighted = true
                 }
-                console.log('Item:', i, JSON.stringify(item))
+                //console.log('Item:', i, JSON.stringify(item))
             }
 
             currencyList.currentIndex = 0
@@ -188,7 +188,7 @@ Page {
         VerticalScrollDecorator {}
 
         Component.onCompleted: {
-            console.log('currencyList.onCompleted', currentItem.name);
+            //console.log('currencyList.onCompleted', currentItem.name);
         }
 
         /*onCurrentItemChanged:  {

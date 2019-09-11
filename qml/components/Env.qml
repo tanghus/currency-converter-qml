@@ -32,10 +32,20 @@ pragma Singleton
 import QtQuick 2.6
 import '.'
 
+/* bool isBusy:   On startup isBusy is true until Currencies has been loaded.
+ *                Don't start any requests when true. Use setBusy(true) before
+ *                starting any requests. MAKE SURE to use setBusy(false) when
+ *                done, or the UI will remain disabled!
+ * bool isOnline: Is true when network is online, otherwise false. On startup
+ *                it can take 1-2 seconds before it's registered. Monitor Env.isOnline
+ *                for changes in connectivity.
+ * bool isReady   Is false until Currencies are loaded. Same as Currencies.isReady
+ */
+
 QtObject {
     property bool _isBusy: false
     readonly property bool isReady: Currencies.isReady
-    readonly property bool isOnline: network.isOnline || false
+    readonly property bool isOnline: network.isOnline // || false
     readonly property bool isBusy: (_isBusy || !Currencies.isReady)
     //onIsOnlineChanged: console.log('Env.isOnline:', isOnline)
     //onIsReadyChanged:  console.log('Env.isReady:', isReady)

@@ -53,7 +53,7 @@ ListModel {
                 if (allCurrencies.hasOwnProperty(currency)) { // Of course it has???
                     allCurrencies[currency].code = currency
                     if(availableCurrencies[currency]) {
-                        console.log('Appending:', JSON.stringify(allCurrencies[currency]))
+                        //console.log('Appending:', JSON.stringify(allCurrencies[currency]))
                         append(allCurrencies[currency])
                     }
                 }
