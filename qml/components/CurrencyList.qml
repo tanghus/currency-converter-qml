@@ -28,7 +28,9 @@
 */
 
 import QtQuick 2.6
+import QtQml.Models 2.3
 import Sailfish.Silica 1.0
+import '.'
 
 Page {
     id: searchPage
@@ -54,20 +56,6 @@ Page {
         }
     }
 
-    // Temporaryly giving up on searching
-    // onSearchStringChanged: currencyModel.update()
-    Component.onCompleted: {
-        console.log('CurrencyList.onCompleted. currentCurrencyCode:', currentCurrencyCode)
-        var idx = currencyModel.findByCode(currentCurrencyCode)
-        if(!isNaN(idx)) {
-            currencyList.currentIndex = idx
-            animateHighlighted.start()
-            currencyList.positionViewAtIndex(idx, ListView.Beginning)
-        }
-
-        //currencyModel.update()
-    }
-
     Column {
         id: headerContainer
 
@@ -76,45 +64,147 @@ Page {
         PageHeader {
             title: 'Currencies'
         }
+    }
 
-        /*SearchField {
-            id: searchField
-            width: parent.width
+    DelegateModel {
+        id: visualModel
+        model: currencyModel
+        delegate: currencyDelegate
 
-            Binding {
-                target: searchPage
-                property: "searchString"
-                value: searchField.text.toLowerCase().trim()
+        property var lessThan: [
+            function(left, right) { return left.name < right.name },
+            function(left, right) { return left.code < right.code }
+        ]
+
+        property int sortOrder: 0
+
+        Component.onCompleted: {
+            console.log('CurrencyList.visualModel.onCompleted. currentCurrencyCode:', currentCurrencyCode)
+
+            items.setGroups(0, items.count, 'unsorted')
+
+            var i
+            for(i = 0; i < currencyModel.count; i++) {
+                var item = currencyModel.get(i)
+                if(item.code === currentCurrencyCode) {
+                    console.log('Found:', item.code)
+                    item.highlighted = true
+                }
+                console.log('Item:', i, JSON.stringify(item))
             }
-        }*/
+
+            currencyList.currentIndex = 0
+
+            for(i = 0; i < currencyList.count; i++) {
+                var currentSelectedItem
+                currentSelectedItem = visualModel.items.get(i).model;
+                if(currentSelectedItem.code === currentCurrencyCode) {
+                    console.log('currentItem.code:', currentSelectedItem.code)
+                    currencyList.currentIndex = i
+                    animateHighlighted.start()
+                    currencyList.positionViewAtIndex(i, ListView.Beginning)
+                    break
+                }
+            }
+        }
+
+        function setCurrentItem() {
+            console.log('CurrencyList.visualModel.setCurrentItem. currentCurrencyCode:',
+                        currentCurrencyCode)
+            var idx = findByCode(currentCurrencyCode)
+            if(!isNaN(idx)) {
+                currencyList.currentIndex = idx
+                animateHighlighted.start()
+                currencyList.positionViewAtIndex(idx, ListView.Beginning)
+            }
+        }
+
+        function findByCode(code) {
+            for(var i = 0; i < count; i++) {
+                console.log('findByCode:', JSON.stringify(items.get(i)))
+                if(items.get(i).code === code) {
+                    console.log('CurrencyList.currencyModel. Found:', i,
+                                JSON.stringify(items.get(i)))
+                    return i
+                }
+            }
+            return null
+        }
+
+        function insertPosition(lessThan, item) {
+            //console.log('lessThan item', lessThan, item)
+            var lower = 0
+            var upper = items.count
+            while (lower < upper) {
+                var middle = Math.floor(lower + (upper - lower) / 2)
+                var result = lessThan(item.model, items.get(middle).model);
+                if (result) {
+                    upper = middle
+                } else {
+                    lower = middle + 1
+                }
+            }
+            return lower
+        }
+
+        function sort(lessThan) {
+            while (unsortedItems.count > 0) {
+                var item = unsortedItems.get(0)
+                var index = insertPosition(lessThan, item)
+
+                item.groups = 'items'
+                items.move(item.itemsIndex, index)
+            }
+        }
+
+        items.includeByDefault: false
+
+        groups: DelegateModelGroup {
+            id: unsortedItems
+            name: 'unsorted'
+
+            includeByDefault: true
+
+            onChanged: {
+                if (visualModel.sortOrder === visualModel.lessThan.length) {
+                    setGroups(0, count, "items")
+                } else {
+                    visualModel.sort(visualModel.lessThan[visualModel.sortOrder])
+                }
+            }
+        }
     }
 
     SilicaListView {
         id: currencyList
         anchors {
             fill: parent
-            topMargin: headerContainer.height + Theme.paddingLarge
+            topMargin: headerContainer.height + (Theme.paddingLarge*2)
         }
+        property var currentSelectedItem
+
         signal currencySelected(var currency)
 
         VerticalScrollDecorator {}
 
-        model: currencyModel
-        delegate: currencyDelegate
+        Component.onCompleted: {
+            console.log('currencyList.onCompleted', currentItem.name);
+        }
+
+        /*onCurrentItemChanged:  {
+            // Update the currently-selected item
+            currentSelectedItem = visualModel.items.get(currentIndex).model;
+            // Log the Display Role
+            console.log('onCurrentItemChanged', currentSelectedItem.name);
+        }*/
+
+        model: visualModel
+        //delegate: currencyDelegate
     }
 
     CurrencyModel {
         id: currencyModel
 
-        function findByCode(code) {
-            for(var i = 0; i < rowCount(); i++) {
-                if(get(i).code === code) {
-                    console.log('CurrencyList.currencyModel. Found:', JSON.stringify(get(i)))
-                    return i
-                }
-            }
-            return null
-        }
     }
 
     Component {
@@ -134,6 +224,7 @@ Page {
                 target: listItem
             }
 
+            // https://doc.qt.io/qt-5/qml-qtquick-layouts-rowlayout.html ?
             Row {
                 spacing: Theme.paddingMedium
                 padding: Theme.paddingMedium
@@ -148,6 +239,9 @@ Page {
                     source: Qt.resolvedUrl("../../flags/" + model.code.toLowerCase() + ".png")
                     anchors.verticalCenter: parent.verticalCenter
                     fillMode: Image.PreserveAspectFit
+                    //visible: source !== ''
+                    //height: parent.height
+                    //width: height
                 }
                 Label {
                     anchors.verticalCenter: parent.verticalCenter
