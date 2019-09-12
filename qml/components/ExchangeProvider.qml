@@ -36,7 +36,7 @@ Item {
     property string rateURL: ''
     property string availableURL: ''
     property string url: rateURL
-    // Holds the Storage component.
+    // Holds the Cache component.
     property var cache
     // The update interval the provider supports in minutes.
     // www.exchangerate-api.com - daily
@@ -47,7 +47,6 @@ Item {
     property int updateInterval: 24*60*60 // 24 hours.
 
     property var updateWeekdays: [0,1,2,3,4,5,6]
-    property date _lastUpdated: new Date()
 
     signal rateReceived(var pair)
     signal availableReceived(var availableCurrencies)

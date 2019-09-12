@@ -81,8 +81,7 @@ Storage {
         try {
             executeSQL('SELECT DISTINCT toCode AS code, rate FROM rates',
                 function(rows) {
-                    console.log('App.storage.getAvailable(', base, ') Rows:', rows.length)
-                    //console.log('App.storage.getAvailable:', JSON.stringify(rows))
+                    console.log('Cache.getAvailable(', base, ') Rows:', rows.length)
                 if(cb) {
                     cb(rows)
                 }

@@ -133,8 +133,8 @@ BackgroundItem {
             return
         }
 
-        var c = Currencies.createCurrency(currency)
-        console.log('CurrencyCombo.setCurrentCurrency. Converted:', JSON.stringify(c))
+        //var c = Currencies.createCurrency(currency)
+        //console.log('CurrencyCombo.setCurrentCurrency. Converted:', JSON.stringify(c))
         if(currentCurrencyCode && currentCurrencyCode !== currency.code) {
             currentCurrencyCode = currency.code
         }
