@@ -41,11 +41,12 @@ WorkerScript.onMessage = function(message) {
                 console.log('requester: status/size:', xhr.status, xhr.statusText, xhr.responseText.length)
                 var result = JSON.parse(xhr.responseText);
 
-                WorkerScript.sendMessage({response: result, request: message});
+                WorkerScript.sendMessage({'status': 'success', result: result, request: message});
 
             } else {
                 console.log('requester.js', xhr.statusText, JSON.parse(xhr.responseText).error);
                 WorkerScript.sendMessage({
+                        status: 'error',
                         error: xhr.statusText,
                         message: JSON.parse(xhr.responseText).error,
                         request: message

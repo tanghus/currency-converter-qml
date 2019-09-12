@@ -50,33 +50,48 @@ QtObject {
         _hasTable = _getTable()
     }
 
-    // TODO: Use callback method if provided
-    function _formatException(e) {
-        console.error(e)
+    function _formatException(e, cb) {
+        console.log(e)
         console.trace()
-        throw e
+
+        if(cb) {
+            var response = {'status': 'error', 'message': e.message}
+            cb(response)
+        }
+
+        //throw e
     }
 
-    function _getDatabase() {
+    // TODO: Use callback method if provided
+    function _getDatabase(cb) {
         if(_dbObj) {
             return _dbObj
         }
 
         if(!typeof dbName === 'string' || !dbName.trim()) {
-            _formatException(new Error(qsTr('No database name has been set')))
-        }
-
-        try {
-            _dbObj = LS.LocalStorage.openDatabaseSync(
-                dbName, dbVersion, dbDescription, estimatedSize
-            );
-            return _dbObj
-        } catch(e) {
-            _formatException(e)
+            _formatException(new Error(qsTr('No database name has been set')),
+                function(response) {
+                    if(cb) { cb(response) }
+            })
+        } else {
+            try {
+                _dbObj = LS.LocalStorage.openDatabaseSync(
+                            dbName, dbVersion, dbDescription, estimatedSize
+                            );
+                if(cb) { cb({'status':'success','result':[]}) }
+                return _dbObj
+            } catch(e) {
+                _formatException(e, function(response) {
+                    if(cb) { cb(response) }
+                })
+            }
         }
     }
 
-    function _getTable() {
+    function _getTable(cb) {
+
+        var response = {}
+
         if(!_dbObj) {
             _getDatabase()
         }
@@ -85,7 +100,11 @@ QtObject {
         }
 
         if(typeof tblName !== 'string' || !tblName.trim()) {
-            _formatException(new Error(qsTr('No table name has been set')))
+            _formatException(new Error(qsTr('No table name has been set')),
+                function(response) {
+                    if(cb) { cb(response) }
+            })
+            return false
         }
 
         var keyString = '', tmpColumns = []
@@ -119,8 +138,12 @@ QtObject {
             )
             _hasTable = true
         } catch(e) {
-            _formatException(e)
+            _formatException(e, function(response) {
+                if(cb) { cb(response) }
+            })
         }
+
+        if(cb) { cb({'status':'success','result':[]}) }
         return true
     }
 
@@ -131,7 +154,7 @@ QtObject {
      *   insert/update
      * @return undefined or throws exception
      */
-    function set(fields, values) {
+    function set(fields, values, cb) {
         //_getTable()
         if(fields.length !== values.length) {
             _formatException(
@@ -139,7 +162,11 @@ QtObject {
         }
         if(!fields.length > 0) {
             _formatException(
-                new Error(qsTr('The number of fields to update must be larger than one')))
+                new Error(qsTr('At least one field to update must be specified')),
+                    function(response) {
+                        if(cb) { cb(response)
+                        }})
+            return
         }
 
         var fieldsString = fields.join(',')
@@ -148,7 +175,9 @@ QtObject {
                 + '(' + fieldsString + ')'
                 + ' VALUES ("' + valuesString + '");'
         console.log('Storage.set() SQL:', sql);
-        executeSQL(sql)
+        executeSQL(sql, function(response) {
+            if(cb) { cb(response) }
+        })
     }
 
     function get(fields, where, cb) {
@@ -162,7 +191,12 @@ QtObject {
         } else if(typeof fields === 'string') {
             sql += fields
         } else {
-            throw new Error(qsTr('fields must be a string or an array.'))
+            _formatException(
+                new Error(qsTr('fields must be a string or an array.')),
+                    function(response) {
+                        if(cb) { cb(response)
+                    }})
+            return
         }
 
         // The WHERE clauses
@@ -175,7 +209,9 @@ QtObject {
         }
         sql += whereList.join(' AND ')
         console.log('Storage.get() SQL:', sql)
-        executeSQL(sql, cb)
+        executeSQL(sql, function(response) {
+            if(cb) { cb(response) }
+        })
     }
 
     function remove(where, cb) {
@@ -193,7 +229,9 @@ QtObject {
         }
         sql += whereList.join(' AND ')
         console.log('Storage.remove() SQL:', sql)
-        executeSQL(sql, cb)
+        executeSQL(sql, function(response) {
+            if(cb) { cb(response) }
+        })
     }
 
     function truncate(cb) {
@@ -202,7 +240,9 @@ QtObject {
         var sql = 'DELETE FROM ' + tblName
         console.log('Storage.truncate. SQL:', sql)
 
-        executeSQL(sql, cb)
+        executeSQL(sql, function(response) {
+            if(cb) { cb(response) }
+        })
     }
 
     function executeSQL(sql, cb) {
@@ -222,12 +262,15 @@ QtObject {
                         //console.log(JSON.stringify(rows[i]))
                     }
                     if(cb) {
-                        cb(rows);
+                        var response = {'status':'success','result':rows}
+                        cb(response);
                     }
                 }
             )
         } catch(e) {
-            _formatException(e)
+            _formatException(e, function(response) {
+                if(cb) { cb(response) }
+            })
         }
     }
 }
