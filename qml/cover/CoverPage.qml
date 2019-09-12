@@ -32,8 +32,9 @@ import Sailfish.Silica 1.0
 import '../components'
 
 CoverBackground {
-
+    id: cover
     property bool active: status === Cover.Active;
+    signal switchCurrencies()
 
     BusyIndicator {
         id: busyIndicator
@@ -105,9 +106,9 @@ CoverBackground {
             iconSource: "image://theme/icon-cover-transfers"
             onTriggered: {
                 console.log('TODO: Cover. Switching')
-                //if(!Env.isBusy) {
-                //    getRate()
-                //}
+                if(!Env.isBusy) {
+                    cover.switchCurrencies()
+                }
             }
         }
     }

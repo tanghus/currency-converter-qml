@@ -133,6 +133,7 @@ ApplicationWindow {
         numDecimals = settings.value('numDecimals', 2)
         rate = settings.value('rate', 1.0)
         workOffline = settings.value('workOffline', false)
+
         if(!workOffline) {
             waitForNetwork.start()
         } else {
@@ -189,26 +190,35 @@ ApplicationWindow {
 
     allowedOrientations: Orientation.Portrait | Orientation.Landscape //defaultAllowedOrientations
 
-    initialPage: Component {
-        FrontPage {
-            id: frontPage;
-        }
-    }
-
     /*
     initialPage: config.isFirstStart()
                      ? Qt.resolvedUrl("common/wizard/Welcome.qml")
                      : Qt.resolvedUrl("tablet/pages/MainPage.qml")
     */
 
-    cover: CoverBackground {
-        CoverPage {}
+    Loader {
+        id: coverLoader
+        source: Qt.resolvedUrl('cover/CoverPage.qml')
+    }
+
+    Loader {
+        id: initialPageLoader
+        source: Qt.resolvedUrl('pages/FrontPage.qml')
+    }
+
+    cover: coverLoader.item
+    initialPage: initialPageLoader.item
+
+    Connections {
+        target: coverLoader.item
+        onSwitchCurrencies: initialPageLoader.item.switchCurrencies()
     }
 
     Settings {
         id: settings
         Component.onCompleted: {
             // TODO: Check if 'version' matches current version.
+            // Or do it in settings?
         }
     }
 

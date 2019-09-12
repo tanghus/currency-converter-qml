@@ -324,7 +324,9 @@ Page {
             }
         }
     }
+
     function switchCurrencies() {
+        console.log('frontPage.switchCurrencies:', fromCode, toCode)
         rotationAnimation.start()
         hideAnimation.start()
         var from = fromCombo.currentCurrencyCode
