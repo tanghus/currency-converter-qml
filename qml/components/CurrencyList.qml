@@ -40,20 +40,12 @@ Page {
     signal currencySelected(var currency)
     allowedOrientations: Orientation.All
 
-    SequentialAnimation {
+    PropertyAnimation {
         id: animateHighlighted
-        PropertyAnimation {
-            target: currencyList.currentItem
-            properties: 'highlighted'
-            to: true
-            duration: 300
-        }
-        PropertyAnimation {
-            target: currencyList.currentItem
-            properties: 'highlighted'
-            to: false
-            duration: 1500
-        }
+        target: currencyList.currentItem
+        properties: 'highlighted'
+        to: true
+        duration: 300
     }
 
     Column {
@@ -83,52 +75,20 @@ Page {
 
             items.setGroups(0, items.count, 'unsorted')
 
-            var i
-            for(i = 0; i < currencyModel.count; i++) {
-                var item = currencyModel.get(i)
-                if(item.code === currentCurrencyCode) {
-                    console.log('CurrencyList.onCompleted. Found:', JSON.stringify(item))
-                    item.highlighted = true
-                }
-                //console.log('Item:', i, JSON.stringify(item))
-            }
-
             currencyList.currentIndex = 0
 
-            for(i = 0; i < currencyList.count; i++) {
+            for(var i = 0; i < currencyList.count; i++) {
                 var currentSelectedItem
                 currentSelectedItem = visualModel.items.get(i).model;
                 if(currentSelectedItem.code === currentCurrencyCode) {
                     console.log('currentItem.code:', currentSelectedItem.code)
+                    //currentSelectedItem.highlighted = true
                     currencyList.currentIndex = i
                     animateHighlighted.start()
                     currencyList.positionViewAtIndex(i, ListView.Beginning)
                     break
                 }
             }
-        }
-
-        function setCurrentItem() {
-            console.log('CurrencyList.visualModel.setCurrentItem. currentCurrencyCode:',
-                        currentCurrencyCode)
-            var idx = findByCode(currentCurrencyCode)
-            if(!isNaN(idx)) {
-                currencyList.currentIndex = idx
-                animateHighlighted.start()
-                currencyList.positionViewAtIndex(idx, ListView.Beginning)
-            }
-        }
-
-        function findByCode(code) {
-            for(var i = 0; i < count; i++) {
-                console.log('findByCode:', JSON.stringify(items.get(i)))
-                if(items.get(i).code === code) {
-                    console.log('CurrencyList.currencyModel. Found:', i,
-                                JSON.stringify(items.get(i)))
-                    return i
-                }
-            }
-            return null
         }
 
         function insertPosition(lessThan, item) {
@@ -240,6 +200,7 @@ Page {
                     anchors.verticalCenter: parent.verticalCenter
                     fillMode: Image.PreserveAspectFit
                     //visible: source !== ''
+                    // Freeze when height is set ?!?
                     //height: parent.height
                     //width: height
                 }
