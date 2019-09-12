@@ -16,20 +16,21 @@ OTHER_FILES += Changelog README.md icons flags
 DISTFILES += qml/cover/CoverPage.qml \
     TODO.md \
     qml/$${TARGET}.qml \
+    qml/components/Cache.qml \
     qml/components/Currencies.qml \
     qml/components/Currency.qml \
     qml/components/CurrencyCombo.qml \
+    qml/components/CurrencyList.qml \
     qml/components/CurrencyModel.qml \
     qml/components/CurrencyPair.qml \
     qml/components/qmldir \
     qml/components/Env.qml \
-    qml/components/Network.qml \
     qml/components/ExchangeRatesAPIProvider.qml \
     qml/components/ExchangeProvider.qml \
+    qml/components/Network.qml \
+    qml/components/Notification.qml \
     qml/components/Requester.qml \
     qml/components/Settings.qml \
-    qml/components/CurrencyList.qml \
-    qml/components/Notification.qml \
     qml/components/Storage.qml \
     qml/pages/FrontPage.qml \
     qml/pages/SettingsDialog.qml \
