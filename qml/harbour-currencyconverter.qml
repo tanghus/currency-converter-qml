@@ -218,7 +218,6 @@ ApplicationWindow {
         id: settings
         Component.onCompleted: {
             // TODO: Check if 'version' matches current version.
-            // Or do it in settings?
         }
     }
 
@@ -263,19 +262,18 @@ ApplicationWindow {
         //onRunningChanged: console.log('busyIndicator.running', busyIndicator.running)
     }
 
-    // TODO: Move 'storage' to separate file 'Cache.qml'
     // Used for instantiating object with all currencies.
     Requester {
         id: allCurrenciesFetcher
         url: Qt.resolvedUrl('../data/currencies.json')
         //url: Qt.resolvedUrl('../data/currencies_{locale}.json'.replace('{locale}', locale))
         onMessage: {
-            console.log('allCurrenciesFetcher.onMessage:', JSON.stringify(messageObject).substring(0, 200))
-            var all = messageObject.response
+            console.log('allCurrenciesFetcher.onMessage:', messageObject.status,
+                        JSON.stringify(messageObject).substring(0, 200))
+            var all = messageObject.result
             for(var currency in all) {
                 // 'code' is the key, but not in the object itself.
                 all[currency]['code'] = currency
-                //console.log('currency:', JSON.stringify(all[currency]['code']))
             }
 
             Currencies.all = all

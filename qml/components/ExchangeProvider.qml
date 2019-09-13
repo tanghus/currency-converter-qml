@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013-2019 Thomas Tanghus
+  Copyright (C) 2019 Thomas Tanghus
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -63,41 +63,56 @@ Item {
             // The results are either from the cache or online
             // TODO: This method should really be split up.
             //console.log('ExchangeProvider.rateFetcher.onMessage:', JSON.stringify(messageObject).substring(0, 50))
-            if(messageObject.request && messageObject.response ) {
-                if(messageObject.request.args.requestType) {
+            var result = messageObject.result
+            var request = messageObject.request
+            var requestType = request.args.requestType
+            console.log('ExchangeProvider.rateFetcher.onMessage. status:', messageObject.status)
+            console.log('ExchangeProvider.rateFetcher.onMessage. requestType:', requestType)
+            console.log('ExchangeProvider.rateFetcher.onMessage. request:', JSON.stringify(request))
+            //console.log('ExchangeProvider.rateFetcher.onMessage. result:', JSON.stringify(result))
+
+            if(messageObject.status !== 'success') {
+                if(messageObject.status === 'error') {
+                    provider.error(messageObject.error, messageObject.message)
+                    console.warn(messageObject.error, messageObject.message)
+                } else {
+                    provider.error(qsTr('Error'), JSON.stringify(messageObject))
+                    console.warn(JSON.stringify(messageObject))
+                }
+                return
+            }
+
+            if(request && result ) {
+                if(!requestType) {
+                    var str = qsTr('No "requestType" set in request. Use "rate" or "available"')
+                    console.error(str)
+                    provider.error(qsTr('Error'), str)
+                } else {
                     var _data
-                    if(messageObject.request.args.requestType === 'rate') {
+                    if(requestType === 'rate') {
                         // 'parseRateResponse' must be implemented by subclasses.
-                        _data = provider.parseRateResponse(
-                                    messageObject.request,
-                                    messageObject.response)
-                        console.log('ExchangeProvider.rateFetcher.onMessage:', JSON.stringify(_data))
+                        _data = provider.parseRateResponse(request, result)
+                        console.log('ExchangeProvider.rateFetcher. RATE:', JSON.stringify(_data))
                         cache.setRate(_data.from, _data.to, _data.rate, _data.date)
-                        // Signal received
+                        // Send signal received
                         provider.rateReceived(Currencies.createPair(_data))
                     } else if(messageObject.request.args.requestType === 'available') {
-                        // Signal received
-                        provider.availableReceived(messageObject.response)
-                        console.log('ExchangeProvider.rateFetcher. available:', messageObject.length,
-                                    JSON.stringify(messageObject.response).substring(0, 100))
+                        console.log('ExchangeProvider.rateFetcher. AVAILABLE:', result.length,
+                                    JSON.stringify(result).substring(0, 100))
                         // 'parseAvailableResponse' must be implemented by subclasses.
-                        _data = provider.parseAvailableResponse(
-                                    messageObject.request,
-                                    messageObject.response)
+                        _data = provider.parseAvailableResponse(request, result)
+                        // Send signal received
+                        provider.availableReceived(_data)
+                        // Save to cache
                         for(var currency in _data) {
-                            console.log('rateFetcher.cache.setRate:', JSON.stringify(_data[currency]))
                             cache.setRate(_data[currency].from, _data[currency].to,
                                           _data[currency].rate, _data[currency].date)
                         }
-                    } else {
-                        var str = qsTr('No "requestType" set in request. Use "rate" or "available"')
-                        console.error(str)
-                        throw new Error(qsTr('Error'), str)
                     }
                 }
             } else {
-                provider.error(messageObject.error, messageObject.message)
-                console.warn(messageObject.error, messageObject.message)
+                console.log('FALLTHRU!!!!')
+                console.trace()
             }
         }
     }
@@ -115,17 +130,15 @@ Item {
         } else {
             cache.getAvailable(base, function(response) {
                 if(response.length > 0) {
+                    console.log('ExchangeProvider.cache.getAvailable. Length:', response.length)
                     var rates = {}
                     for(var i = 0; i < response.length; i++) {
                         var code = response[i].code
                         rates[code] = parseFloat(response[i].rate)
-                        //console.log('ExchangeProvider.getAvailable. rate:', code,
-                        //JSON.stringify(rates[code]))
                     }
-                    console.log('ExchangeProvider.getAvailable. rates:', JSON.stringify(rates))
                     console.log('ExchangeProvider.getAvailable. Fetching "' + base + '" OFFLINE')
                     doUpdate = false
-                    // Signal received
+                    // Send signal received
                     provider.availableReceived(rates)
                 } else {
                     doUpdate = true
@@ -152,7 +165,6 @@ Item {
         rateFetcher.url = rateURL
         console.log('ExchangeProvider.getRate(', fromCode, toCode, ')')
         // Try to get it from the cache
-        // TODO: The cache validation needs cleanup if possible.
         cache.getRate(fromCode, toCode, function(response) {
             console.log('ExchangeProvider.getRate()', JSON.stringify(response))
             if(response && response.rate) {
@@ -161,12 +173,14 @@ Item {
                 now = new Date()
                 then = new Date(response['date'])
 
+                // TODO: This cache validation needs cleanup if possible.
+                // Move to new method
                 // Is it older than a updateInterval'?
                 console.log('getRate:',
                             Math.round(now.getTime()/1000), '-',
                             Math.round(then.getTime()/1000), '>', updateInterval)
                 if(now.getTime() - then.getTime() > updateInterval*1000) {
-                    console.log('getRate: expired. Weekday?', JSON.stringify(updateWeekdays), now.getDay())
+                    //console.log('getRate: expired. Weekday?', JSON.stringify(updateWeekdays), now.getDay())
                     if (updateWeekdays.indexOf(now.getDay()) !== -1) {
                         // NOTE: workOffline shouldn't be used here
                         doUpdate = workOffline ? false : true
@@ -182,7 +196,7 @@ Item {
                     console.log('ExchangeProvider.getRate. OFFLINE response:', response.rate)
                     // The response is OK. Format it to fit with the required format
                     var pair = Currencies.createPair(response)
-                    // Signal received
+                    // Send signal received
                     // is caught in App.onRateReceived
                     provider.rateReceived(pair)
                 }
@@ -200,7 +214,7 @@ Item {
                     var str = qsTr("You have chosen to work offline, but the currency combination \
      %1 => %2 is not in the cache.").arg(fromCode).arg(toCode);
                     provider.error(qsTr('Error'), str)
-
+                    // Open settings dialog?
                     //pageStack.push(Qt.resolvedUrl('pages/SettingsDialog.qml'), {info: str})
                 }
             }

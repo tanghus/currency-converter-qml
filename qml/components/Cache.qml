@@ -51,11 +51,14 @@ Storage {
     }
 
     function getRate(from, to, cb) {
-        console.log('App.storage.getRate(', from, to, ')')
+        console.log('Cache.getRate(', from, to, ')')
         if(!Env.isReady) { return }
         try {
             get(['*'], {'fromCode': from, 'toCode': to},
-                function(rows) { cb(rows[0]) })
+                function(rows) {
+                    //console.log('Cache.getRate. rows:', JSON.stringify(rows))
+                    cb(rows[0])
+                })
         } catch(e) {
             console.warn(e.message)
             console.trace()
@@ -63,7 +66,7 @@ Storage {
     }
 
     function removeRate(from, to, cb) {
-        console.log('App.storage.removeRate(', from, to, ')')
+        console.log('Cache.removeRate(', from, to, ')')
         if(!Env.isReady) { return }
         try {
             // TODO: Return something useful instead of row

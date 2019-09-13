@@ -4,7 +4,7 @@
   Contact: Bea Lam <bea.lam@jollamobile.com>
   All rights reserved.
 
-  Modifications by:
+  Heavily modified by:
   Copyright (C) 2013-2019 Thomas Tanghus <thomas@tanghus.net>
   All rights reserved.
 
@@ -70,6 +70,7 @@ BackgroundItem {
             spacing: Theme.paddingMedium
             width: parent.width
             move: Transition {
+                // What does this animation do? Cut'n'paste code...
                 NumberAnimation {
                     properties: 'x,y'; easing.type: Easing.InOutQuad; duration: currencyCombo._duration
                 }
@@ -126,15 +127,13 @@ BackgroundItem {
     }
 
     function setCurrentCurrency(currency) {
-        console.log('CurrencyCombo.setCurrentCurrency', currency)
         if(!currency) {
             console.log('CurrencyCombo.setCurrentCurrency. Empty currency!!!', typeof currency)
             console.trace()
             return
         }
 
-        //var c = Currencies.createCurrency(currency)
-        //console.log('CurrencyCombo.setCurrentCurrency. Converted:', JSON.stringify(c))
+        console.log('CurrencyCombo.setCurrentCurrency', currency)
         if(currentCurrencyCode && currentCurrencyCode !== currency.code) {
             currentCurrencyCode = currency.code
         }

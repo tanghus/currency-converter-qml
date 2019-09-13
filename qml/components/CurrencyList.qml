@@ -58,6 +58,10 @@ Page {
         }
     }
 
+    // Most of the code about DelegateModel is from:
+    // https://doc.qt.io/qt-5/qtquick-tutorials-dynamicview-dynamicview4-example.html
+    //    Copyright (C) 2017 The Qt Company Ltd.
+    //    Contact: https://www.qt.io/licensing/
     DelegateModel {
         id: visualModel
         model: currencyModel
@@ -71,12 +75,14 @@ Page {
         property int sortOrder: 0
 
         Component.onCompleted: {
-            console.log('CurrencyList.visualModel.onCompleted. currentCurrencyCode:', currentCurrencyCode)
+            //console.log('CurrencyList.visualModel.onCompleted. currentCurrencyCode:',
+            //   currentCurrencyCode)
 
             items.setGroups(0, items.count, 'unsorted')
 
             currencyList.currentIndex = 0
 
+            // Mark current currency highlighted, and scroll the list to its position.
             for(var i = 0; i < currencyList.count; i++) {
                 var currentSelectedItem
                 currentSelectedItem = visualModel.items.get(i).model;
@@ -92,7 +98,6 @@ Page {
         }
 
         function insertPosition(lessThan, item) {
-            //console.log('lessThan item', lessThan, item)
             var lower = 0
             var upper = items.count
             while (lower < upper) {
@@ -147,24 +152,11 @@ Page {
 
         VerticalScrollDecorator {}
 
-        Component.onCompleted: {
-            //console.log('currencyList.onCompleted', currentItem.name);
-        }
-
-        /*onCurrentItemChanged:  {
-            // Update the currently-selected item
-            currentSelectedItem = visualModel.items.get(currentIndex).model;
-            // Log the Display Role
-            console.log('onCurrentItemChanged', currentSelectedItem.name);
-        }*/
-
         model: visualModel
-        //delegate: currencyDelegate
     }
 
     CurrencyModel {
         id: currencyModel
-
     }
 
     Component {
@@ -199,7 +191,6 @@ Page {
                     source: Qt.resolvedUrl("../../flags/" + model.code.toLowerCase() + ".png")
                     anchors.verticalCenter: parent.verticalCenter
                     fillMode: Image.PreserveAspectFit
-                    //visible: source !== ''
                     // Freeze when height is set ?!?
                     //height: parent.height
                     //width: height

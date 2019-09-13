@@ -33,10 +33,10 @@ WorkerScript.onMessage = function(message) {
     console.log('Requester.onMessage. url:', url)
 
     var xhr = new XMLHttpRequest();
-    xhr.timeout = 3000;
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
+            console.log('requester: readyState:', xhr.readyState)
             if(xhr.status >= 200 && xhr.status < 300) {
                 console.log('requester: status/size:', xhr.status, xhr.statusText, xhr.responseText.length)
                 var result = JSON.parse(xhr.responseText);
@@ -61,6 +61,7 @@ WorkerScript.onMessage = function(message) {
     }
 
     xhr.open('GET', url, true);
+    xhr.timeout = 3000;
     xhr.send();
 }
 

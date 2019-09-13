@@ -62,7 +62,6 @@ QtObject {
         //throw e
     }
 
-    // TODO: Use callback method if provided
     function _getDatabase(cb) {
         if(_dbObj) {
             return _dbObj
@@ -129,7 +128,7 @@ QtObject {
         }
         sql += ')'
 
-        //console.log('Storage._getTable. SQL:', sql)
+        console.log('Storage._getTable. SQL:', sql)
         try {
             _dbObj.transaction(
                 function(tx) {
@@ -155,7 +154,6 @@ QtObject {
      * @return undefined or throws exception
      */
     function set(fields, values, cb) {
-        //_getTable()
         if(fields.length !== values.length) {
             _formatException(
                 new Error(qsTr('The number of values must match the number of fields')))
@@ -181,8 +179,6 @@ QtObject {
     }
 
     function get(fields, where, cb) {
-        //_getTable()
-
         var whereList = [], sql = 'SELECT '
 
         // Which fields to return
@@ -215,8 +211,6 @@ QtObject {
     }
 
     function remove(where, cb) {
-        _getTable()
-
         var whereList = [], sql = 'DELETE FROM ' + tblName
 
         // The WHERE clauses
@@ -235,8 +229,6 @@ QtObject {
     }
 
     function truncate(cb) {
-        _getTable()
-
         var sql = 'DELETE FROM ' + tblName
         console.log('Storage.truncate. SQL:', sql)
 
@@ -254,8 +246,8 @@ QtObject {
                 function(tx) {
                     var result = tx.executeSql(sql);
 
-                    //console.log('Storage.getFromSQL:', JSON.stringify(result.rows))
-                    console.log('Storage.executeSQL. rows.length:', result.rows.length)
+                    console.log('Storage.getFromSQL:', JSON.stringify(result.rows))
+                    //console.log('Storage.executeSQL. rows.length:', result.rows.length)
                     var rows = []
                     for (var i = 0; i < result.rows.length; i++) {
                         rows.push(result.rows.item(i))

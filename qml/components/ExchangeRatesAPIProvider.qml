@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013-2019 Thomas Tanghus
+  Copyright (C) 2019 Thomas Tanghus
   All rights reserved.
 
   You may use this file under the terms of BSD license as follows:
@@ -59,17 +59,19 @@ ExchangeProvider {
          And so forth....
       }
     */
-    function parseAvailableResponse(request, response) {
-        var date = response.result.date
-        var base = response.result.base
+    function parseAvailableResponse(request, result) {
+        console.log('parseAvailable. request:', JSON.stringify(request))
+        console.log('parseAvailable. result:', JSON.stringify(result))
+        var date = result.date
+        var base = result.base
         var rates = {}
-        console.log('ExchangeRatesAPIProvide.parseAvailableResponse:', JSON.stringify(response.result))
-        for(var currency in response.result.rates) {
+        console.log('ExchangeRatesAPIProvide.parseAvailableResponse:', JSON.stringify(result))
+        for(var currency in result.rates) {
             rates[currency] = {
                 from: base,
                 to: currency,
                 date: date,
-                rate: response.result.rates[currency]
+                rate: result.rates[currency]
             }
             console.log('parseAvailableResponse:', currency, JSON.stringify(rates[currency]))
         }

@@ -53,6 +53,7 @@ MouseArea {
         summary = nSummary
         body = nBody = nBody ? nBody : ''
         console.log('Trying to publish a notification..%1: %2', nSummary, nBody)
+        console.trace()
         publish()
     }
 
