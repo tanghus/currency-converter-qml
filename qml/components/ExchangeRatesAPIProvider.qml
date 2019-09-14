@@ -60,12 +60,9 @@ ExchangeProvider {
       }
     */
     function parseAvailableResponse(request, result) {
-        console.log('parseAvailable. request:', JSON.stringify(request))
-        console.log('parseAvailable. result:', JSON.stringify(result))
         var date = result.date
         var base = result.base
         var rates = {}
-        console.log('ExchangeRatesAPIProvide.parseAvailableResponse:', JSON.stringify(result))
         for(var currency in result.rates) {
             rates[currency] = {
                 from: base,
@@ -73,7 +70,6 @@ ExchangeProvider {
                 date: date,
                 rate: result.rates[currency]
             }
-            console.log('parseAvailableResponse:', currency, JSON.stringify(rates[currency]))
         }
         return rates
     }
