@@ -288,6 +288,7 @@ Page {
                     topPadding: Theme.paddingSmall
                     //: Just localizing the result. NOT to be translated
                     text: ' =    ' + toSymbol + ' ' + qsTr("%L1").arg(result);
+                    color: Theme.highlightColor
                     horizontalAlignment: Text.AlignHCenter;
                     verticalAlignment: Text.AlignBottom;
                 }

@@ -82,6 +82,7 @@ CoverBackground {
             }
             Label {
                 text: Number(app.multiplier).toFixed(numDecimals)
+                color: Theme.highlightColor
                 font.bold: true
                 font.pixelSize: Theme.fontSizeLarge
                 Layout.preferredWidth: (parent.width/2) - (Theme.paddingMedium*2)
@@ -126,6 +127,7 @@ CoverBackground {
             }
             Label {
                 text: qsTr("%L1").arg(app.result)
+                color: Theme.highlightColor
                 font.bold: true
                 font.pixelSize: Theme.fontSizeLarge
                 Layout.alignment: Qt.AlignBottom
