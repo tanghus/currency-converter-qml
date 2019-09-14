@@ -40,7 +40,9 @@ QtObject {
     //onAvailableChanged: isReady = Boolean(all && available)
 
     function nameFromCode(code) {
-        return all[code].name
+        if(isReady) {
+            return all[code].name
+        }
     }
 
     function createPair(pair) {
