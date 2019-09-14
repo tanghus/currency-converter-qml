@@ -315,13 +315,41 @@ Page {
             }
             // Set the time updated. Use Date().toLocaleString(Qt.locale())
             Label {
+                property var now: new Date()
+                property var then: new Date(dateReceived)
+                property var interval: provider.updateInterval
+
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.pixelSize: Theme.fontSizeExtraSmall;
-                color: Theme.secondaryHighlightColor;
-                text: ((workOffline || !Env.isOnline) ? qsTr('Offline') : qsTr('Online'))
-                      + ', '+ qsTr('Date: ')
-                      + new Date(dateReceived).toLocaleString(Qt.locale(locale), Locale.NarrowFormat)
-                      + ' UTC'
+                color: labelColor()
+                text: labelText()
+
+                function labelText() {
+                    var str = qsTr('Date: ')
+                    if(workOffline || !Env.isOnline) {
+                        str += qsTr('Offline')
+                    } else {
+                        str += qsTr('Online')
+                    }
+                    str += then.toLocaleString(Qt.locale(locale), Locale.NarrowFormat) + ' UTC'
+                    return str
+                }
+
+                // TODO: Make a method in provider that returns the validity of the rating
+                // Also need to check day of week
+                function labelColor() {
+                    var diffTime = Math.round((now.getTime() - then.getTime())/1000)
+
+                    console.log(diffTime, '>', interval*1.5)
+
+                    if(diffTime > interval*1.5) {
+                        return 'red'
+                    } else if(diffTime > interval) {
+                        return 'yellow'
+                    }
+
+                    return Theme.secondaryHighlightColor;
+                }
             }
         }
     }
