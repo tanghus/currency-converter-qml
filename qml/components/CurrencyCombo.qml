@@ -101,8 +101,8 @@ BackgroundItem {
                 fillMode: Image.PreserveAspectFit
                 visible: source !== ''
                 height: parent.height
-                width: height
-                verticalAlignment: Image.AlignVCenter
+                //width: height
+                //verticalAlignment: Image.AlignBottom
             }
 
             Label {
