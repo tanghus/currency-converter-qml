@@ -28,6 +28,7 @@
 */
 
 import QtQuick 2.6
+import QtQuick.Layouts 1.1
 import Sailfish.Silica 1.0
 import '../components'
 
@@ -36,6 +37,15 @@ CoverBackground {
     property bool active: status === Cover.Active;
     signal switchCurrencies()
 
+    Image {
+        id: coverImage
+        source: 'image://theme/harbour-currencyconverter'
+        width: parent.height
+        height: parent.height
+        anchors.horizontalCenter: parent.horizontalCenter
+        opacity: 0.4
+    }
+
     BusyIndicator {
         id: busyIndicator
         anchors.centerIn: parent
@@ -43,57 +53,91 @@ CoverBackground {
         running: Env.isBusy
     }
 
-    Column {
-        anchors.fill: parent;
-        anchors {
-            topMargin:  Theme.paddingLarge
-            leftMargin: Theme.paddingLarge
-            rightMargin: Theme.paddingLarge
-        }
+    ColumnLayout {
+        Layout.preferredWidth: cover.width - (Theme.paddingMedium*2)
+        Layout.alignment: Qt.AlignHCenter
+        spacing: Theme.paddingMedium
         Label {
-            text: qsTr('Currency')
+            text: qsTr('Currency Converter')
             font {
                 bold: true
-                family: Theme.fontFamily
                 pixelSize: Theme.fontSizeLarge
             }
-            width: parent.width
-            truncationMode: TruncationMode.Fade
+            wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
+            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+            Layout.preferredWidth: cover.width - (Theme.paddingMedium*3)
         }
-        Label {
-            text: qsTr('Converter')
-            font.bold: true
-            font.family: Theme.fontFamily
-            font.pixelSize: Theme.fontSizeLarge
-            width: parent.width
-            truncationMode: TruncationMode.Fade
-            horizontalAlignment: Text.AlignHCenter
+        RowLayout {
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            Layout.preferredWidth: cover.width - (Theme.paddingMedium*2)
+            Label {
+                text: app.fromCode
+                font.pixelSize: Theme.fontSizeSmall
+                Layout.alignment: Qt.AlignBottom | Qt.AlignRight
+                padding: {
+                    right: Theme.paddingMedium
+                    bottom: Theme.paddingSmall
+                }
+            }
+            Label {
+                text: Number(app.multiplier).toFixed(numDecimals)
+                font.bold: true
+                font.pixelSize: Theme.fontSizeLarge
+                Layout.preferredWidth: (parent.width/2) - (Theme.paddingMedium*2)
+                Layout.alignment: Qt.AlignBottom
+                padding: {
+                    left: Theme.paddingMedium
+                    bottom: 0
+                }
+            }
         }
-        Label {
-            text: app.fromCode + ' ' + app.multiplier
-            font.pixelSize: Theme.fontSizeLarge
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignBottom
-            width: parent.width
+
+        Image {
+            id: icon
+            width: Theme.iconSizeMedium
+            height: width
+            Layout.preferredWidth: Theme.iconSizeMedium
+            Layout.preferredHeight: Theme.iconSizeMedium
+            Layout.alignment: Qt.AlignHCenter
+            source: 'image://theme/icon-m-transfer'
+            rotation: 180
+            RotationAnimator {
+                id: rotationAnimation
+                target: icon
+                from: 0
+                to: 180
+                duration: 180
+                running: false
+            }
         }
-        Label {
-            text: ' = '
-            font.pixelSize: Theme.fontSizeLarge
-            horizontalAlignment: Text.AlignHCenter
-            width: parent.width
-        }
-        Label {
-            text: app.toCode + ' ' + qsTr("%L1").arg(app.result)
-            font.pixelSize: Theme.fontSizeLarge
-            horizontalAlignment: Text.AlignHCenter
-            width: parent.width
+        RowLayout {
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            Layout.preferredWidth: cover.width - (Theme.paddingMedium*2)
+            Label {
+                text: app.toCode
+                font.pixelSize: Theme.fontSizeSmall
+                Layout.alignment: Qt.AlignBottom | Qt.AlignRight
+                padding: {
+                    right: Theme.paddingMedium
+                    bottom: Theme.paddingSmall
+                }
+            }
+            Label {
+                text: qsTr("%L1").arg(app.result)
+                font.bold: true
+                font.pixelSize: Theme.fontSizeLarge
+                Layout.alignment: Qt.AlignBottom
+                Layout.preferredWidth: (parent.width/2) - (Theme.paddingMedium*2)
+                padding: {
+                    left: Theme.paddingMedium
+                    bottom: 0
+                }
+            }
         }
     }
 
     CoverActionList {
-        id: coverActionSync
-
         CoverAction {
             iconSource: "image://theme/icon-cover-refresh"
             onTriggered: {
@@ -105,8 +149,8 @@ CoverBackground {
         CoverAction {
             iconSource: "image://theme/icon-cover-transfers"
             onTriggered: {
-                console.log('TODO: Cover. Switching')
                 if(!Env.isBusy) {
+                    rotationAnimation.start()
                     cover.switchCurrencies()
                 }
             }
