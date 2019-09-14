@@ -249,7 +249,7 @@ QtObject {
                 function(tx) {
                     var result = tx.executeSql(sql);
 
-                    console.log('Storage.getFromSQL:', JSON.stringify(result.rows))
+                    console.log('Storage.executeSQL:', JSON.stringify(result.rows))
                     //console.log('Storage.executeSQL. rows.length:', result.rows.length)
                     var rows = []
                     for (var i = 0; i < result.rows.length; i++) {
