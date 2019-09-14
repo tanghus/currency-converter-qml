@@ -47,18 +47,19 @@ Dialog {
         contentHeight: column.height
         VerticalScrollDecorator {}
 
+        DialogHeader {
+            id: header;
+            dialog: settingsDialog;
+            title: qsTr("Settings")
+            width: settingsDialog.width
+        }
         Column {
             id: column
-            //y: header.height + Theme.paddingMedium
+            y: header.height + Theme.paddingMedium
             width: parent.width - (Theme.paddingMedium * 2)
             spacing: Theme.horizontalPageMargin
             padding: Theme.paddingMedium  //.horizontalPageMargin
 
-            DialogHeader {
-                id: header;
-                dialog: settingsDialog;
-                title: qsTr("Settings")
-            }
             SectionHeader {
                 id: sectionHeaderGeneral
                 text: qsTr('General settings')
