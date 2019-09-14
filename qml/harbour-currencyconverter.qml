@@ -212,6 +212,7 @@ ApplicationWindow {
     Connections {
         target: coverLoader.item
         onSwitchCurrencies: initialPageLoader.item.switchCurrencies()
+        //ignoreUnknownSignals: true // NOTE: Enable in production
     }
 
     Settings {
@@ -282,17 +283,17 @@ ApplicationWindow {
 
     // https://doc.qt.io/qt-5/qml-qtquick-loader.html
     // https://doc.qt.io/qt-5/qml-qtqml-component.html#details
+    Cache {
+        id: storage
+        dbName: StandardPaths.data
+    }
+
     /*
       Loader {
           sourceComponent: // Which one?
           source: 'ExchangeProviderXXX'
       }
     */
-
-    Cache {
-        id: storage
-        dbName: StandardPaths.data
-    }
 
     ExchangeRatesAPIProvider {
         id: provider
