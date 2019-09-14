@@ -95,19 +95,20 @@ CoverBackground {
 
         Image {
             id: icon
-            width: Theme.iconSizeMedium
+            width: Theme.iconSizeSmall
             height: width
-            Layout.preferredWidth: Theme.iconSizeMedium
-            Layout.preferredHeight: Theme.iconSizeMedium
+            Layout.preferredWidth: Theme.iconSizeSmall
+            Layout.preferredHeight: Theme.iconSizeSmall
             Layout.alignment: Qt.AlignHCenter
-            source: 'image://theme/icon-m-transfer'
-            rotation: 180
+            source: 'image://theme/icon-s-low-importance'
+            //source: 'image://theme/icon-m-transfer'
+            //rotation: 180
             RotationAnimator {
                 id: rotationAnimation
                 target: icon
                 from: 0
-                to: 180
-                duration: 180
+                to: 360
+                duration: 300
                 running: false
             }
         }
