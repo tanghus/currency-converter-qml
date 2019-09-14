@@ -54,11 +54,11 @@ Dialog {
             spacing: Theme.horizontalPageMargin
             padding: Theme.paddingMedium  //.horizontalPageMargin
 
-            /*DialogHeader {
+            DialogHeader {
                 id: header;
                 dialog: settingsDialog;
                 title: qsTr("Settings")
-            }*/
+            }
             SectionHeader {
                 id: sectionHeaderGeneral
                 text: qsTr('General settings')

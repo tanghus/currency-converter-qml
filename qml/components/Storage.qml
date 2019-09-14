@@ -115,7 +115,10 @@ QtObject {
                 tmpColumns.push(k + ' ' + columns[k])
             }
         }
-        tmpColumns.push('timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP')
+        // IDEA: Always add a timestamp. The below only works on inserts, not updates,
+        // so there needs to be a trigger
+        // https://stackoverflow.com/a/6585590/373007
+        //tmpColumns.push('timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP')
         sql += '(' + tmpColumns.join(',')
 
         // Any primary key?
