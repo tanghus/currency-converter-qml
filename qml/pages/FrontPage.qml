@@ -84,20 +84,34 @@ Page {
         }
     }
 
-    // To enable PullDownMenu, place the content in a SilicaFlickable
     SilicaFlickable {
         anchors.fill: parent
         // Tell SilicaFlickable the height of its content.
         contentHeight: column.height
 
-        // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
             // TODO "Pulsate" menu when busy. Shouldn't 'busy' do that?
             busy: Env.isBusy
             MenuItem {
-                text: workOffline ? qsTr('Work online') : qsTr('Work offline')
+                text: qsTr('Refresh cache for "%1"').arg(Currencies.nameFromCode(fromCode));
+                truncationMode: TruncationMode.Fade
                 onClicked: {
-                    settings.workOffline = workOffline = !workOffline
+                    Remorse.popupAction(frontPage,
+                                        qsTr('Refresh cache for "%1"')
+                                        .arg(Currencies.nameFromCode(fromCode)),
+                                        function() {
+                    try {
+                        // Force reload
+                        provider.getAvailable(true)
+                    } catch(e) {
+                        // Show notification
+                        notifier.notify(
+                            qsTr('Error'),
+                            qsTr('There was an error clearing the cache.')
+                        )
+                        enabled = true
+                    }
+                    })
                 }
             }
             MenuItem {
@@ -127,6 +141,12 @@ Page {
                 text: qsTr('Settings');
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl('SettingsDialog.qml'))
+                }
+            }
+            MenuItem {
+                text: workOffline ? qsTr('Work online') : qsTr('Work offline')
+                onClicked: {
+                    settings.workOffline = workOffline = !workOffline
                 }
             }
             MenuItem {

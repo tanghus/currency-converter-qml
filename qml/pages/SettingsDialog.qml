@@ -47,30 +47,6 @@ Dialog {
         contentHeight: column.height
         VerticalScrollDecorator {}
 
-        PullDownMenu {
-            MenuItem {
-                //: Remove the cached conversions
-                text: qsTr('Empty cache');
-                onClicked: {
-                    //: The currency to convert from
-                    Remorse.popupAction(settingsDialog, "Emptying cache", function() {
-                    try {
-                        storage.truncate(function(result) {
-                            //enable Button again
-                            enabled = true
-                        })
-                    } catch(e) {
-                        // Show notification
-                        notifier.notify(
-                            qsTr('Error'),
-                            qsTr('There was an error clearing the cache.')
-                        )
-                        enabled = true
-                    }
-                    })
-                }
-            }
-        }
         Column {
             id: column
             //y: header.height + Theme.paddingMedium

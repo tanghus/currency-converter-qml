@@ -39,6 +39,10 @@ QtObject {
     //onAllChanged: isReady = Boolean(all && available)
     //onAvailableChanged: isReady = Boolean(all && available)
 
+    function nameFromCode(code) {
+        return all[code].name
+    }
+
     function createPair(pair) {
         //console.log('Currencies.createPair:', JSON.stringify(pair))
 
