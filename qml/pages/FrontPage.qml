@@ -103,7 +103,10 @@ Page {
             MenuItem {
                 text: qsTr('Switch currencies')
                 enabled: isEnabled
-                onClicked: switchCurrencies()
+                onClicked: {
+                    rotationAnimation.start()
+                    switchCurrencies()
+                }
             }
 
             MenuItem {
@@ -166,45 +169,21 @@ Page {
                 id: iconButton
                 enabled: isEnabled
                 opacity: (enabled ? 1 : 0)
+                rotation: 180
                 anchors {
-                    //top: fromCombo.bottom
                     horizontalCenter: parent.horizontalCenter
                 }
-                icon.source: "image://theme/icon-m-data-download?"
+                icon.source: "image://theme/icon-m-transfer?"
                              + (pressed ? Theme.highlightColor : Theme.primaryColor)
                 onClicked: {
+                    rotationAnimation.start()
                     switchCurrencies()
                 }
-
-                states: State {
-                    when: page.orientation === Orientation.Landscape
-                    /*AnchorChanges {
-                        target: iconButton
-                        //anchors.top: pageHeader.bottom
-                    }*/
-                    PropertyChanges {
-                        target: iconButton
-                        rotation: 90
-                    }
-                }
-
-                transitions: Transition {
-                    ParallelAnimation {
-                        AnchorAnimation {
-                            duration: 300
-                        }
-                        RotationAnimation {
-                            duration: 300
-                            direction: RotationAnimation.Clockwise
-                        }
-                    }
-                }
-
                 RotationAnimator {
                     id: rotationAnimation
                     target: iconButton
                     from: 0
-                    to: 360
+                    to: 180
                     duration: 300
                     running: false
                 }
@@ -222,7 +201,8 @@ Page {
                 }
             }
 
-            ParallelAnimation {
+            // TODO: Use this in KitchenTimer
+            /*ParallelAnimation {
                 id: hideAnimation
                 running: false
                 onStopped: {
@@ -255,7 +235,7 @@ Page {
                     from: 0
                     to: 1
                 }
-            }
+            }*/
 
             // https://doc.qt.io/qt-5/qml-qtquick-layouts-rowlayout.html ?
             Flow {
@@ -327,8 +307,6 @@ Page {
 
     function switchCurrencies() {
         console.log('frontPage.switchCurrencies:', fromCode, toCode)
-        rotationAnimation.start()
-        hideAnimation.start()
         var from = fromCombo.currentCurrencyCode
         fromCombo.currentCurrencyCode = toCombo.currentCurrencyCode
         toCombo.currentCurrencyCode = from

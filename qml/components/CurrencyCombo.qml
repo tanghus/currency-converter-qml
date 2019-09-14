@@ -48,13 +48,27 @@ BackgroundItem {
     property string currentCurrencyCode
     property var currentCurrency
     property var list
-    property alias _imagePath: flag.source
-    property int _duration: 200
 
     Binding {
         target: currencyCombo
         property: 'allCurrencies'
         value: Currencies.all
+    }
+
+    PropertyAnimation {
+        id: nameAnimation
+        target: currencyCombo
+        properties: 'value'
+        to: ''
+        duration: 300
+    }
+
+    PropertyAnimation {
+        id: flagAnimation
+        target: flag
+        properties: 'source'
+        to: ''
+        duration: 300
     }
 
     Column {
@@ -69,12 +83,6 @@ BackgroundItem {
 
             spacing: Theme.paddingMedium
             width: parent.width
-            move: Transition {
-                // What does this animation do? Cut'n'paste code...
-                NumberAnimation {
-                    properties: 'x,y'; easing.type: Easing.InOutQuad; duration: currencyCombo._duration
-                }
-            }
 
             Label {
                 id: titleText
@@ -137,10 +145,16 @@ BackgroundItem {
         if(currentCurrencyCode && currentCurrencyCode !== currency.code) {
             currentCurrencyCode = currency.code
         }
-        value = currency.name + ' (' + currency.code + ')'
-        _imagePath = Qt.resolvedUrl("../../flags/" + currency.code.toLowerCase() + ".png")
+        animateChange(currency)
         if(!Env.isBusy && Env.isReady && currentCurrencyCode) {
             currencyCombo.activated(currency)
         }
+    }
+
+    function animateChange(currency) {
+        nameAnimation.to = currency.name + ' (' + currency.code + ')'
+        nameAnimation.start()
+        flagAnimation.to = Qt.resolvedUrl('../../flags/' + currency.code.toLowerCase() + '.png')
+        flagAnimation.start()
     }
 }
