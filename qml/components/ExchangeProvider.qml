@@ -97,8 +97,8 @@ Item {
                         // Send signal received
                         provider.rateReceived(Currencies.createPair(_data))
                     } else if(messageObject.request.args.requestType === 'available') {
-                        console.log('ExchangeProvider.rateFetcher. AVAILABLE:', result.length,
-                                    JSON.stringify(result).substring(0, 100))
+                        console.log('ExchangeProvider.rateFetcher. AVAILABLE:',
+                                    JSON.stringify(result).substring(0, 200))
                         // 'parseAvailableResponse' must be implemented by subclasses.
                         _data = provider.parseAvailableResponse(request, result)
                         // Send signal received

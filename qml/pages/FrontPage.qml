@@ -178,7 +178,7 @@ Page {
                 onActivated: {
                     console.log('FrontPage.fromCombo.onActivated:')
                     fromCode = currency.code
-                    fromSymbol = currency.symbol ? currency.symbol : currency.code
+                    //fromSymbol = currency.symbol ? decodeURIComponent(currency.symbol) : currency.code
                     if(fromCode !== toCode && !Env.isBusy && Env.isReady) { app.getRate() }
                 }
             }
@@ -216,7 +216,7 @@ Page {
                 currentCurrencyCode: toCode
                 onActivated: {
                     toCode = currency.code
-                    toSymbol = currency.symbol ? currency.symbol : currency.code
+                    //toSymbol = currency.symbol ? decodeURIComponent(currency.symbol) : currency.code
                     if(fromCode !== toCode && !Env.isBusy && Env.isReady) { app.getRate() }
                 }
             }
@@ -267,10 +267,16 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 Label {
                     id: fromSymbolLabel;
-                    text: decodeURIComponent(fromSymbol)
                     verticalAlignment: Text.AlignBottom
                     horizontalAlignment: Text.AlignRight
                     topPadding: Theme.paddingSmall
+                    text: {
+                        if(!Env.isReady || !currentPair) {
+                            return ''
+                        }
+
+                        return currentPair.currencyFrom().getSymbol()
+                    }
                 }
                 // https://doc.qt.io/qt-5/qml-qtquick-textinput.html ?
                 TextField {
@@ -307,10 +313,17 @@ Page {
                     id: resultLabel
                     topPadding: Theme.paddingSmall
                     //: Just localizing the result. NOT to be translated
-                    text: ' =    ' + decodeURIComponent(toSymbol) + ' ' + qsTr("%L1").arg(result);
                     color: Theme.highlightColor
                     horizontalAlignment: Text.AlignHCenter;
                     verticalAlignment: Text.AlignBottom;
+                    //property var symbol: ''
+                    text: {
+                        if(!Env.isReady || !currentPair) {
+                            return ' =    '
+                        }
+                        return ' =    ' + currentPair.currencyTo().getSymbol()
+                                + ' ' + qsTr("%L1").arg(result);
+                    }
                 }
             }
             // Show the time updated. Use Date().toLocaleString(Qt.locale())

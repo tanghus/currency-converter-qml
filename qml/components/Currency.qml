@@ -39,14 +39,17 @@ QtObject {
     property variant countries: []
 
     function init(dict) {
+        console.log('Currency.init():', JSON.stringify(dict))
         code = dict.code
+        // decodeURIComponent ?
         symbol = dict.symbol
         name = dict.name
         num = dict.num
     }
 
     function getSymbol() {
-        return symbol || code
+        console.log('Currency.getSymbol()', symbol)
+        return decodeURIComponent(symbol)
     }
 
     function toString() {

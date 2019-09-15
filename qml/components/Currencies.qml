@@ -163,6 +163,8 @@ QtObject {
         }
 
         var tmp = all[code]
+        console.log('Currencies._createFromCode(', code, ')')
+        console.log('Currencies._createFromCode(). dict:', JSON.stringify(tmp))
         var component = Qt.createComponent(Qt.resolvedUrl('Currency.qml'));
 
         if (component.status === Component.Error) {

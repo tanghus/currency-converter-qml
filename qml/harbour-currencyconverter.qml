@@ -58,8 +58,8 @@ ApplicationWindow {
     property string toCode
 
     // Usually the same as above, but can be e.g. £ or $
-    property string fromSymbol
-    property string toSymbol
+    //property string fromSymbol
+    //property string toSymbol
 
     // The amount to multiply the rate with
     property double multiplier
@@ -266,13 +266,16 @@ ApplicationWindow {
     // Used for instantiating object with all currencies.
     Requester {
         id: allCurrenciesFetcher
-        url: Qt.resolvedUrl('../data/currencies.json')
+        url: Qt.resolvedUrl('../data/currencies-dollars.json')
         //url: Qt.resolvedUrl('../data/currencies_{locale}.json'.replace('{locale}', locale))
         onMessage: {
             console.log('allCurrenciesFetcher.onMessage:', messageObject.status,
                         JSON.stringify(messageObject).substring(0, 200))
             var all = messageObject.result
             for(var currency in all) {
+                console.log('App.allCurrenciesFetcher.onMessage:',
+                            all[currency].symbol, encodeURIComponent(all[currency].symbol))
+                all[currency]['symbol'] = encodeURIComponent(all[currency].symbol)
                 // 'code' is the key, but not in the object itself.
                 all[currency]['code'] = currency
             }
@@ -311,13 +314,15 @@ ApplicationWindow {
             }
 
             currentPair = pair
+            // TODO: Set fromCode, fromSymbol, toCode, toSymbol etc
             // This is received in onTmpResultChanged where it is formatted and assigned to 'result'
             tmpResult = parseFloat(pair.rate)
             dateReceived = pair.date
             Env.setBusy(false)
         }
         onAvailableReceived: {
-            console.log('App.provider.onAvailableReceived:', JSON.stringify(availableCurrencies))
+            console.log('App.provider.onAvailableReceived:',
+                        JSON.stringify(availableCurrencies).substring(1, 200))
 
             /*var available = {}
             for(var i = 0; i < availableCurrencies.length; i++) {

@@ -28,6 +28,7 @@
 */
 
 import QtQuick 2.6
+import '.'
 
 QtObject {
     readonly property string objectType: 'CurrencyPair'
@@ -42,6 +43,18 @@ QtObject {
         to = dict.to
         rate = dict.rate
         date = dict.date
+    }
+
+    function currencyFrom() {
+        var c = Currencies.createCurrency(from)
+        console.log('CurrencyPair.currencyFrom()', c.symbol)
+        return c
+    }
+
+    function currencyTo() {
+        var c = Currencies.createCurrency(to)
+        console.log('CurrencyPair.currencyTo()', c.symbol)
+        return c
     }
 
     function toString() {
