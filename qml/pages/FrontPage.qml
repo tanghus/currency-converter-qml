@@ -267,7 +267,7 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 Label {
                     id: fromSymbolLabel;
-                    text: fromSymbol;
+                    text: decodeURIComponent(fromSymbol)
                     verticalAlignment: Text.AlignBottom
                     horizontalAlignment: Text.AlignRight
                     topPadding: Theme.paddingSmall
@@ -307,7 +307,7 @@ Page {
                     id: resultLabel
                     topPadding: Theme.paddingSmall
                     //: Just localizing the result. NOT to be translated
-                    text: ' =    ' + toSymbol + ' ' + qsTr("%L1").arg(result);
+                    text: ' =    ' + decodeURIComponent(toSymbol) + ' ' + qsTr("%L1").arg(result);
                     color: Theme.highlightColor
                     horizontalAlignment: Text.AlignHCenter;
                     verticalAlignment: Text.AlignBottom;

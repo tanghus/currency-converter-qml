@@ -52,6 +52,7 @@ ListModel {
             for(var currency in allCurrencies) {
                 if (allCurrencies.hasOwnProperty(currency)) { // Of course it has???
                     allCurrencies[currency].code = currency
+                    allCurrencies[currency].symbol = encodeURIComponent(allCurrencies[currency].symbol)
                     if(availableCurrencies[currency]) {
                         //console.log('Appending:', JSON.stringify(allCurrencies[currency]))
                         append(allCurrencies[currency])
