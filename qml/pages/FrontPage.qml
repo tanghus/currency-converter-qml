@@ -313,7 +313,7 @@ Page {
                     verticalAlignment: Text.AlignBottom;
                 }
             }
-            // Set the time updated. Use Date().toLocaleString(Qt.locale())
+            // Show the time updated. Use Date().toLocaleString(Qt.locale())
             Label {
                 property var now: new Date()
                 property var then: new Date(dateReceived)
@@ -321,23 +321,10 @@ Page {
 
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.pixelSize: Theme.fontSizeExtraSmall;
-                color: labelColor()
-                text: labelText()
-
-                function labelText() {
-                    var str = qsTr('Date: ')
-                    if(workOffline || !Env.isOnline) {
-                        str += qsTr('Offline')
-                    } else {
-                        str += qsTr('Online')
-                    }
-                    str += then.toLocaleString(Qt.locale(locale), Locale.NarrowFormat) + ' UTC'
-                    return str
-                }
-
-                // TODO: Make a method in provider that returns the validity of the rating
-                // Also need to check day of week
-                function labelColor() {
+                color: {
+                    // TODO: Add a method to provider, that returns a value
+                    // indicating the validity of the rate based on the pairs
+                    // date and update interval.
                     var diffTime = Math.round((now.getTime() - then.getTime())/1000)
 
                     console.log(diffTime, '>', interval*1.5)
@@ -349,6 +336,16 @@ Page {
                     }
 
                     return Theme.secondaryHighlightColor;
+                }
+                text: {
+                    var str = qsTr('Date: ')
+                    if(workOffline || !Env.isOnline) {
+                        str += qsTr('Offline')
+                    } else {
+                        str += qsTr('Online')
+                    }
+                    str += then.toLocaleString(Qt.locale(locale), Locale.NarrowFormat) + ' UTC'
+                    return str
                 }
             }
         }
