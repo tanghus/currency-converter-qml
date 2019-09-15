@@ -1,7 +1,7 @@
 ![Icon](https://raw.githubusercontent.com/tanghus/currency-converter-qml/master/harbour-currencyconverter.png) Currency Converter for SailfishOS
 =================================
 
-Convert currencies using data configurable currency rates providers.
+Convert currencies using data from configurable currency rates providers.
 
 Currency Converter per default uses [ExchangeRatesAPI.io](https://exchangeratesapi.io/)
 that offers daily exchange rates for a limited set of currencies (currently 33) published by
@@ -16,9 +16,6 @@ So unless you *really* need to, I strongly recommend sticking with the default.
 
 For the average traveller or businessperson the default selection should be more than enough.
 
-If you - like me - have a combination of lousy math skills and bad short-time memory,
-the quick switch of currencies comes in handy ;)
-
 Currency Converter keeps an internal list of registered, legal currencies, which is
 used together with a list of the currencies offered by the chosen provider. The latter
 is refreshed when the app is loaded, except if there is no network connection, or if
@@ -27,17 +24,15 @@ For this Currency Converter uses an effective caching mechanism. Based on the up
 of the current provider, and timestamps on each currency pair (e.g. EUR/USD) it only fetches
 online rates when needed - or, again, when explicitly told to.
 
-You can chose to delete the cache for one pair or the entire cache.
+You can choose to force refresh for one pair or all the rates for the currently selected "From" currency.
 
-**Be aware**, that if you delete the entire cache, the list of available currencies will
-have to be downloaded once again. It's not a very big payload, though, but if you're offline
-it could be problematic.
-
-**Also be aware**, that the list of available currencies is dependant on which 'From Currency'
-you had selected selected when the app is loaded.
-That means, that if you change the 'From Currency' right after you go offline, there is
+The list of available currencies is generated from the 'From Currency' you had selected when
+the app is loaded or when you chose to refresh the cache.
+This means, that if you change the 'From Currency' right after you go offline, there is
 no guarantee that a list of the available currencies can be generated from the cache.
-To remedy this, change to the 'From Currency' you need to be cached, close the app, and
-launch it again. I'll put an option in to load them on demand if I get that request.
+To remedy this, change to the 'From Currency' you need to be cached, and select "Refresh cache
+for <Current Currency>".
+In theory you can cache the currencies you need, and use the app offline for as long as you trust
+the cached exchange rate.
 
 
