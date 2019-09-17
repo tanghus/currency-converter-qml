@@ -47,14 +47,16 @@ Page {
 
     // This is triggered in App.provider.onRateReceived
     onCurrentPairChanged: {
-        console.log('FrontPage.currentPair:',currentPair.from, currentPair.to)
+        console.log('FrontPage.onCurrentPairChanged:', currentPair.from, currentPair.to)
         var from = Currencies.createCurrency(currentPair.from)
         var to = Currencies.createCurrency(currentPair.to)
         // Trigger the combos to adjust properties
-        if(Env.isReady && !Env.isBusy) {
-            fromCombo.activated(from)
-            toCombo.activated(to)
-        }
+        console.log('FrontPage.onCurrentPairChanged. isBusy?', Env.isBusy)
+        //if(!Env.isBusy) {
+            console.log('FrontPage.onCurrentPairChanged. isBusy?', Env.isBusy)
+            fromCombo.setCurrentCurrency(from)
+            toCombo.setCurrentCurrency(to)
+        //}
     }
 
     onIsEnabledChanged: console.log('frontPage.isEnabled: ', isEnabled)
@@ -270,6 +272,8 @@ Page {
                     verticalAlignment: Text.AlignBottom
                     horizontalAlignment: Text.AlignRight
                     topPadding: Theme.paddingSmall
+                    width: Theme.paddingMedium*3
+                    rightPadding: 0
                     text: {
                         if(!Env.isReady || !currentPair) {
                             return ''
@@ -280,17 +284,19 @@ Page {
                 }
                 // https://doc.qt.io/qt-5/qml-qtquick-textinput.html ?
                 TextField {
-                    id: amountText;
+                    id: amountText
                     text: multiplier;
                     enabled: isEnabled
                     placeholderText: label
-                    width: resultLabel.width // Math.round(frontPage.width/3.5)
+                    width: Math.round(frontPage.width/4) //resultLabel.width
                     //height: parent.height
-                    horizontalAlignment: TextInput.AlignHCenter
+                    horizontalAlignment: TextInput.AlignRight
                     //_editor.verticalAlignment: TextInput.AlignTop
-                    inputMethodHints: Qt.ImhFormattedNumbersOnly;
+                    inputMethodHints: Qt.ImhFormattedNumbersOnly
                     validator: DoubleValidator {
                         bottom: 0.1
+                        top: orientation === Orientation.Portrait
+                             ? 999999 : 999999999
                         decimals: numDecimals
                         notation: DoubleValidator.StandardNotation
                     }
@@ -310,19 +316,26 @@ Page {
                     EnterKey.iconSource: "image://theme/icon-m-enter-accept"
                 }
                 Label {
+                    leftPadding: 0
+                    text: ' = '
+                    horizontalAlignment: Text.AlignHCenter;
+                    width: Theme.paddingMedium*3
+                }
+                Label {
                     id: resultLabel
                     topPadding: Theme.paddingSmall
-                    //: Just localizing the result. NOT to be translated
                     color: Theme.highlightColor
                     horizontalAlignment: Text.AlignHCenter;
                     verticalAlignment: Text.AlignBottom;
-                    //property var symbol: ''
+                    truncationMode: TruncationMode.Fade
+                    width: Math.round(frontPage.width/3)
+                    //: Just localizing the result. NOT to be translated
                     text: {
                         if(!Env.isReady || !currentPair) {
-                            return ' =    '
+                            return ' '
                         }
-                        return ' =    ' + currentPair.currencyTo().getSymbol()
-                                + ' ' + qsTr("%L1").arg(result);
+                        return currentPair.currencyTo().getSymbol() +
+                               ' ' + qsTr("%L1").arg(result);
                     }
                 }
             }
@@ -333,6 +346,10 @@ Page {
                 property var interval: provider.updateInterval
 
                 anchors.horizontalCenter: parent.horizontalCenter
+                padding: {
+                    top: 0
+                }
+
                 font.pixelSize: Theme.fontSizeExtraSmall;
                 color: {
                     // TODO: Add a method to provider, that returns a value
@@ -342,22 +359,17 @@ Page {
 
                     console.log(diffTime, '>', interval*1.5)
 
-                    if(diffTime > interval*1.5) {
+                    if(diffTime > interval*2) {
                         return 'red'
-                    } else if(diffTime > interval) {
+                    } else if(diffTime > interval*1.5) {
                         return 'yellow'
                     }
 
                     return Theme.secondaryHighlightColor;
                 }
                 text: {
-                    var str = qsTr('Date: ')
-                    if(workOffline || !Env.isOnline) {
-                        str += qsTr('Offline')
-                    } else {
-                        str += qsTr('Online')
-                    }
-                    str += then.toLocaleString(Qt.locale(locale), Locale.NarrowFormat) + ' UTC'
+                    var str = (workOffline || !Env.isOnline) ? qsTr('Offline') : qsTr('Online')
+                    str += qsTr('Date: ') + then.toLocaleString(Qt.locale(locale), Locale.NarrowFormat) + ' UTC'
                     return str
                 }
             }

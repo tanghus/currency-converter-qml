@@ -37,6 +37,7 @@ import "cover"
 import "pages"
 import "components"
 //import "components/utils.js" as Utils
+import 'components/utf.js' as UTF
 
 ApplicationWindow {
 
@@ -57,10 +58,6 @@ ApplicationWindow {
     property string fromCode
     property string toCode
 
-    // Usually the same as above, but can be e.g. £ or $
-    //property string fromSymbol
-    //property string toSymbol
-
     // The amount to multiply the rate with
     property double multiplier
 
@@ -78,6 +75,7 @@ ApplicationWindow {
 
     property bool workOffline: false
     property bool isOnline: Env.isOnline
+    property string networkState: Env.networkState
     property var allCurrencies: Currencies.all
     property var availableCurrencies: Currencies.available
     property string locale: Qt.locale().name
@@ -103,16 +101,28 @@ ApplicationWindow {
         }
     }
 
+    onNetworkStateChanged: {
+        console.log('App.onNetworkStateChanged:', networkState)
+        // The show starts here. We need to know the network state, not just
+        // whether we're online or not.
+        allCurrenciesFetcher.request({})
+        provider.getAvailable(toCode)
+        // Start timer to monitor when Currencies data is ready.
+        console.log('App.onNetworkStateChanged. Moving on.')
+        kickOff.start()
+    }
+
     onCurrentPairChanged: {
         console.log('App.currentPair:', JSON.stringify(currentPair))
     }
 
     onIsOnlineChanged: {
+        console.log('App.onIsOnlineChanged:', isOnline)
         if(!isOnline) {
             console.log('Not online')
-            if(!workOffline) {
+            /*if(!workOffline) {
                 networkIFace.openConnection()
-            }
+            }*/
         }
 
         console.log('App.isOnline:', Env.isOnline)  //, fromCode, '=>', toCode)
@@ -123,7 +133,7 @@ ApplicationWindow {
             // When DB is created, signal to Currencies/Env.
         }
 
-        kickOff.moveOn()
+        //kickOff.moveOn()
     }
 
     Component.onCompleted: {
@@ -134,45 +144,49 @@ ApplicationWindow {
         rate = settings.value('rate', 1.0)
         workOffline = settings.value('workOffline', false)
 
-        if(!workOffline) {
+        /*if(!Env.isOnline && !workOffline) {
+            console.log('App.onCompleted. Not online.')
             waitForNetwork.start()
         } else {
             // Start timer to monitor when Currencies data is ready.
+            console.log('App.onCompleted. Moving on.')
             kickOff.moveOn()
-        }
+        }*/
     }
 
-    Timer {
+    /*Timer {
         id: waitForNetwork
-        interval: 3000
+        interval: 1000
         repeat: false
         onTriggered: {
+            console.log('App.waitForNetwork. Online?', isOnline)
+            // Could still be cached
             if(!Env.isOnline && !workOffline) {
                 networkIFace.openConnection()
             }
         }
-    }
+    }*/
 
     Timer {
         id: kickOff
         interval: 300; running: true; repeat: true
+        property int _count: 0
         onTriggered: {
-            if(Currencies.isReady) {
+            console.log('Waiting...')
+            if(Env.isReady) {
                 console.log('KICKOFF!!!!!!!')
                 stop()
                 repeat = false
-                if(!Env.isOnline && !workOffline) {
-                    networkIFace.openConnection()
+                if(!Env.isBusy) {
+                    getRate()
                 }
-                getRate()
-            } else {
-                restart()
             }
-        }
-        function moveOn() {
-            allCurrenciesFetcher.request({})
-            provider.getAvailable(toCode)
-            start()
+            if(_count > 9) {
+                console.log('TODO: Notify that something is wrong')
+                stop()
+            }
+
+            _count++
         }
     }
 
@@ -245,6 +259,8 @@ ApplicationWindow {
          iface: 'com.jolla.lipstick.ConnectionSelectorIf'
 
         function openConnection() {
+            console.log('networkIFace.openConnection')
+            console.trace()
             call('openConnectionNow', 'wifi')
         }
     }
@@ -302,20 +318,19 @@ ApplicationWindow {
 
         // The signal is sent from ExchangeProvider.getRate()
         onRateReceived: {
-            // This triggers frontPage.onCurrentPairChanged
             if(!pair) {
                 console.error('App.provider.onRateReceived: Got empty pair!')
                 console.trace()
-                Env.setBusy(false)
                 return
             }
 
+            console.log('App.provider.onRateReceived:', JSON.stringify(pair))
+            // This triggers frontPage.onCurrentPairChanged
             currentPair = pair
-            // TODO: Set fromCode, fromSymbol, toCode, toSymbol etc
+            Env.setBusy(false)
             // This is received in onTmpResultChanged where it is formatted and assigned to 'result'
             tmpResult = parseFloat(pair.rate)
             dateReceived = pair.date
-            Env.setBusy(false)
         }
         onAvailableReceived: {
             console.log('App.provider.onAvailableReceived:',
@@ -346,7 +361,9 @@ ApplicationWindow {
             return
         }
 
+        console.log('App.getRate. isBusy?', Env.isBusy, ' isReady?', Env.isReady)
         console.log('App.getRate(' + fromCode + ', ' + toCode + ')')
+        console.trace()
         settings.fromCode = fromCode
         settings.toCode = toCode
         settings.multiplier = multiplier

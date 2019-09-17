@@ -36,6 +36,7 @@ Item {
     property string rateURL: ''
     property string availableURL: ''
     property string url: rateURL
+    property bool _availableTriggered: false
     // Holds the Cache component.
     property var cache
     // The update interval the provider supports in minutes.
@@ -120,105 +121,142 @@ Item {
     // Fetch a list of available currencies either from cache or from
     // the current provider.
     function getAvailable(base, force) {
-        var response, doUpdate = false // NOTE: Set to false in production.
+        var response, doUpdate = false, reasons = []
 
         rateFetcher.url = availableURL
+        console.log('ExchangeProvider.getAvailable. Fetching available from base "' + base + '". Work offline?', workOffline, 'is online?', isOnline)
+
+        // Double triggered?
+        if(_availableTriggered) {
+            console.error('ExchangeProvider.getAvailable triggered twice')
+        } else {
+            console.trace()
+            _availableTriggered = true
+        }
 
         // Try to get it from the cache
         if(force) {
+            console.log('ExchangeProvider.getAvailable. force update of', base)
             doUpdate = true
         } else {
             cache.getAvailable(base, function(response) {
-                if(response.length > 0) {
-                    console.log('ExchangeProvider.cache.getAvailable. Length:', response.length)
+                if(response.status !== 'success') {
+                    provider.error(qsTr('Error'), response.message)
+                    reasons.push(response.message)
+                    console.error(response.message)
+                    console.trace()
+                    doUpdate = true
+                } else if(response.result.length <= 0) {
+                    console.log('ExchangeProvider.getAvailable. ', base, 'not cached',
+                                JSON.stringify(response))
+                    doUpdate = true
+                    reasons.push(qsTr('Available Exchange Rates are not cached yet'))
+                } else {
+                    console.log('ExchangeProvider.cache.getAvailable. Length:', response.result.length)
+                    console.log('ExchangeProvider.cache.getAvailable. result:',
+                                JSON.stringify(response.result))
+                    var result = response.result
                     var rates = {}
-                    for(var i = 0; i < response.length; i++) {
-                        var code = response[i].code
-                        rates[code] = parseFloat(response[i].rate)
+                    for(var i = 0; i < result.length; i++) {
+                        var code = result[i].code
+                        rates[code] = parseFloat(result[i].rate)
                     }
-                    console.log('ExchangeProvider.getAvailable. Fetching "' + base + '" OFFLINE')
+                    console.log('ExchangeProvider.getAvailable. Fetched "' + base + '" OFFLINE')
                     doUpdate = false
                     // Send signal received
                     provider.availableReceived(rates)
-                } else {
-                    doUpdate = true
                 }
             })
         }
 
         if(doUpdate) {
-            if(Env.isOnline && !workOffline) {
-                console.log('ExchangeProvider.getAvailable. Fetching "' + base + '" ONLINE')
-                rateFetcher.request( {'from': fromCode, 'requestType': 'available'} )
+            if(Env.isOnline) {
+                if(!workOffline) {
+                    console.log('ExchangeProvider.getAvailable. Fetching "' + base + '" ONLINE')
+                    rateFetcher.request( {'from': fromCode, 'requestType': 'available'} )
+                } else {
+                    reasons.push(qsTr('You have chosen to work offline'))
+                    console.log('ExchangeProvider.getAvailable() NOT ONLINE!!', reasons.join('. '))
+                    provider.error(qsTr('Error'), reasons.join('. '))
+                }
             } else {
-                // TODO: Notify that the user has to get online
-                console.log('ExchangeProvider.getAvailable() NOT ONLINE!!')
+                if(workOffline) {
+                    reasons.push(qsTr('You have chosen to work offline'))
+                    console.log('ExchangeProvider.getAvailable() NOT ONLINE!!', reasons.join('. '))
+                    provider.error(qsTr('Error'), reasons.join('. '))
+                } else {
+                    // Trigger network dialog. This is coupled strongly with App :/
+                    // TODO: Add signal to request network
+                    networkIFace.openConnection()
+                }
             }
         }
-
     }
 
-    function getRate(fromCode, toCode) {
+    function getRate(fromCode, toCode) { // force?
         // FIXME: Using global var 'workOffline' :/
-        var response, doUpdate = false
+        var doUpdate = false
 
         rateFetcher.url = rateURL
         console.log('ExchangeProvider.getRate(', fromCode, toCode, ')')
         // Try to get it from the cache
         cache.getRate(fromCode, toCode, function(response) {
             console.log('ExchangeProvider.getRate()', JSON.stringify(response))
-            if(response && response.rate) {
-                var now, then
+            if(response && response.status === 'success') {
+                if(response.result > 0) { // && response.result.length > 0) {
+                    var now, then
 
-                now = new Date()
-                then = new Date(response['date'])
+                    now = new Date()
+                    then = new Date(response.result[0].date)
 
-                // TODO: This cache validation needs cleanup if possible.
-                // Move to new method
-                // Is it older than a updateInterval'?
-                console.log('getRate:',
-                            Math.round(now.getTime()/1000), '-',
-                            Math.round(then.getTime()/1000), '>', updateInterval)
-                if(now.getTime() - then.getTime() > updateInterval*1000) {
-                    //console.log('getRate: expired. Weekday?', JSON.stringify(updateWeekdays), now.getDay())
-                    if (updateWeekdays.indexOf(now.getDay()) !== -1) {
-                        // NOTE: workOffline shouldn't be used here
-                        doUpdate = workOffline ? false : true
-                        console.log('getRate: weekday. workOffline?', workOffline, 'Update?',  doUpdate)
-                    } else {
-                        console.log('Not weekday. Update?', doUpdate)
+                    // TODO: This cache validation needs cleanup if possible.
+                    // Move to new method
+                    // Is it older than a updateInterval'?
+                    console.log('getRate:',
+                                Math.round(now.getTime()/1000), '-',
+                                Math.round(then.getTime()/1000), '>', updateInterval)
+                    if(now.getTime() - then.getTime() > updateInterval*1000) {
+                        console.log('getRate: expired. Weekday?', JSON.stringify(updateWeekdays), now.getDay())
+                        // It's expired. Is it a day where the rates are updated?
+                        if (updateWeekdays.indexOf(now.getDay()) !== -1) {
+                            // OK to update. Is it set to work offline?
+                            // NOTE: workOffline shouldn't be used here
+                            doUpdate = workOffline ? false : true
+                            console.log('getRate: weekday. workOffline?', workOffline, 'Update?',  doUpdate)
+                        }
                     }
                 } else {
-                    console.log('getRate(). Not expired')
+                    doUpdate = true
                 }
 
                 if(!doUpdate) {
-                    console.log('ExchangeProvider.getRate. OFFLINE response:', response.rate)
-                    // The response is OK. Format it to fit with the required format
-                    var pair = Currencies.createPair(response)
-                    // Send signal received
-                    // is caught in App.onRateReceived
+                    var pair = Currencies.createPair(response.result[0])
                     provider.rateReceived(pair)
                 }
             } else {
-                console.log('ExchangeProvider.getRate(). Nothing cached')
-                // Nothing cached
                 doUpdate = true
-            }
-
-            // NOTE: workOffline shouldn't be here
-            if(doUpdate) {
-                if(Env.isOnline && !workOffline) {
-                    rateFetcher.request( {'from': fromCode, 'to': toCode, 'requestType': 'rate'} )
-                } else if(doUpdate) {
-                    var str = qsTr("You have chosen to work offline, but the currency combination \
-     %1 => %2 is not in the cache.").arg(fromCode).arg(toCode);
-                    provider.error(qsTr('Error'), str)
-                    // Open settings dialog?
-                    //pageStack.push(Qt.resolvedUrl('pages/SettingsDialog.qml'), {info: str})
-                }
+                console.warn('No response or error in response. This is not handled!', response)
             }
         })
+
+        if(doUpdate) {
+            var workOfflineString = qsTr("You have chosen to work offline, but the currency combination %1 => %2 is not in the cache.").arg(fromCode).arg(toCode)
+            if(Env.isOnline) {
+                if(workOffline) {
+                    console.log('ExchangeProvider.getRate() NOT ONLINE!!', reasons.join('. '))
+                    provider.error(qsTr('Error'), workOfflineString)
+                } else {
+                    rateFetcher.request( {'from': fromCode, 'to': toCode, 'requestType': 'rate'} )
+                }
+            } else {
+                if(workOffline) {
+                    provider.error(qsTr('Error'), workOfflineString)
+                } else {
+                    // TODO: Add signal to request network
+                    networkIFace.openConnection()
+                }
+            }
+        }
     }
 
     // Parse response from rateFetcher and return an object: {from, to, rate, date}

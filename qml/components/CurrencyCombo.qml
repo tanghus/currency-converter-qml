@@ -118,16 +118,17 @@ BackgroundItem {
 
             Label {
                 id: valueText
+                width: Math.min(Math.round(parent.width*0.6))
                 color: Theme.highlightColor
                 truncationMode: TruncationMode.Fade
             }
         }
     }
 
-    onAllCurrenciesChanged: {
+    /*onAllCurrenciesChanged: {
         currentCurrency = allCurrencies[currentCurrencyCode]
         setCurrentCurrency(currentCurrency)
-    }
+    }*/
 
     onClicked: {
         console.log('CurrencyCombo.onClicked. currentCurrencyCode:', currentCurrencyCode)
@@ -152,7 +153,7 @@ BackgroundItem {
             return
         }
 
-        console.log('CurrencyCombo.setCurrentCurrency', currency)
+        console.log('CurrencyCombo.setCurrentCurrency', JSON.stringify(currency))
         if(currentCurrencyCode && currentCurrencyCode !== currency.code) {
             currentCurrencyCode = currency.code
         }

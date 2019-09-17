@@ -45,12 +45,12 @@ ExchangeProvider {
         var _t = request.args.to
         var _r = parseFloat(response.rates[_t])
         // Fixer.io also has a 'timestamp' value.
-        var _d = response.date ? response.date : _lastUpdated.toISOString()
+        var _d = response.hasOwnProperty('date') ? response.date : _lastUpdated.toISOString()
 
         return {from: _f, to: _t, rate: _r, date: _d}
     }
 
-    /* Parse response to initial request for available currencies.
+    /* Parse response from rateFetcher to initial request for available currencies.
        Return as an object:
       {
          "CAD":{"date":"2019-09-03","from":"EUR","to":"CAD"},

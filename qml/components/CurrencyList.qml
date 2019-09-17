@@ -165,7 +165,8 @@ Page {
             id: listItem
             onClicked: {
                 console.log('CurrencyList.onClicked:', model.code, model.index)
-                currencySelected(model)
+                var c = Currencies.createCurrency(model)
+                currencySelected(c)
                 pageStack.pop()
             }
 

@@ -46,15 +46,11 @@ QtObject {
     }
 
     function currencyFrom() {
-        var c = Currencies.createCurrency(from)
-        console.log('CurrencyPair.currencyFrom()', c.symbol)
-        return c
+        return Currencies.createCurrency(from)
     }
 
     function currencyTo() {
-        var c = Currencies.createCurrency(to)
-        console.log('CurrencyPair.currencyTo()', c.symbol)
-        return c
+        return Currencies.createCurrency(to)
     }
 
     function toString() {

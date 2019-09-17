@@ -40,7 +40,7 @@ MouseArea {
 
     property string summary: ''
     property string body: ''
-    property int timeout: 10
+    property int timeout: 0
     /*
     property string previewSummary: summary
     property string previewBody: body
@@ -52,8 +52,8 @@ MouseArea {
     function notify(nSummary, nBody) {
         summary = nSummary
         body = nBody = nBody ? nBody : ''
+        console.log('TODO: enable timeout!!!')
         console.log('Trying to publish a notification..%1: %2', nSummary, nBody)
-        console.trace()
         publish()
     }
 

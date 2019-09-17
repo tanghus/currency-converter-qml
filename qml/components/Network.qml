@@ -28,21 +28,21 @@
 */
 import QtQuick 2.6
 import org.freedesktop.contextkit 1.0
-import Nemo.DBus 2.0
+//import Nemo.DBus 2.0
 
 QtObject {
     id: network
     property bool isOnline: state.value === 'connected'
     property ContextProperty state
 
-    onIsOnlineChanged: console.log('Env.Network.isOnline:', isOnline)
+    onIsOnlineChanged: console.log('Network.isOnline:', isOnline)
 
     state: ContextProperty {
         // `cat /run/state/namespaces/Internet/NetworkState`
         id: networkOnline
         key: 'Internet.NetworkState'
-        /*onValueChanged: {
-            console.log('Env.Network.state', value, isOnline)
-        }*/
+        onValueChanged: {
+            console.log('Network.state', value, isOnline)
+        }
     }
 }

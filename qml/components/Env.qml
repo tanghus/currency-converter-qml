@@ -39,20 +39,24 @@ import '.'
  * bool isOnline: Is true when network is online, otherwise false. On startup
  *                it can take 1-2 seconds before it's registered. Monitor Env.isOnline
  *                for changes in connectivity.
- * bool isReady   Is false until Currencies are loaded. Same as Currencies.isReady
+ * bool isReady   Is false until Currencies are loaded and network state has been determined.
  */
 
 QtObject {
     property bool _isBusy: false
+    readonly property string networkState: network.state.value
     readonly property bool isReady: Currencies.isReady
-    readonly property bool isOnline: network.isOnline // || false
-    readonly property bool isBusy: (_isBusy || !Currencies.isReady)
+                                    && (networkState === 'connected'
+                                        || networkState === 'disconnected')
+    readonly property bool isOnline: network.isOnline
+    readonly property bool isBusy: (_isBusy || !isReady)
     //onIsOnlineChanged: console.log('Env.isOnline:', isOnline)
     //onIsReadyChanged:  console.log('Env.isReady:', isReady)
     onIsBusyChanged:  console.log('Env.isBusy:', isBusy)
 
     // This is for setting before requesting a result and when it's received.
     // This stops request and other actions, blocks for user input and shows busy indicator.
+    // It must be reset when done or UI is blocked.
     function setBusy(state) {
         //console.log('Setting busy:', state)
         _isBusy = state

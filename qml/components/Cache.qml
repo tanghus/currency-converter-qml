@@ -56,8 +56,8 @@ Storage {
         try {
             get(['*'], {'fromCode': from, 'toCode': to},
                 function(rows) {
-                    //console.log('Cache.getRate. rows:', JSON.stringify(rows))
-                    cb(rows[0])
+                    console.log('Cache.getRate. rows:', JSON.stringify(rows))
+                    cb(rows)
                 })
         } catch(e) {
             console.warn(e.message)
@@ -84,7 +84,7 @@ Storage {
         try {
             executeSQL('SELECT DISTINCT toCode AS code, rate FROM rates',
                 function(rows) {
-                    console.log('Cache.getAvailable(', base, ') Rows:', rows.status)
+                    console.log('Cache.getAvailable(', base, ') Status:', rows.status)
                 if(cb) {
                     cb(rows)
                 }
