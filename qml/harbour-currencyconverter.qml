@@ -266,16 +266,13 @@ ApplicationWindow {
     // Used for instantiating object with all currencies.
     Requester {
         id: allCurrenciesFetcher
-        url: Qt.resolvedUrl('../data/currencies-dollars.json')
+        url: Qt.resolvedUrl('../data/currencies.json')
         //url: Qt.resolvedUrl('../data/currencies_{locale}.json'.replace('{locale}', locale))
         onMessage: {
             console.log('allCurrenciesFetcher.onMessage:', messageObject.status,
                         JSON.stringify(messageObject).substring(0, 200))
             var all = messageObject.result
             for(var currency in all) {
-                console.log('App.allCurrenciesFetcher.onMessage:',
-                            all[currency].symbol, encodeURIComponent(all[currency].symbol))
-                all[currency]['symbol'] = encodeURIComponent(all[currency].symbol)
                 // 'code' is the key, but not in the object itself.
                 all[currency]['code'] = currency
             }

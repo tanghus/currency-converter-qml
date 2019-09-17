@@ -55,20 +55,33 @@ BackgroundItem {
         value: Currencies.all
     }
 
-    PropertyAnimation {
-        id: nameAnimation
-        target: currencyCombo
-        properties: 'value'
-        to: ''
-        duration: 300
+    ParallelAnimation {
+        id: changeAnimation
+        PropertyAnimation {
+            id: nameAnimation
+            target: currencyCombo
+            properties: 'value'
+            to: ''
+            duration: 300
+        }
+
+        PropertyAnimation {
+            id: flagAnimation
+            target: flag
+            properties: 'source'
+            to: ''
+            duration: 300
+        }
     }
 
-    PropertyAnimation {
-        id: flagAnimation
-        target: flag
-        properties: 'source'
-        to: ''
-        duration: 300
+    function animateChange(currency) {
+        // Apparently the name in combination with the flag causes memory corruption
+        // due to missing garbage collection. Let's hope this fixes it.
+        // https://forum.qt.io/topic/52203/help-windows-qml-image-corruption-crash-problem/2
+        gc()
+        nameAnimation.to = currency.name + ' (' + currency.code + ')'
+        flagAnimation.to = Qt.resolvedUrl('../../flags/' + currency.code.toLowerCase() + '.png')
+        changeAnimation.start()
     }
 
     Column {
@@ -147,12 +160,5 @@ BackgroundItem {
         if(!Env.isBusy && Env.isReady && currentCurrencyCode) {
             currencyCombo.activated(currency)
         }
-    }
-
-    function animateChange(currency) {
-        nameAnimation.to = currency.name + ' (' + currency.code + ')'
-        nameAnimation.start()
-        flagAnimation.to = Qt.resolvedUrl('../../flags/' + currency.code.toLowerCase() + '.png')
-        flagAnimation.start()
     }
 }
