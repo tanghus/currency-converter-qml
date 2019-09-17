@@ -35,6 +35,8 @@ QtObject {
     readonly property bool isReady: Boolean(all && available)
     property var all
     property var available
+    property var _currencyProps: ['code', 'num', 'name', 'symbol']
+
 
     //onAllChanged: isReady = Boolean(all && available)
     //onAvailableChanged: isReady = Boolean(all && available)
@@ -101,7 +103,7 @@ QtObject {
     }
 
     function createCurrency(currency) {
-        //console.log('Currencies.createCurrency:', currency)
+        console.log('Currencies.createCurrency:', currency)
 
         if(!isReady) {
             error('Cannot create Currencies at this moment:', currency)
@@ -133,26 +135,37 @@ QtObject {
     }
 
     function _createFromProperties(currency) {
-        var props = ['code', 'num', 'name', 'symbol']
-
-        for(var i = 0; i < props.length; i++) {
-            if(!currency.hasOwnProperty(props[i])) {
-                error('Not a Currency. No property:' + props[i] + ' ' + JSON.stringify(currency))
+        console.log('Currencies._createFromProperties:', currency)
+        for(var i = 0; i < _currencyProps.length; i++) {
+            if(!currency.hasOwnProperty(_currencyProps[i])) {
+                error('Not a Currency. No property:' + _currencyProps[i] + ' ' + JSON.stringify(currency))
                 return
             }
         }
-        return _createFromCode(currency.code)
+
+        var tmp = all[currency.code]
+        var newCurrency = instantiateCurrencyObject()
+        // NOTE: Should newCurrency replace the dict in all?
+        if(!newCurrency) {
+            return
+        }
+
+        newCurrency.init(tmp)
+        return newCurrency
     }
 
     function _createFromCurrency(currency) {
-        if(!currency.hasOwnProperty('code')) {
-            error('Not a Currency:' + JSON.stringify(currency))
+        for(var i = 0; i < _currencyProps.length; i++) {
+            if(!currency.hasOwnProperty(_currencyProps[i])) {
+                error('Not a Currency:' + JSON.stringify(currency))
+            }
             return
         }
         return currency.init(currency)
     }
 
     function _createFromCode(code) {
+        console.log('Currencies._createFromCode:', code)
         if(code.trim().length !== 3) {
             error('Not a Currency Code:' + code)
             return
@@ -163,8 +176,20 @@ QtObject {
         }
 
         var tmp = all[code]
-        console.log('Currencies._createFromCode(', code, ')')
-        console.log('Currencies._createFromCode(). dict:', JSON.stringify(tmp))
+        //console.log('Currencies._createFromCode(', code, ')')
+        //console.log('Currencies._createFromCode(). dict:', JSON.stringify(tmp))
+
+        var newCurrency = instantiateCurrencyObject()
+        // NOTE: Should newCurrency replace the dict in all?
+        if(!newCurrency) {
+            return
+        }
+
+        newCurrency.init(tmp)
+        return newCurrency
+    }
+
+    function instantiateCurrencyObject() {
         var component = Qt.createComponent(Qt.resolvedUrl('Currency.qml'));
 
         if (component.status === Component.Error) {
@@ -172,9 +197,7 @@ QtObject {
             return
         }
 
-        var newCurrency = component.createObject()
-        newCurrency.init(tmp)
-        return newCurrency
+        return component.createObject()
     }
 
     function error(msg) {
