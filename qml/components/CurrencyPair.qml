@@ -30,6 +30,15 @@
 import QtQuick 2.6
 import '.'
 
+// A Currency Pair is the combination of two currencies and their current
+// exchange rate. A Currency pair can be e.g. EUR/USD, where in this case
+// USD is the Base Currency.
+// In this context a pair is an object with the properties:
+//     'from', 'to', 'rate', and 'date'
+// where 'from' is the three-letter Base Currency, and 'to' is
+// the Minor Currency. 'rate' is of course the exchange rate, and 'date'
+// is the date(time) the service reports the rate has been updated.
+
 QtObject {
     readonly property string objectType: 'CurrencyPair'
     objectName: from + '/' + to + '=' + rate
