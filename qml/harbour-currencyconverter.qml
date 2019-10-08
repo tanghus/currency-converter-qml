@@ -37,7 +37,6 @@ import "cover"
 import "pages"
 import "components"
 //import "components/utils.js" as Utils
-import 'components/utf.js' as UTF
 
 ApplicationWindow {
 
@@ -50,7 +49,7 @@ ApplicationWindow {
     //     'from', 'to', 'rate', and 'date'
     // where 'from' is the three-letter Base Currency, and 'to' is
     // the Minor Currency. 'rate' is of course the exchange rate, and 'date'
-    // is the date(time) the service reports the rate has changed.
+    // is the date(time) the service reports the rate has been updated.
 
     property var currentPair
 
@@ -80,6 +79,8 @@ ApplicationWindow {
     property var availableCurrencies: Currencies.available
     property string locale: Qt.locale().name
 
+    property bool initialized: false
+
     // https://doc.qt.io/qt-5/qtqml-syntax-objectattributes.html#object-list-property-attributes
     // https://doc.qt.io/qt-5/qml-list.html
     //property list<ExchangeRatesProvider> providers
@@ -94,6 +95,10 @@ ApplicationWindow {
         result = Number(tmpResult * multiplier).toFixed(numDecimals)
     }
 
+    onCurrentPairChanged: {
+        console.log('App.currentPair:', JSON.stringify(currentPair))
+    }
+
     onLocaleChanged: {
         //console.log('App.onLocaleChanged:', locale)
         if(!locale || locale === 'C') {
@@ -103,17 +108,25 @@ ApplicationWindow {
 
     onNetworkStateChanged: {
         console.log('App.onNetworkStateChanged:', networkState)
-        // The show starts here. We need to know the network state, not just
-        // whether we're online or not.
-        allCurrenciesFetcher.request({})
-        provider.getAvailable(toCode)
-        // Start timer to monitor when Currencies data is ready.
-        console.log('App.onNetworkStateChanged. Moving on.')
-        kickOff.start()
-    }
-
-    onCurrentPairChanged: {
-        console.log('App.currentPair:', JSON.stringify(currentPair))
+        // It takes some seconds for the network state to be known.
+        // When it's either 'connected' or 'disconnected' we're good to go.
+        if(networkState.search('connected') !== -1) {
+            if(initialized) {
+                if(!workOffline) {
+                    // NOTE: Should the network be opened, or should we wait until
+                    // a request is made? The latter would require more checks.
+                    networkIFace.openConnection()
+                }
+            } else {
+                // The show starts here.
+                initialized = true
+                console.log('App.onNetworkStateChanged. Moving on.')
+                allCurrenciesFetcher.request({})
+                provider.getAvailable(toCode)
+                // Start timer to monitor when Currencies data is ready.
+                kickOff.start()
+            }
+        }
     }
 
     onIsOnlineChanged: {
@@ -132,8 +145,6 @@ ApplicationWindow {
             // Use a 'Loader' to load a 'Requester' to execute DB schema(s).
             // When DB is created, signal to Currencies/Env.
         }
-
-        //kickOff.moveOn()
     }
 
     Component.onCompleted: {
@@ -143,29 +154,7 @@ ApplicationWindow {
         numDecimals = settings.value('numDecimals', 2)
         rate = settings.value('rate', 1.0)
         workOffline = settings.value('workOffline', false)
-
-        /*if(!Env.isOnline && !workOffline) {
-            console.log('App.onCompleted. Not online.')
-            waitForNetwork.start()
-        } else {
-            // Start timer to monitor when Currencies data is ready.
-            console.log('App.onCompleted. Moving on.')
-            kickOff.moveOn()
-        }*/
     }
-
-    /*Timer {
-        id: waitForNetwork
-        interval: 1000
-        repeat: false
-        onTriggered: {
-            console.log('App.waitForNetwork. Online?', isOnline)
-            // Could still be cached
-            if(!Env.isOnline && !workOffline) {
-                networkIFace.openConnection()
-            }
-        }
-    }*/
 
     Timer {
         id: kickOff
@@ -173,16 +162,17 @@ ApplicationWindow {
         property int _count: 0
         onTriggered: {
             console.log('Waiting...')
+            // When all and available currencies are ready, and the network
+            // state has been determined, run 'getRate()'.
             if(Env.isReady) {
                 console.log('KICKOFF!!!!!!!')
                 stop()
                 repeat = false
-                if(!Env.isBusy) {
-                    getRate()
-                }
+                getRate()
             }
             if(_count > 9) {
-                console.log('TODO: Notify that something is wrong')
+                console.log('Notify that something is wrong')
+                notifier.notify(qsTr('Error'), qsTr('A backend error has occured. Please close the app and try again.'))
                 stop()
             }
 
@@ -276,7 +266,10 @@ ApplicationWindow {
         anchors.centerIn: parent
         size: BusyIndicatorSize.Large
         running: Env.isBusy
-        //onRunningChanged: console.log('busyIndicator.running', busyIndicator.running)
+        onRunningChanged: {
+            console.log('busyIndicator. Running?', running)
+            console.trace()
+        }
     }
 
     // Used for instantiating object with all currencies.
@@ -363,7 +356,7 @@ ApplicationWindow {
 
         console.log('App.getRate. isBusy?', Env.isBusy, ' isReady?', Env.isReady)
         console.log('App.getRate(' + fromCode + ', ' + toCode + ')')
-        console.trace()
+        //console.trace()
         settings.fromCode = fromCode
         settings.toCode = toCode
         settings.multiplier = multiplier

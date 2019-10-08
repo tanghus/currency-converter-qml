@@ -84,8 +84,9 @@ Item {
             }
 
             if(request && result ) {
+                var str
                 if(!requestType) {
-                    var str = qsTr('No "requestType" set in request. Use "rate" or "available"')
+                    str = qsTr('No "requestType" set in request. Use "rate" or "available"')
                     console.error(str)
                     provider.error(qsTr('Error'), str)
                 } else {
@@ -109,6 +110,11 @@ Item {
                             cache.setRate(_data[currency].from, _data[currency].to,
                                           _data[currency].rate, _data[currency].date)
                         }
+                    } else {
+                        str = qsTr('Request type" %1 is not known. Use "rate" or "available"')
+                            .arg(requestType)
+                        console.error(str)
+                        provider.error(qsTr('Error'), str)
                     }
                 }
             } else {
@@ -153,8 +159,8 @@ Item {
                     reasons.push(qsTr('Available Exchange Rates are not cached yet'))
                 } else {
                     console.log('ExchangeProvider.cache.getAvailable. Length:', response.result.length)
-                    console.log('ExchangeProvider.cache.getAvailable. result:',
-                                JSON.stringify(response.result))
+                    //console.log('ExchangeProvider.cache.getAvailable. result:',
+                    //            JSON.stringify(response.result))
                     var result = response.result
                     var rates = {}
                     for(var i = 0; i < result.length; i++) {
