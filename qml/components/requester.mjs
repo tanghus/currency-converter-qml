@@ -43,6 +43,7 @@ WorkerScript.onMessage = function(message) {
                 WorkerScript.sendMessage({'status': 'success', result: result, request: message});
 
             } else {
+                // NOTE: Can we be sure responseText can be parsed as JSON?
                 console.log('requester.js', xhr.statusText, JSON.parse(xhr.responseText).error);
                 WorkerScript.sendMessage({
                         status: 'error',
