@@ -44,7 +44,7 @@ import '.'
 
 QtObject {
     property bool _isBusy: false
-    readonly property string networkState: network.state.value
+    readonly property string networkState: network.state.value || 'unknown'
     readonly property bool isReady: Currencies.isReady
                                     && (networkState === 'connected'
                                         || networkState === 'disconnected')
