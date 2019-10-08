@@ -93,7 +93,7 @@ Page {
 
         PullDownMenu {
             // TODO "Pulsate" menu when busy. Shouldn't 'busy' do that?
-            busy: Env.isBusy
+            visible: !Env.isBusy
             MenuItem {
                 text: qsTr('Refresh cache for "%1"').arg(Currencies.nameFromCode(fromCode));
                 truncationMode: TruncationMode.Fade
@@ -343,33 +343,38 @@ Page {
             Label {
                 property var now: new Date()
                 property var then: new Date(dateReceived)
-                property var interval: provider.updateInterval
+                property int interval: provider.updateInterval
+                property double diffTime: Math.round((now.getTime() - then.getTime())/1000)
+                property bool updateDay: provider.updateWeekdays.indexOf(now.getDay()) !== -1
 
                 anchors.horizontalCenter: parent.horizontalCenter
                 padding: {
                     top: 0
                 }
-
                 font.pixelSize: Theme.fontSizeExtraSmall;
                 color: {
-                    // TODO: Add a method to provider, that returns a value
+                    // TODO: Add a method to provider (or currentPair?), that returns a value
                     // indicating the validity of the rate based on the pairs
                     // date and update interval.
-                    var diffTime = Math.round((now.getTime() - then.getTime())/1000)
+                    //var diffTime = Math.round((now.getTime() - then.getTime())/1000)
+                    // If the provider updates rates today
+                    //var updateDay = provider.updateWeekdays.indexOf(now.getDay()) !== -1
+                    //console.log(diffTime, '>', interval*1.5)
 
-                    console.log(diffTime, '>', interval*1.5)
-
-                    if(diffTime > interval*2) {
-                        return 'red'
-                    } else if(diffTime > interval*1.5) {
-                        return 'yellow'
+                    // TODO: Check that this takes updateDay properly into account
+                    if(diffTime > interval*2 && updateDay) {
+                        return '#800000'
+                    } else if(diffTime > interval*1.5 && updateDay) {
+                        return '#B39500'
+                    } else if(diffTime > interval*1.2 && updateDay) {
+                        return '#158000'
                     }
 
-                    return Theme.secondaryHighlightColor;
+                    return Theme.secondaryHighlightColor
                 }
                 text: {
-                    var str = (workOffline || !Env.isOnline) ? qsTr('Offline') : qsTr('Online')
-                    str += qsTr('Date: ') + then.toLocaleString(Qt.locale(locale), Locale.NarrowFormat) + ' UTC'
+                    var str = (workOffline || !Env.isOnline) ? qsTr('Offline') : qsTr('Online. ')
+                    str += then.toLocaleString(Qt.locale(locale), Locale.NarrowFormat) + ' UTC'
                     return str
                 }
             }
