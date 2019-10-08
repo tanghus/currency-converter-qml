@@ -56,7 +56,15 @@ CoverBackground {
     ColumnLayout {
         Layout.preferredWidth: cover.width - (Theme.paddingMedium*2)
         Layout.alignment: Qt.AlignHCenter
+        /*
+         In QtQuick.Layouts 1.2 :/
+         Layout.margins {
+            left: Theme.horizontalPageMargin
+            right: Theme.horizontalPageMargin
+        }*/
+
         spacing: Theme.paddingMedium
+        x: Theme.paddingMedium
         Label {
             text: qsTr('Currency Converter')
             font {
@@ -66,15 +74,18 @@ CoverBackground {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            Layout.preferredWidth: cover.width - (Theme.paddingMedium*3)
+            Layout.preferredWidth: cover.width - (Theme.paddingMedium*2)
         }
         RowLayout {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-            Layout.preferredWidth: cover.width - (Theme.paddingMedium*2)
+            Layout.preferredWidth: parent.width
             Label {
                 text: app.fromCode
                 font.pixelSize: Theme.fontSizeSmall
                 Layout.alignment: Qt.AlignBottom | Qt.AlignRight
+                Layout.preferredWidth: (parent.width*0.4)
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignBottom
                 padding: {
                     right: Theme.paddingMedium
                     bottom: Theme.paddingSmall
@@ -85,7 +96,7 @@ CoverBackground {
                 color: Theme.highlightColor
                 font.bold: true
                 font.pixelSize: Theme.fontSizeLarge
-                Layout.preferredWidth: (parent.width/2) - (Theme.paddingMedium*2)
+                Layout.preferredWidth: (parent.width*0.6)
                 Layout.alignment: Qt.AlignBottom
                 padding: {
                     left: Theme.paddingMedium
@@ -94,32 +105,35 @@ CoverBackground {
             }
         }
 
-        Image {
-            id: icon
-            width: Theme.iconSizeSmall
-            height: width
-            Layout.preferredWidth: Theme.iconSizeSmall
-            Layout.preferredHeight: Theme.iconSizeSmall
-            Layout.alignment: Qt.AlignHCenter
-            source: 'image://theme/icon-s-low-importance'
-            //source: 'image://theme/icon-m-transfer'
-            //rotation: 180
-            RotationAnimator {
-                id: rotationAnimation
-                target: icon
-                from: 0
-                to: 360
-                duration: 300
-                running: false
+        RowLayout {
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            Layout.preferredWidth: parent.width
+            Image {
+                id: icon
+                width: Theme.iconSizeSmall
+                height: width
+                anchors.horizontalCenter: parent.horizontalCenter
+                source: 'image://theme/icon-s-low-importance'
+                RotationAnimator {
+                    id: rotationAnimation
+                    target: icon
+                    from: 0
+                    to: 360
+                    duration: 300
+                    running: false
+                }
             }
         }
         RowLayout {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-            Layout.preferredWidth: cover.width - (Theme.paddingMedium*2)
+            Layout.preferredWidth: parent.width
             Label {
                 text: app.toCode
                 font.pixelSize: Theme.fontSizeSmall
                 Layout.alignment: Qt.AlignBottom | Qt.AlignRight
+                Layout.preferredWidth: (parent.width*0.4)
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignBottom
                 padding: {
                     right: Theme.paddingMedium
                     bottom: Theme.paddingSmall
@@ -131,7 +145,7 @@ CoverBackground {
                 font.bold: true
                 font.pixelSize: Theme.fontSizeLarge
                 Layout.alignment: Qt.AlignBottom
-                Layout.preferredWidth: (parent.width/2) - (Theme.paddingMedium*2)
+                Layout.preferredWidth: (parent.width*0.6)
                 padding: {
                     left: Theme.paddingMedium
                     bottom: 0
