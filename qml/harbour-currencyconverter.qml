@@ -363,6 +363,16 @@ ApplicationWindow {
         Env.setBusy(true)
         provider.getRate(fromCode, toCode)
     }
+
+    function padDigits(number, digits) {
+        return new Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
+    }
+
+    function shortDate(d) {
+        return padDigits(d.getUTCDate()+1, 2) + "/" + padDigits(Number(d.getUTCMonth())+1, 2) + " "
+                + padDigits(d.getUTCHours(), 2) + ":"
+                + padDigits(d.getUTCMinutes(), 2)
+    }
 }
 
 

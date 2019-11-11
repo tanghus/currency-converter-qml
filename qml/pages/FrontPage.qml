@@ -374,7 +374,9 @@ Page {
                 }
                 text: {
                     var str = (workOffline || !Env.isOnline) ? qsTr('Offline') : qsTr('Online. ')
-                    str += then.toLocaleString(Qt.locale(locale), Locale.NarrowFormat) + ' UTC'
+                    // Apparently Qt doesn't support UTC or I don't know how?
+                    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString
+                    str += shortDate(then) + ' UTC'
                     return str
                 }
             }

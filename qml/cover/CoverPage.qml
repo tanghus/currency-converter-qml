@@ -54,7 +54,7 @@ CoverBackground {
     }
 
     ColumnLayout {
-        Layout.preferredWidth: cover.width - (Theme.paddingMedium*2)
+        //Layout.preferredWidth: cover.width - (Theme.paddingMedium*2)
         Layout.alignment: Qt.AlignHCenter
         /*
          In QtQuick.Layouts 1.2 :/
@@ -173,6 +173,17 @@ CoverBackground {
             }
         }
     }
+    Label {
+        property var updated: new Date(dateReceived)
+        text: qsTr('Last update: ') + shortDate(updated) + ' UTC'
+        // A hack, but this is the smallest Theme defines, and this way it is still relative to the theme.
+        font.pixelSize: Math.round(Theme.fontSizeExtraSmallBase*0.9)
+        horizontalAlignment: Text.AlignHCenter
+        width: parent.width
+        anchors {
+            bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
+        }
+    }
 }
-
 
