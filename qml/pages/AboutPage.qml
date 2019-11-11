@@ -32,18 +32,34 @@ import Sailfish.Silica 1.0
 
 Page {
 
+    allowedOrientations: Orientation.All
+
+    PageHeader {
+        id: header;
+        title: qsTr("Currency Converter") + " v." + Qt.application.version;
+    }
+
+    Image {
+        id: image
+        y: Theme.paddingLarge
+        anchors.top: header.bottom;
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: 172; height: 172
+        //opacity: 0.4
+        source: "image://theme/harbour-currencyconverter"
+    }
+
     Label {
         anchors.centerIn: parent;
+        padding: Theme.paddingMedium
         width: parent.width;
-        wrapMode: Text.WrapAtWordBoundaryOrAnywhere;
+        wrapMode: Text.WordWrap //.WrapAtWordBoundaryOrAnywhere;
         horizontalAlignment: Text.AlignHCenter;
         textFormat: Text.RichText;
         text: "<style>a:link { color: " + Theme.highlightColor + "; }</style>" +
               qsTr('Simple Currency Converter app') + '<br/>' +
               //: Naming the author
               qsTr('by %1', 'As in made by %1').arg('Thomas Tanghus') + '<br/><br/>' +
-              //: Link to Yahoo! Finance
-              qsTr('Data from %1').arg(' <a href="http://finance.yahoo.com/currency-converter">Yahoo! Finance</a>') + '<br/><br/>' +
               //: Link to Github project page
               qsTr('See more at %1.', 'Link URL').arg(' <a href="https://github.com/tanghus/currency-converter-qml">%1</a>').arg(qsTr('the project page', 'Link text')) + '<br/><br/>' +
               //: Link to the issue tracker
