@@ -200,7 +200,7 @@ Page {
                     anchors.verticalCenter: parent.verticalCenter
                     color: listItem.highlighted ? Theme.highlightColor : Theme.primaryColor
                     textFormat: Text.StyledText
-                    text: model.name + ' (' + model.code + ')'
+                    text: QT_TR_NOOP(model.name) + ' (' + model.code + ')'
                 }
             }
         }
