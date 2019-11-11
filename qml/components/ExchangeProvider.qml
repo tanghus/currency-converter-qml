@@ -201,7 +201,7 @@ Item {
 
     function getRate(fromCode, toCode) { // force?
         // FIXME: Using global var 'workOffline' :/
-        var doUpdate = false
+        var doUpdate = false, isCached = false, expired = false, reasons = []
 
         rateFetcher.url = rateURL
         console.log('ExchangeProvider.getRate(', fromCode, toCode, ')')
@@ -210,6 +210,7 @@ Item {
             console.log('ExchangeProvider.getRate()', JSON.stringify(response))
             if(response && response.status === 'success') {
                 if(response.result > 0) { // && response.result.length > 0) {
+                    isCached = true
                     var now, then
 
                     now = new Date()
@@ -217,46 +218,56 @@ Item {
 
                     // TODO: This cache validation needs cleanup if possible.
                     // Move to new method
-                    // Is it older than a updateInterval'?
                     console.log('getRate:',
                                 Math.round(now.getTime()/1000), '-',
                                 Math.round(then.getTime()/1000), '>', updateInterval)
+                    // Is it older than a updateInterval'?
                     if(now.getTime() - then.getTime() > updateInterval*1000) {
-                        console.log('getRate: expired. Weekday?', JSON.stringify(updateWeekdays), now.getDay())
-                        // It's expired. Is it a day where the rates are updated?
-                        if (updateWeekdays.indexOf(now.getDay()) !== -1) {
-                            // OK to update. Is it set to work offline?
+                        // Apparently so
+                        expired = true
+                        console.log('getRate: expired.', expired)
+                        reasons.push(qsTr('The currency pair %1 => %2 has expired in cache'))
+                    } else {
+                        // It's not expired. Is it a day where the rates are updated?
+                        console.log('Weekday?', JSON.stringify(updateWeekdays), now.getDay())
+                        if (updateWeekdays.indexOf(now.getDay()) === -1) {
+                            expired = true
+                            reasons.push(qsTr('The currency pair %1 => %2 has expired in cache'))
+                            // Is it set to work offline?
                             // NOTE: workOffline shouldn't be used here
-                            doUpdate = workOffline ? false : true
+                            console.log('getRate: expired.', expired)
                             console.log('getRate: weekday. workOffline?', workOffline, 'Update?',  doUpdate)
                         }
                     }
-                } else {
-                    doUpdate = true
                 }
 
+                if(!isCached || expired) {
+                    doUpdate = true
+                }
+                doUpdate = workOffline ? false : true
+
+                // If there's no need to fetch a fresh rate, just use the cached one
                 if(!doUpdate) {
                     var pair = Currencies.createPair(response.result[0])
                     provider.rateReceived(pair)
                 }
             } else {
+                isCached = false
                 doUpdate = true
-                console.warn('No response or error in response. This is not handled!', response)
             }
         })
 
         if(doUpdate) {
-            var workOfflineString = qsTr("You have chosen to work offline, but the currency combination %1 => %2 is not in the cache.").arg(fromCode).arg(toCode)
+            reasons.push(qsTr("You have chosen to work offline, but the currency combination %1 => %2 is not in the cache.").arg(fromCode).arg(toCode))
             if(Env.isOnline) {
                 if(workOffline) {
-                    console.log('ExchangeProvider.getRate() NOT ONLINE!!', reasons.join('. '))
-                    provider.error(qsTr('Error'), workOfflineString)
+                    provider.error(qsTr('Error'), reasons.join('. '))
                 } else {
                     rateFetcher.request( {'from': fromCode, 'to': toCode, 'requestType': 'rate'} )
                 }
             } else {
                 if(workOffline) {
-                    provider.error(qsTr('Error'), workOfflineString)
+                    provider.error(qsTr('Error'), reasons.join('. '))
                 } else {
                     // TODO: Add signal to request network
                     networkIFace.openConnection()
