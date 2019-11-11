@@ -42,7 +42,8 @@
 int main(int argc, char *argv[]) {
     //QGuiApplication *app = SailfishApp::application(argc, argv);
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
-    //app->setApplicationVersion(QString(APP_VERSION));
+    app->setApplicationVersion(QString(APP_VERSION));
+    qDebug() << "APP_VERSION" << APP_VERSION;
     app->setApplicationName(QStringLiteral("harbour-currencyconverter"));
     app->setApplicationDisplayName(QStringLiteral("Currency Converter"));
     //app->setApplicationVersion(QStringLiteral(VERSION_STRING));

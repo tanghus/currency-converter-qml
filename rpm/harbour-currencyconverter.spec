@@ -10,7 +10,7 @@ Name:       harbour-currencyconverter
 
 Summary:    Currency Converter
 Version:    0.3
-Release:    1
+Release:    beta1
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/tanghus/currency-converter-qml
@@ -37,7 +37,8 @@ Convert Currencies using data from European Central Bank
 # >> build pre
 # << build pre
 
-%qmake5 
+%qmake5  \
+    VERSION=%{version}
 
 make %{?_smp_mflags}
 

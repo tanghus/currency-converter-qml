@@ -1,7 +1,7 @@
 Name: harbour-currencyconverter
 Summary: Currency Converter
 Version: 0.3
-Release: 1
+Release: beta1
 # The contents of the Group field should be one of the groups listed here:
 # https://github.com/mer-tools/spectacle/blob/master/data/GROUPS
 Group: Qt/Qt
@@ -15,6 +15,8 @@ Description: |
   Convert Currencies using data from European Central Bank
 Configure: none
 Builder: qmake5
+QMakeOptions:
+- VERSION=%{version}
 
 # This section specifies build dependencies that are resolved using pkgconfig.
 # This is the preferred way of specifying build dependencies for your package.

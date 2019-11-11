@@ -23,7 +23,7 @@ DISTFILES += qml/cover/CoverPage.qml \
     qml/components/CurrencyList.qml \
     qml/components/CurrencyModel.qml \
     qml/components/CurrencyPair.qml \
-    qml/components/qmldir \
+#    qml/components/qmldir \
     qml/components/Env.qml \
     qml/components/ExchangeRatesAPIProvider.qml \
     qml/components/ExchangeProvider.qml \
